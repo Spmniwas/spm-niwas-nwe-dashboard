@@ -1,250 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SPM NIWAS - National WASH Experts (NWEs) Dashboard</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- PapaParse CDN for robust CSV parsing -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <!-- Font Awesome 6 CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    /* +1pt base font size */
-    html, body {
-      font-size: 15px;
-      background-color: #f4f6f9;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
+Here is the complete HTML code written in plain text without code boxes or formatting wrappers so it copies cleanly.
 
-    .header-gradient {
-      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 50%, #1e3a8a 100%);
-    }
+---
 
-    /* Custom checkmark pill styling matching the theme screenshot */
-    .pill-checkbox-label {
-      background-color: #ffffff;
-      border: 1px solid #cbd5e1;
-      color: #334155;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .pill-checkbox-label:hover {
-      border-color: #3b82f6;
-      background-color: #f8fafc;
-    }
-    .pill-checkbox-input:checked + .pill-checkbox-label {
-      background-color: #eff6ff;
-      border-color: #2563eb;
-      color: #1d4ed8;
-      font-weight: 600;
-      box-shadow: 0 1px 2px 0 rgba(37, 99, 235, 0.1);
-    }
+SPM NIWAS - National WASH Experts Dashboard
 
-    /* Custom Scrollbars */
-    .custom-scrollbar::-webkit-scrollbar {
-      height: 6px;
-      width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-  </style>
-</head>
-<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+# SPM NIWAS
 
-  <!-- TOP HEADER -->
-  <header class="header-gradient text-white py-6 px-4 sm:px-8 shadow-lg relative border-b border-blue-900/40">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-      <div>
-        <div class="flex items-center gap-3.5">
-          <div class="w-11 h-11 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-inner">
-            <i class="fa-solid fa-water text-2xl text-blue-200"></i>
-          </div>
-          <div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
-              SPM NIWAS
-            </h1>
-            <p class="text-blue-100 text-xs sm:text-sm font-medium tracking-wide">
-              Capacity Building & Training Initiative Dashboard — National WASH Experts (NWEs)
-            </p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="flex items-center gap-3 self-end md:self-center">
-        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-950/60 text-blue-100 border border-blue-400/30 backdrop-blur-md shadow-sm">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          Data Source: Live Google Sheet Engine
-        </span>
-      </div>
-    </div>
-  </header>
+National WASH Experts (NWEs) Empanelled Dashboard
 
-  <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-7 flex-1">
+Data Source: Live Google Sheet Engine
 
-    <!-- FILTER CARD -->
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 sm:p-6 mb-7">
-      
-      <!-- Top Filters Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
-        
-        <!-- Search Input -->
-        <div>
-          <label class="block text-xs font-extrabold uppercase text-slate-500 mb-1.5 tracking-wider">
-            SEARCH BY NAME / NWE ID
-          </label>
-          <div class="relative">
-            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-            <input type="text" id="searchInput" placeholder="Search Expert Name, ID, Email..." 
-                   class="w-full bg-slate-50/70 border border-slate-300/80 rounded-xl pl-9 pr-3.5 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
-          </div>
-        </div>
+SEARCH BY NAME / NWE ID
 
-        <!-- Native State Filter -->
-        <div>
-          <label class="block text-xs font-extrabold uppercase text-slate-500 mb-1.5 tracking-wider">
-            NATIVE STATE
-          </label>
-          <select id="stateFilter" class="w-full bg-slate-50/70 border border-slate-300/80 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
-            <option value="">Select State/UT to View Details...</option>
-          </select>
-        </div>
+NATIVE STATE
 
-        <!-- Status Filter -->
-        <div>
-          <label class="block text-xs font-extrabold uppercase text-slate-500 mb-1.5 tracking-wider">
-            STATUS
-          </label>
-          <select id="statusFilter" class="w-full bg-slate-50/70 border border-slate-300/80 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
-            <option value="">All Statuses</option>
-          </select>
-        </div>
+STATUS
 
-        <!-- Gender Filter -->
-        <div>
-          <label class="block text-xs font-extrabold uppercase text-slate-500 mb-1.5 tracking-wider">
-            GENDER
-          </label>
-          <select id="genderFilter" class="w-full bg-slate-50/70 border border-slate-300/80 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
-            <option value="">All Genders</option>
-          </select>
-        </div>
+---
 
-      </div>
+EXPERTISE AREA (SELECT MULTIPLE)
 
-      <!-- Month Filter Row -->
-      <div class="mb-5 pt-3.5 border-t border-slate-100">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
-          <label class="block text-xs font-extrabold uppercase text-slate-500 tracking-wider">
-            DEPLOYMENT MONTH FILTER (CONSOLIDATED)
-          </label>
-          <span id="activeMonthTag" class="text-xs text-blue-600 font-semibold hidden">
-            Filtered by selected deployment month
-          </span>
-        </div>
-        <div class="flex items-center gap-1.5 overflow-x-auto pb-2 custom-scrollbar" id="monthFilterContainer">
-          <button data-month="ALL" class="month-btn active px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm hover:bg-blue-700 transition whitespace-nowrap">
-            All Months
-          </button>
-        </div>
-      </div>
+Loading expertise areas...
 
-      <!-- Expertise Checkbox Row -->
-      <div class="pt-3.5 border-t border-slate-100">
-        <div class="flex items-center justify-between mb-2.5">
-          <label class="block text-xs font-extrabold uppercase text-slate-500 tracking-wider">
-            EXPERTISE AREA (SELECT MULTIPLE)
-          </label>
-          <button id="clearExpertiseBtn" class="text-xs text-slate-400 hover:text-blue-600 font-medium transition hidden">
-            Clear Expertise Filters
-          </button>
-        </div>
-        <div id="expertiseContainer" class="flex flex-wrap gap-2">
-          <span class="text-xs text-slate-400 italic">Loading expertise domains...</span>
-        </div>
-      </div>
+**
 
-    </div>
+Total NWEs Found
 
-    <!-- KEY METRICS CARDS -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
-      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total NWEs Found</p>
-          <h3 id="metricTotal" class="text-2xl sm:text-3xl font-extrabold text-slate-800 mt-1">0</h3>
-        </div>
-        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold border border-blue-100">
-          <i class="fa-solid fa-user-tie"></i>
-        </div>
-      </div>
+### 0
 
-      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active / Deployed</p>
-          <h3 id="metricActive" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">0</h3>
-        </div>
-        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold border border-emerald-100">
-          <i class="fa-solid fa-user-check"></i>
-        </div>
-      </div>
+**
 
-      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Visits Completed</p>
-          <h3 id="metricVisits" class="text-2xl sm:text-3xl font-extrabold text-indigo-600 mt-1">0</h3>
-        </div>
-        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl font-bold border border-indigo-100">
-          <i class="fa-solid fa-route"></i>
-        </div>
-      </div>
+Total Visits Completed
 
-      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">States Represented</p>
-          <h3 id="metricStates" class="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1">0</h3>
-        </div>
-        <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-bold border border-amber-100">
-          <i class="fa-solid fa-map-location-dot"></i>
-        </div>
-      </div>
-    </div>
+### 0
 
-    <!-- DATA TABLE CONTAINER -->
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
-      <div class="px-5 py-4 border-b border-slate-200/80 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-        <div class="flex items-center gap-2">
-          <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wider">National WASH Experts Roster</h2>
-          <span id="recordCountBadge" class="bg-slate-200 text-slate-700 text-xs px-2.5 py-0.5 rounded-full font-bold">0 records</span>
-        </div>
-        <button id="exportCsvBtn" class="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-blue-600 rounded-lg shadow-sm transition">
-          <i class="fa-solid fa-file-csv text-emerald-600 text-sm"></i>
-          Export CSV
-        </button>
-      </div>
+**
 
-      <div class="overflow-x-auto custom-scrollbar">
-        <table class="w-full text-left border-collapse text-xs sm:text-sm">
-          <thead>
-            <tr class="bg-slate-100/80 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
-              <th class="p-3.5 pl-5">Sl.</th>
-              <th class="p-3.5 min-w-[240px]">National WASH Expert (NWE)</th>
-              <th class="p-3.5">Native State</th>
-              <th class="p-3.5 min-w-[180px]">Expertise</th>
-              <th class="p-3.5">Status</th>
-              <th class="p-3.5 text-center">Total Visits</th>
-              <th class="p-3.5">Last Month</th>
-              <th class="p-3.5">Last State</th>
-              <th class="p-3.5 pr-5 text-right">Actions</th>
-            </tr>
-          </thead>
+States Represented
+
+### 0
+
+| Sl. | Expert Details (Name / ID / Gender) | Native State | Expertise | Status | Total Visits | Last Month | Last State | Contact |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **<br>Fetching live NWE records from Google Sheet... |
