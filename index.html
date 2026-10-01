@@ -1,45 +1,1927 @@
-Here is the complete HTML code written in plain text without code boxes or formatting wrappers so it copies cleanly.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
----
+  <title>SPM NIWAS - National WASH Experts (NWEs) Dashboard</title>
 
-SPM NIWAS - National WASH Experts Dashboard
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-# SPM NIWAS
+  <!-- PapaParse -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
-National WASH Experts (NWEs) Empanelled Dashboard
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  />
 
-Data Source: Live Google Sheet Engine
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
+    }
 
-SEARCH BY NAME / NWE ID
+    .header-gradient {
+      background: linear-gradient(135deg, #0f4c81 0%, #1769aa 50%, #2196c9 100%);
+    }
 
-NATIVE STATE
+    .metric-card {
+      transition: all 0.2s ease;
+    }
 
-STATUS
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
 
----
+    .table-container {
+      overflow-x: auto;
+    }
 
-EXPERTISE AREA (SELECT MULTIPLE)
+    table {
+      min-width: 1100px;
+    }
 
-Loading expertise areas...
+    th {
+      white-space: nowrap;
+    }
 
-**
+    td {
+      vertical-align: middle;
+    }
 
-Total NWEs Found
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
 
-### 0
+    .loading-spinner {
+      border: 3px solid #e5e7eb;
+      border-top: 3px solid #1769aa;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      animation: spin 0.8s linear infinite;
+    }
 
-**
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
 
-Total Visits Completed
+    .expertise-tag {
+      display: inline-block;
+      margin: 2px;
+      padding: 3px 7px;
+      border-radius: 5px;
+      background: #eef6fc;
+      color: #155e91;
+      font-size: 10px;
+      border: 1px solid #d7eaf7;
+    }
 
-### 0
+    .action-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
 
-**
+    .action-btn:hover {
+      transform: translateY(-1px);
+    }
 
-States Represented
+    .modal-backdrop {
+      background: rgba(15, 23, 42, 0.55);
+    }
 
-### 0
+    .hidden-important {
+      display: none !important;
+    }
+  </style>
+</head>
 
-| Sl. | Expert Details (Name / ID / Gender) | Native State | Expertise | Status | Total Visits | Last Month | Last State | Contact |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **<br>Fetching live NWE records from Google Sheet... |
+<body class="text-gray-800">
+
+  <!-- HEADER -->
+  <header class="header-gradient text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+        <div>
+          <div class="flex items-center gap-3">
+            <div class="bg-white/15 rounded-xl p-3">
+              <i class="fa-solid fa-droplet text-2xl"></i>
+            </div>
+
+            <div>
+              <h1 class="text-2xl md:text-3xl font-bold">
+                SPM NIWAS
+              </h1>
+
+              <p class="text-sm md:text-base text-blue-100 mt-1">
+                Capacity Building & Training Initiative Dashboard —
+                National WASH Experts (NWEs)
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-2 bg-white/15 px-3 py-2 rounded-full text-xs">
+            <span class="w-2 h-2 bg-green-300 rounded-full"></span>
+            Live Google Sheet
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- MAIN -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- FILTERS -->
+    <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 mb-6">
+
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-bold text-gray-800">
+            <i class="fa-solid fa-filter text-blue-600 mr-2"></i>
+            Filters
+          </h2>
+
+          <p class="text-xs text-gray-500 mt-1">
+            Filter the empanelled National WASH Experts.
+          </p>
+        </div>
+
+        <button
+          onclick="resetFilters()"
+          class="text-sm text-blue-600 hover:text-blue-800 font-medium"
+        >
+          <i class="fa-solid fa-rotate-left mr-1"></i>
+          Reset
+        </button>
+      </div>
+
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+
+        <!-- SEARCH -->
+        <div class="lg:col-span-2">
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Search
+          </label>
+
+          <div class="relative">
+            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Search name, NWE ID, expertise..."
+              class="w-full pl-9 pr-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+        </div>
+
+
+        <!-- STATE -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Native State
+          </label>
+
+          <select
+            id="stateFilter"
+            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            <option value="">All States</option>
+          </select>
+        </div>
+
+
+        <!-- STATUS -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Status
+          </label>
+
+          <select
+            id="statusFilter"
+            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            <option value="">All Statuses</option>
+          </select>
+        </div>
+
+
+        <!-- GENDER -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Gender
+          </label>
+
+          <select
+            id="genderFilter"
+            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            <option value="">All</option>
+          </select>
+        </div>
+
+      </div>
+
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+
+        <!-- DEPLOYMENT MONTH -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Deployment Month
+          </label>
+
+          <select
+            id="deploymentFilter"
+            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            <option value="">All Months</option>
+            <option value="Apr">Apr</option>
+            <option value="May 1">May 1</option>
+            <option value="May2">May 2</option>
+            <option value="Jun1">Jun 1</option>
+            <option value="Jun2">Jun 2</option>
+            <option value="Jul">Jul</option>
+            <option value="Aug">Aug</option>
+            <option value="Sep">Sep</option>
+            <option value="Oct">Oct</option>
+            <option value="Nov">Nov</option>
+            <option value="Dec">Dec</option>
+            <option value="Jan">Jan</option>
+            <option value="Feb">Feb</option>
+            <option value="Mar">Mar</option>
+          </select>
+        </div>
+
+
+        <!-- EXPERTISE -->
+        <div class="lg:col-span-2">
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Expertise
+          </label>
+
+          <select
+            id="expertiseFilter"
+            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            <option value="">All Expertise Areas</option>
+          </select>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- METRICS -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+
+      <div class="metric-card bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Total NWEs Found
+            </p>
+
+            <p id="totalNwes" class="text-3xl font-bold text-gray-800 mt-2">
+              0
+            </p>
+          </div>
+
+          <div class="bg-blue-50 text-blue-600 rounded-xl p-3">
+            <i class="fa-solid fa-users text-xl"></i>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="metric-card bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Active / Deployed
+            </p>
+
+            <p id="activeNwes" class="text-3xl font-bold text-green-600 mt-2">
+              0
+            </p>
+          </div>
+
+          <div class="bg-green-50 text-green-600 rounded-xl p-3">
+            <i class="fa-solid fa-user-check text-xl"></i>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="metric-card bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              Visits Completed
+            </p>
+
+            <p id="totalVisits" class="text-3xl font-bold text-purple-600 mt-2">
+              0
+            </p>
+          </div>
+
+          <div class="bg-purple-50 text-purple-600 rounded-xl p-3">
+            <i class="fa-solid fa-location-dot text-xl"></i>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="metric-card bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              States Represented
+            </p>
+
+            <p id="statesRepresented" class="text-3xl font-bold text-orange-600 mt-2">
+              0
+            </p>
+          </div>
+
+          <div class="bg-orange-50 text-orange-600 rounded-xl p-3">
+            <i class="fa-solid fa-map-location-dot text-xl"></i>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- TABLE -->
+    <section class="bg-white rounded-xl shadow-sm border border-gray-200">
+
+      <div class="px-5 py-4 border-b border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+
+        <div>
+          <h2 class="text-lg font-bold text-gray-800">
+            National WASH Experts
+          </h2>
+
+          <p class="text-xs text-gray-500 mt-1">
+            Empanelled experts and deployment information.
+          </p>
+        </div>
+
+        <button
+          onclick="exportCSV()"
+          class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
+        >
+          <i class="fa-solid fa-file-csv"></i>
+          Export CSV
+        </button>
+
+      </div>
+
+
+      <!-- LOADING -->
+      <div
+        id="loadingState"
+        class="py-16 flex flex-col items-center justify-center"
+      >
+        <div class="loading-spinner mb-4"></div>
+
+        <p class="text-sm text-gray-500">
+          Loading NWE data...
+        </p>
+      </div>
+
+
+      <!-- ERROR -->
+      <div
+        id="errorState"
+        class="hidden py-16 px-6 text-center"
+      >
+        <div class="text-red-500 text-4xl mb-4">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+
+        <h3 class="font-semibold text-gray-800 mb-2">
+          Unable to load NWE data
+        </h3>
+
+        <p
+          id="errorMessage"
+          class="text-sm text-gray-500 max-w-xl mx-auto"
+        >
+          The Google Sheet could not be fetched by the browser.
+        </p>
+
+        <button
+          onclick="loadData()"
+          class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm"
+        >
+          <i class="fa-solid fa-refresh mr-1"></i>
+          Try Again
+        </button>
+      </div>
+
+
+      <!-- TABLE -->
+      <div
+        id="tableWrapper"
+        class="table-container hidden"
+      >
+
+        <table class="w-full text-sm">
+
+          <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+
+              <th class="px-4 py-3 text-left font-semibold text-gray-600">
+                Sl.
+              </th>
+
+              <th class="px-4 py-3 text-left font-semibold text-gray-600">
+                NWE
+              </th>
+
+              <th class="px-4 py-3 text-left font-semibold text-gray-600">
+                Native State
+              </th>
+
+              <th class="px-4 py-3 text-left font-semibold text-gray-600">
+                Expertise
+              </th>
+
+              <th class="px-4 py-3 text-left font-semibold text-gray-600">
+                Status
+              </th>
+
+              <th class="px-4 py-3 text-center font-semibold text-gray-600">
+                Total Visits
+              </th>
+
+              <th class="px-4 py-3 text-left font-semibold text-gray-600">
+                Last Month
+              </th>
+
+              <th class="px-4 py-3 text-left font-semibold text-gray-600">
+                Last State
+              </th>
+
+              <th class="px-4 py-3 text-center font-semibold text-gray-600">
+                Actions
+              </th>
+
+            </tr>
+          </thead>
+
+          <tbody
+            id="nweTableBody"
+            class="divide-y divide-gray-100"
+          >
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <!-- NO DATA -->
+      <div
+        id="noDataState"
+        class="hidden py-16 text-center"
+      >
+        <div class="text-gray-300 text-5xl mb-4">
+          <i class="fa-solid fa-users-slash"></i>
+        </div>
+
+        <h3 class="font-semibold text-gray-700">
+          No experts found
+        </h3>
+
+        <p class="text-sm text-gray-500 mt-1">
+          Try changing or resetting the filters.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- PROFILE MODAL -->
+  <div
+    id="profileModal"
+    class="hidden fixed inset-0 z-50 modal-backdrop items-center justify-center p-4"
+  >
+
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+
+      <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
+
+        <div>
+          <h2
+            id="modalName"
+            class="text-lg font-bold text-gray-800"
+          >
+          </h2>
+
+          <p
+            id="modalId"
+            class="text-xs text-gray-500 mt-1"
+          >
+          </p>
+        </div>
+
+        <button
+          onclick="closeModal()"
+          class="w-9 h-9 rounded-lg hover:bg-gray-100 text-gray-500"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+      </div>
+
+
+      <div class="p-5">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-xs text-gray-500">
+              Native State
+            </p>
+
+            <p
+              id="modalState"
+              class="font-semibold text-gray-800 mt-1"
+            >
+            </p>
+          </div>
+
+
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-xs text-gray-500">
+              Gender
+            </p>
+
+            <p
+              id="modalGender"
+              class="font-semibold text-gray-800 mt-1"
+            >
+            </p>
+          </div>
+
+
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-xs text-gray-500">
+              Status
+            </p>
+
+            <p
+              id="modalStatus"
+              class="font-semibold text-gray-800 mt-1"
+            >
+            </p>
+          </div>
+
+
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-xs text-gray-500">
+              Total Visits
+            </p>
+
+            <p
+              id="modalVisits"
+              class="font-semibold text-gray-800 mt-1"
+            >
+            </p>
+          </div>
+
+
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-xs text-gray-500">
+              Last Month
+            </p>
+
+            <p
+              id="modalLastMonth"
+              class="font-semibold text-gray-800 mt-1"
+            >
+            </p>
+          </div>
+
+
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-xs text-gray-500">
+              Last State
+            </p>
+
+            <p
+              id="modalLastState"
+              class="font-semibold text-gray-800 mt-1"
+            >
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="mt-4">
+
+          <p class="text-xs font-semibold text-gray-500 mb-2">
+            Expertise
+          </p>
+
+          <div
+            id="modalExpertise"
+            class="flex flex-wrap"
+          >
+          </div>
+
+        </div>
+
+
+        <div class="mt-4">
+
+          <p class="text-xs font-semibold text-gray-500 mb-2">
+            Deployment
+          </p>
+
+          <div
+            id="modalDeployment"
+            class="text-sm text-gray-700 bg-gray-50 rounded-lg p-4 whitespace-pre-wrap"
+          >
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+<script>
+
+  /*
+   * ==========================================================
+   * GOOGLE SHEET CONFIGURATION
+   * ==========================================================
+   *
+   * Your Google Sheet has been published as CSV.
+   *
+   * IMPORTANT:
+   * The sheet must be published to the web and accessible
+   * without signing in.
+   */
+
+  const CSV_URL =
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXbSW6CTlQ7fValLHtpYpHFOYn126Z4BAkdQfRNI3JgPVe_1tVV5RZRMk6ceRyhep5MAaXIppJBFjB/pub?output=csv";
+
+
+  /*
+   * ==========================================================
+   * DATA VARIABLES
+   * ==========================================================
+   */
+
+  let allData = [];
+  let filteredData = [];
+
+
+  /*
+   * ==========================================================
+   * LOAD GOOGLE SHEET CSV
+   * ==========================================================
+   */
+
+  async function loadGoogleSheetCSV() {
+
+    const urls = [
+      CSV_URL,
+      CSV_URL + "&_=" + Date.now()
+    ];
+
+    let lastError = null;
+
+    for (const url of urls) {
+
+      try {
+
+        const response = await fetch(url, {
+          method: "GET",
+          mode: "cors",
+          cache: "no-store",
+          redirect: "follow"
+        });
+
+        if (!response.ok) {
+
+          throw new Error(
+            "HTTP " +
+            response.status +
+            " " +
+            response.statusText
+          );
+
+        }
+
+        const text = await response.text();
+
+        if (!text || text.trim().length < 2) {
+
+          throw new Error(
+            "Google Sheet returned empty data."
+          );
+
+        }
+
+        return text;
+
+      } catch (err) {
+
+        lastError = err;
+
+      }
+
+    }
+
+    throw (
+      lastError ||
+      new Error("Unable to fetch Google Sheet.")
+    );
+
+  }
+
+
+  /*
+   * ==========================================================
+   * LOAD DATA
+   * ==========================================================
+   */
+
+  async function loadData() {
+
+    showLoading();
+
+    try {
+
+      const csvText = await loadGoogleSheetCSV();
+
+      Papa.parse(csvText, {
+
+        header: true,
+
+        skipEmptyLines: true,
+
+        complete: function(results) {
+
+          if (
+            !results.data ||
+            results.data.length === 0
+          ) {
+
+            throw new Error(
+              "No rows were found in the Google Sheet."
+            );
+
+          }
+
+          allData = results.data.map(function(row) {
+
+            const clean = {};
+
+            Object.keys(row).forEach(function(key) {
+
+              clean[key.trim()] =
+                typeof row[key] === "string"
+                  ? row[key].trim()
+                  : row[key];
+
+            });
+
+            return clean;
+
+          });
+
+          initialiseFilters();
+
+          applyFilters();
+
+        },
+
+        error: function(error) {
+
+          throw error;
+
+        }
+
+      });
+
+    } catch (error) {
+
+      console.error(error);
+
+      showError(
+        error && error.message
+          ? error.message
+          : "Unable to load Google Sheet."
+      );
+
+    }
+
+  }
+
+
+  /*
+   * ==========================================================
+   * HELPER - FIND COLUMN
+   * ==========================================================
+   */
+
+  function getValue(row, possibleNames) {
+
+    for (const name of possibleNames) {
+
+      if (
+        Object.prototype.hasOwnProperty.call(row, name)
+      ) {
+
+        return row[name] || "";
+
+      }
+
+    }
+
+    return "";
+
+  }
+
+
+  /*
+   * ==========================================================
+   * GET VALUES FROM SHEET
+   * ==========================================================
+   */
+
+  function getNweId(row) {
+
+    return getValue(row, [
+      "NWE ID",
+      "Nwe ID",
+      "NWEID"
+    ]);
+
+  }
+
+
+  function getName(row) {
+
+    return getValue(row, [
+      "Name of The NWE",
+      "Name of the NWE",
+      "Name",
+      "NWE"
+    ]);
+
+  }
+
+
+  function getEmail(row) {
+
+    return getValue(row, [
+      "Email",
+      "E-mail",
+      "Email ID"
+    ]);
+
+  }
+
+
+  function getMobile(row) {
+
+    return getValue(row, [
+      "Mobile",
+      "Mobile No.",
+      "Mobile Number"
+    ]);
+
+  }
+
+
+  function getState(row) {
+
+    return getValue(row, [
+      "Native State",
+      "State"
+    ]);
+
+  }
+
+
+  function getGender(row) {
+
+    return getValue(row, [
+      "Gender"
+    ]);
+
+  }
+
+
+  function getExpertise(row) {
+
+    return getValue(row, [
+      "Expertise"
+    ]);
+
+  }
+
+
+  function getStatus(row) {
+
+    return getValue(row, [
+      "Status"
+    ]);
+
+  }
+
+
+  function getDeployment(row) {
+
+    return getValue(row, [
+      "Deployment"
+    ]);
+
+  }
+
+
+  function getPan(row) {
+
+    return getValue(row, [
+      "PAN Card",
+      "PAN"
+    ]);
+
+  }
+
+
+  function getVisits(row) {
+
+    return getValue(row, [
+      "Total No. of Visits",
+      "Total Visits",
+      "Visits"
+    ]);
+
+  }
+
+
+  function getLastMonth(row) {
+
+    return getValue(row, [
+      "Last Month"
+    ]);
+
+  }
+
+
+  function getLastState(row) {
+
+    return getValue(row, [
+      "Last State"
+    ]);
+
+  }
+
+
+  /*
+   * ==========================================================
+   * INITIALISE FILTERS
+   * ==========================================================
+   */
+
+  function initialiseFilters() {
+
+    populateSelect(
+      "stateFilter",
+      allData.map(getState)
+    );
+
+    populateSelect(
+      "statusFilter",
+      allData.map(getStatus)
+    );
+
+    populateSelect(
+      "genderFilter",
+      allData.map(getGender)
+    );
+
+    populateSelect(
+      "expertiseFilter",
+      allData.map(getExpertise)
+        .flatMap(function(value) {
+          return splitValues(value);
+        })
+    );
+
+  }
+
+
+  /*
+   * ==========================================================
+   * POPULATE SELECT
+   * ==========================================================
+   */
+
+  function populateSelect(id, values) {
+
+    const select = document.getElementById(id);
+
+    const currentValue = select.value;
+
+    const uniqueValues = [
+      ...new Set(
+        values
+          .map(function(value) {
+            return String(value || "").trim();
+          })
+          .filter(Boolean)
+      )
+    ].sort(function(a, b) {
+
+      return a.localeCompare(b);
+
+    });
+
+
+    while (select.options.length > 1) {
+
+      select.remove(1);
+
+    }
+
+
+    uniqueValues.forEach(function(value) {
+
+      const option =
+        document.createElement("option");
+
+      option.value = value;
+      option.textContent = value;
+
+      select.appendChild(option);
+
+    });
+
+
+    select.value = currentValue;
+
+  }
+
+
+  /*
+   * ==========================================================
+   * SPLIT MULTIPLE VALUES
+   * ==========================================================
+   */
+
+  function splitValues(value) {
+
+    if (!value) {
+      return [];
+    }
+
+    return String(value)
+      .split(/[,;|]/)
+      .map(function(item) {
+        return item.trim();
+      })
+      .filter(Boolean);
+
+  }
+
+
+  /*
+   * ==========================================================
+   * APPLY FILTERS
+   * ==========================================================
+   */
+
+  function applyFilters() {
+
+    const search =
+      document
+        .getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const state =
+      document.getElementById("stateFilter").value;
+
+    const status =
+      document.getElementById("statusFilter").value;
+
+    const gender =
+      document.getElementById("genderFilter").value;
+
+    const deployment =
+      document.getElementById("deploymentFilter").value;
+
+    const expertise =
+      document.getElementById("expertiseFilter").value;
+
+
+    filteredData = allData.filter(function(row) {
+
+      const name =
+        getName(row).toLowerCase();
+
+      const nweId =
+        getNweId(row).toLowerCase();
+
+      const email =
+        getEmail(row).toLowerCase();
+
+      const mobile =
+        getMobile(row).toLowerCase();
+
+      const rowExpertise =
+        getExpertise(row).toLowerCase();
+
+      const rowState =
+        getState(row).toLowerCase();
+
+      const rowStatus =
+        getStatus(row).toLowerCase();
+
+      const rowGender =
+        getGender(row).toLowerCase();
+
+      const rowDeployment =
+        getDeployment(row).toLowerCase();
+
+
+      const matchesSearch =
+        !search ||
+        name.includes(search) ||
+        nweId.includes(search) ||
+        email.includes(search) ||
+        mobile.includes(search) ||
+        rowExpertise.includes(search) ||
+        rowState.includes(search);
+
+
+      const matchesState =
+        !state ||
+        getState(row) === state;
+
+
+      const matchesStatus =
+        !status ||
+        getStatus(row) === status;
+
+
+      const matchesGender =
+        !gender ||
+        getGender(row) === gender;
+
+
+      const matchesDeployment =
+        !deployment ||
+        rowDeployment.includes(
+          deployment.toLowerCase()
+        );
+
+
+      const matchesExpertise =
+        !expertise ||
+        splitValues(getExpertise(row))
+          .some(function(item) {
+
+            return item === expertise;
+
+          });
+
+
+      return (
+        matchesSearch &&
+        matchesState &&
+        matchesStatus &&
+        matchesGender &&
+        matchesDeployment &&
+        matchesExpertise
+      );
+
+    });
+
+
+    updateMetrics();
+
+    renderTable();
+
+  }
+
+
+  /*
+   * ==========================================================
+   * UPDATE METRICS
+   * ==========================================================
+   */
+
+  function updateMetrics() {
+
+    document.getElementById("totalNwes")
+      .textContent = filteredData.length;
+
+
+    const activeCount =
+      filteredData.filter(function(row) {
+
+        const status =
+          getStatus(row).toLowerCase();
+
+        return (
+          status.includes("active") ||
+          status.includes("deployed")
+        );
+
+      }).length;
+
+
+    document.getElementById("activeNwes")
+      .textContent = activeCount;
+
+
+    const totalVisits =
+      filteredData.reduce(function(total, row) {
+
+        const visits =
+          parseInt(
+            String(getVisits(row))
+              .replace(/[^\d]/g, ""),
+            10
+          );
+
+        return total + (
+          isNaN(visits)
+            ? 0
+            : visits
+        );
+
+      }, 0);
+
+
+    document.getElementById("totalVisits")
+      .textContent = totalVisits;
+
+
+    const states =
+      new Set(
+        filteredData
+          .map(getState)
+          .map(function(value) {
+            return value.trim();
+          })
+          .filter(Boolean)
+      );
+
+
+    document.getElementById("statesRepresented")
+      .textContent = states.size;
+
+  }
+
+
+  /*
+   * ==========================================================
+   * RENDER TABLE
+   * ==========================================================
+   */
+
+  function renderTable() {
+
+    const tbody =
+      document.getElementById("nweTableBody");
+
+    tbody.innerHTML = "";
+
+
+    if (filteredData.length === 0) {
+
+      document
+        .getElementById("tableWrapper")
+        .classList.add("hidden");
+
+      document
+        .getElementById("noDataState")
+        .classList.remove("hidden");
+
+      return;
+
+    }
+
+
+    document
+      .getElementById("tableWrapper")
+      .classList.remove("hidden");
+
+
+    document
+      .getElementById("noDataState")
+      .classList.add("hidden");
+
+
+    filteredData.forEach(function(row, index) {
+
+      const tr =
+        document.createElement("tr");
+
+      tr.className =
+        "hover:bg-blue-50/40 transition";
+
+
+      const sl =
+        getValue(row, ["Sl.", "Sl", "Serial No."]) ||
+        (index + 1);
+
+
+      const name =
+        getName(row) || "—";
+
+
+      const nweId =
+        getNweId(row) || "—";
+
+
+      const state =
+        getState(row) || "—";
+
+
+      const expertise =
+        getExpertise(row);
+
+
+      const status =
+        getStatus(row) || "—";
+
+
+      const visits =
+        getVisits(row) || "0";
+
+
+      const lastMonth =
+        getLastMonth(row) || "—";
+
+
+      const lastState =
+        getLastState(row) || "—";
+
+
+      tr.innerHTML = `
+
+        <td class="px-4 py-3 text-gray-500">
+          ${escapeHTML(sl)}
+        </td>
+
+
+        <td class="px-4 py-3">
+
+          <div class="font-semibold text-gray-800">
+            ${escapeHTML(name)}
+          </div>
+
+          <div class="text-xs text-gray-400 mt-1">
+            ${escapeHTML(nweId)}
+          </div>
+
+        </td>
+
+
+        <td class="px-4 py-3 text-gray-700">
+          ${escapeHTML(state)}
+        </td>
+
+
+        <td class="px-4 py-3">
+          ${renderExpertise(expertise)}
+        </td>
+
+
+        <td class="px-4 py-3">
+          ${renderStatus(status)}
+        </td>
+
+
+        <td class="px-4 py-3 text-center font-semibold text-gray-700">
+          ${escapeHTML(visits)}
+        </td>
+
+
+        <td class="px-4 py-3 text-gray-700">
+          ${escapeHTML(lastMonth)}
+        </td>
+
+
+        <td class="px-4 py-3 text-gray-700">
+          ${escapeHTML(lastState)}
+        </td>
+
+
+        <td class="px-4 py-3 text-center">
+
+          <button
+            class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100"
+            title="View Profile"
+            onclick="openProfile(${index})"
+          >
+            <i class="fa-solid fa-eye"></i>
+          </button>
+
+        </td>
+
+      `;
+
+
+      tbody.appendChild(tr);
+
+    });
+
+  }
+
+
+  /*
+   * ==========================================================
+   * RENDER EXPERTISE
+   * ==========================================================
+   */
+
+  function renderExpertise(value) {
+
+    const items =
+      splitValues(value);
+
+
+    if (items.length === 0) {
+      return "—";
+    }
+
+
+    return items.map(function(item) {
+
+      return `
+        <span class="expertise-tag">
+          ${escapeHTML(item)}
+        </span>
+      `;
+
+    }).join("");
+
+  }
+
+
+  /*
+   * ==========================================================
+   * RENDER STATUS
+   * ==========================================================
+   */
+
+  function renderStatus(status) {
+
+    const lower =
+      status.toLowerCase();
+
+
+    let className =
+      "bg-gray-100 text-gray-700";
+
+
+    if (
+      lower.includes("active") ||
+      lower.includes("deployed")
+    ) {
+
+      className =
+        "bg-green-100 text-green-700";
+
+    }
+    else if (
+      lower.includes("inactive") ||
+      lower.includes("not")
+    ) {
+
+      className =
+        "bg-red-100 text-red-700";
+
+    }
+    else if (
+      lower.includes("pending")
+    ) {
+
+      className =
+        "bg-yellow-100 text-yellow-700";
+
+    }
+
+
+    return `
+      <span class="badge ${className}">
+        ${escapeHTML(status)}
+      </span>
+    `;
+
+  }
+
+
+  /*
+   * ==========================================================
+   * PROFILE MODAL
+   * ==========================================================
+   */
+
+  function openProfile(index) {
+
+    const row =
+      filteredData[index];
+
+
+    if (!row) {
+      return;
+    }
+
+
+    document.getElementById("modalName")
+      .textContent =
+      getName(row) || "National WASH Expert";
+
+
+    document.getElementById("modalId")
+      .textContent =
+      getNweId(row) || "";
+
+
+    document.getElementById("modalState")
+      .textContent =
+      getState(row) || "—";
+
+
+    document.getElementById("modalGender")
+      .textContent =
+      getGender(row) || "—";
+
+
+    document.getElementById("modalStatus")
+      .textContent =
+      getStatus(row) || "—";
+
+
+    document.getElementById("modalVisits")
+      .textContent =
+      getVisits(row) || "0";
+
+
+    document.getElementById("modalLastMonth")
+      .textContent =
+      getLastMonth(row) || "—";
+
+
+    document.getElementById("modalLastState")
+      .textContent =
+      getLastState(row) || "—";
+
+
+    document.getElementById("modalExpertise")
+      .innerHTML =
+      renderExpertise(getExpertise(row));
+
+
+    document.getElementById("modalDeployment")
+      .textContent =
+      getDeployment(row) || "—";
+
+
+    const modal =
+      document.getElementById("profileModal");
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+
+  }
+
+
+  /*
+   * ==========================================================
+   * CLOSE MODAL
+   * ==========================================================
+   */
+
+  function closeModal() {
+
+    const modal =
+      document.getElementById("profileModal");
+
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+
+  }
+
+
+  /*
+   * ==========================================================
+   * RESET FILTERS
+   * ==========================================================
+   */
+
+  function resetFilters() {
+
+    document.getElementById("searchInput")
+      .value = "";
+
+    document.getElementById("stateFilter")
+      .value = "";
+
+    document.getElementById("statusFilter")
+      .value = "";
+
+    document.getElementById("genderFilter")
+      .value = "";
+
+    document.getElementById("deploymentFilter")
+      .value = "";
+
+    document.getElementById("expertiseFilter")
+      .value = "";
+
+    applyFilters();
+
+  }
+
+
+  /*
+   * ==========================================================
+   * EXPORT FILTERED DATA
+   * ==========================================================
+   */
+
+  function exportCSV() {
+
+    if (!filteredData.length) {
+
+      alert("There is no data to export.");
+
+      return;
+
+    }
+
+
+    const csv =
+      Papa.unparse(filteredData);
+
+
+    const blob =
+      new Blob(
+        [csv],
+        {
+          type: "text/csv;charset=utf-8;"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(blob);
+
+
+    const link =
+      document.createElement("a");
+
+
+    link.href = url;
+
+    link.download =
+      "SPM-NIWAS-NWE-Dashboard.csv";
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+  }
+
+
+  /*
+   * ==========================================================
+   * HTML ESCAPE
+   * ==========================================================
+   */
+
+  function escapeHTML(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /*
+   * ==========================================================
+   * UI STATES
+   * ==========================================================
+   */
+
+  function showLoading() {
+
+    document
+      .getElementById("loadingState")
+      .classList.remove("hidden");
+
+
+    document
+      .getElementById("errorState")
+      .classList.add("hidden");
+
+
+    document
+      .getElementById("tableWrapper")
+      .classList.add("hidden");
+
+
+    document
+      .getElementById("noDataState")
+      .classList.add("hidden");
+
+  }
+
+
+  function showError(message) {
+
+    document
+      .getElementById("loadingState")
+      .classList.add("hidden");
+
+
+    document
+      .getElementById("errorState")
+      .classList.remove("hidden");
+
+
+    document
+      .getElementById("tableWrapper")
+      .classList.add("hidden");
+
+
+    document
+      .getElementById("noDataState")
+      .classList.add("hidden");
+
+
+    document
+      .getElementById("errorMessage")
+      .textContent =
+      message ||
+      "The Google Sheet could not be fetched by the browser.";
+
+  }
+
+
+  /*
+   * ==========================================================
+   * EVENT LISTENERS
+   * ==========================================================
+   */
+
+  document
+    .getElementById("searchInput")
+    .addEventListener(
+      "input",
+      applyFilters
+    );
+
+
+  document
+    .getElementById("stateFilter")
+    .addEventListener(
+      "change",
+      applyFilters
+    );
+
+
+  document
+    .getElementById("statusFilter")
+    .addEventListener(
+      "change",
+      applyFilters
+    );
+
+
+  document
+    .getElementById("genderFilter")
+    .addEventListener(
+      "change",
+      applyFilters
+    );
+
+
+  document
+    .getElementById("deploymentFilter")
+    .addEventListener(
+      "change",
+      applyFilters
+    );
+
+
+  document
+    .getElementById("expertiseFilter")
+    .addEventListener(
+      "change",
+      applyFilters
+    );
+
+
+  /*
+   * Close modal when clicking outside it
+   */
+
+  document
+    .getElementById("profileModal")
+    .addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target ===
+          document.getElementById("profileModal")
+        ) {
+
+          closeModal();
+
+        }
+
+      }
+    );
+
+
+  /*
+   * Close modal with Escape key
+   */
+
+  document.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (event.key === "Escape") {
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+  /*
+   * ==========================================================
+   * START APPLICATION
+   * ==========================================================
+   */
+
+  loadData();
+
+</script>
+
+</body>
+</html>
