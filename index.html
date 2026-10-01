@@ -12,11 +12,10 @@
   <!-- Font Awesome 6 CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Custom CSS for theme & font adjustments -->
   <style>
-    /* +1pt font size increase globally */
+    /* +1pt base font size */
     html, body {
-      font-size: 15px; /* Increased from standard 14px for better readability */
+      font-size: 15px;
       background-color: #f4f6f9;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
@@ -64,7 +63,7 @@
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
-  <!-- TOP HEADER (SPM NIWAS Theme) -->
+  <!-- TOP HEADER -->
   <header class="header-gradient text-white py-6 px-4 sm:px-8 shadow-lg relative border-b border-blue-900/40">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div>
@@ -94,7 +93,7 @@
 
   <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-7 flex-1">
 
-    <!-- FILTER CARD (Matching Visual Theme in Screenshot) -->
+    <!-- FILTER CARD -->
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 sm:p-6 mb-7">
       
       <!-- Top Filters Grid -->
@@ -144,7 +143,7 @@
 
       </div>
 
-      <!-- Unified Month Filter Row -->
+      <!-- Month Filter Row -->
       <div class="mb-5 pt-3.5 border-t border-slate-100">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
           <label class="block text-xs font-extrabold uppercase text-slate-500 tracking-wider">
@@ -158,11 +157,10 @@
           <button data-month="ALL" class="month-btn active px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm hover:bg-blue-700 transition whitespace-nowrap">
             All Months
           </button>
-          <!-- Dynamic Consolidated Month Buttons JS -->
         </div>
       </div>
 
-      <!-- Expertise Area Pills Row -->
+      <!-- Expertise Checkbox Row -->
       <div class="pt-3.5 border-t border-slate-100">
         <div class="flex items-center justify-between mb-2.5">
           <label class="block text-xs font-extrabold uppercase text-slate-500 tracking-wider">
@@ -181,7 +179,6 @@
 
     <!-- KEY METRICS CARDS -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
-      
       <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
         <div>
           <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total NWEs Found</p>
@@ -221,28 +218,21 @@
           <i class="fa-solid fa-map-location-dot"></i>
         </div>
       </div>
-
     </div>
 
     <!-- DATA TABLE CONTAINER -->
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
-      
-      <!-- Table Header Bar -->
       <div class="px-5 py-4 border-b border-slate-200/80 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div class="flex items-center gap-2">
           <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wider">National WASH Experts Roster</h2>
           <span id="recordCountBadge" class="bg-slate-200 text-slate-700 text-xs px-2.5 py-0.5 rounded-full font-bold">0 records</span>
         </div>
-        
-        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-          <button id="exportCsvBtn" class="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-blue-600 rounded-lg shadow-sm transition">
-            <i class="fa-solid fa-file-csv text-emerald-600 text-sm"></i>
-            Export CSV
-          </button>
-        </div>
+        <button id="exportCsvBtn" class="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-blue-600 rounded-lg shadow-sm transition">
+          <i class="fa-solid fa-file-csv text-emerald-600 text-sm"></i>
+          Export CSV
+        </button>
       </div>
 
-      <!-- Responsive Table with +1pt increased body text -->
       <div class="overflow-x-auto custom-scrollbar">
         <table class="w-full text-left border-collapse text-xs sm:text-sm">
           <thead>
@@ -260,562 +250,4 @@
               <th class="p-3.5 pr-5 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody id="tableBody" class="divide-y divide-slate-100 text-slate-700">
-            <tr>
-              <td colspan="11" class="text-center py-12 text-slate-400">
-                <i class="fa-solid fa-spinner fa-spin text-2xl mb-3 text-blue-600"></i>
-                <p class="text-sm font-medium">Fetching NWE record data from Google Sheet...</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-
-  </main>
-
-  <!-- EXPERT DETAIL MODAL -->
-  <div id="expertModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-      
-      <!-- Modal Header -->
-      <div class="header-gradient text-white px-6 py-5 flex items-center justify-between">
-        <div>
-          <span id="modalNweId" class="text-xs uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-blue-100 border border-white/20">
-            NWE-ID
-          </span>
-          <h3 id="modalName" class="text-xl font-bold mt-1">Expert Profile Name</h3>
-        </div>
-        <button id="closeModalBtn" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
-      </div>
-
-      <!-- Modal Body (Scrollable) -->
-      <div class="p-6 overflow-y-auto space-y-6 text-slate-700 text-xs sm:text-sm custom-scrollbar">
-        
-        <!-- Primary Contact & Demographics Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200/80">
-          <div>
-            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Email</p>
-            <p id="modalEmail" class="font-medium text-slate-800 break-all truncate">-</p>
-          </div>
-          <div>
-            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Mobile</p>
-            <p id="modalMobile" class="font-medium text-slate-800">-</p>
-          </div>
-          <div>
-            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">PAN Card</p>
-            <p id="modalPan" class="font-medium text-slate-800 uppercase font-mono">-</p>
-          </div>
-          <div>
-            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Gender / State</p>
-            <p id="modalDemographics" class="font-medium text-slate-800">-</p>
-          </div>
-        </div>
-
-        <!-- Expertise Tags -->
-        <div>
-          <h4 class="text-xs font-bold uppercase text-slate-500 mb-2 tracking-wider">Areas of Expertise</h4>
-          <div id="modalExpertiseTags" class="flex flex-wrap gap-1.5">
-            <!-- Dynamic tags -->
-          </div>
-        </div>
-
-        <!-- Last Deployment Quick Summary -->
-        <div class="grid grid-cols-3 gap-4 bg-blue-50/50 p-4 rounded-xl border border-blue-100">
-          <div>
-            <p class="text-[11px] font-bold text-blue-500 uppercase tracking-wider">Total Field Visits</p>
-            <p id="modalTotalVisits" class="text-xl font-extrabold text-blue-900">0</p>
-          </div>
-          <div>
-            <p class="text-[11px] font-bold text-blue-500 uppercase tracking-wider">Last Deployed Month</p>
-            <p id="modalLastMonth" class="text-sm font-bold text-blue-900 mt-1">-</p>
-          </div>
-          <div>
-            <p class="text-[11px] font-bold text-blue-500 uppercase tracking-wider">Last Deployed State</p>
-            <p id="modalLastState" class="text-sm font-bold text-blue-900 mt-1">-</p>
-          </div>
-        </div>
-
-        <!-- Deployment Calendar Matrix Table (Combined Months) -->
-        <div>
-          <div class="flex items-center justify-between mb-2">
-            <h4 class="text-xs font-bold uppercase text-slate-500 tracking-wider">Month-Wise Deployment Schedule</h4>
-            <span class="text-[11px] text-slate-400 italic">(May 1 & May 2 merged into May)</span>
-          </div>
-          <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-            <div class="overflow-x-auto custom-scrollbar">
-              <table class="w-full text-center text-xs sm:text-sm">
-                <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
-                  <tr id="modalMonthHeaderRow">
-                    <!-- Month headers -->
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                  <tr id="modalMonthValueRow" class="bg-white font-medium text-slate-800">
-                    <!-- Month deployment status values -->
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex justify-end">
-        <button id="closeModalFooterBtn" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-lg transition">
-          Close Profile
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    // CSV Data Source Endpoint
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXbSW6CTlQ7fValLHtpYpHFOYn126Z4BAkdQfRNI3JgPVe_1tVV5RZRMk6ceRyhep5MAaXIppJBFjB/pub?output=csv";
-
-    // Standardized Consolidated Month List (May 1 & May 2 combined as May, Jun 1 & Jun 2 combined as Jun)
-    const DISPLAY_MONTHS = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
-
-    let rawData = [];
-    let filteredData = [];
-    let selectedExpertise = new Set();
-    let selectedMonth = 'ALL';
-
-    document.addEventListener("DOMContentLoaded", () => {
-      fetchCSVData();
-      setupEventListeners();
-    });
-
-    function fetchCSVData() {
-      Papa.parse(CSV_URL, {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
-        complete: function(results) {
-          rawData = results.data.map((row, idx) => {
-            // Clean up keys
-            const cleanRow = {};
-            Object.keys(row).forEach(k => {
-              cleanRow[k.trim()] = row[k] ? row[k].trim() : '';
-            });
-
-            if (!cleanRow['Sl.']) cleanRow['Sl.'] = (idx + 1).toString();
-
-            // Consolidate May 1 & May 2 into May
-            const may1 = cleanRow['May 1'] || cleanRow['May1'] || '';
-            const may2 = cleanRow['May 2'] || cleanRow['May2'] || '';
-            cleanRow['May'] = combineMonthValues(may1, may2);
-
-            // Consolidate Jun 1 & Jun 2 into Jun
-            const jun1 = cleanRow['Jun 1'] || cleanRow['Jun1'] || '';
-            const jun2 = cleanRow['Jun 2'] || cleanRow['Jun2'] || '';
-            cleanRow['Jun'] = combineMonthValues(jun1, jun2);
-
-            return cleanRow;
-          });
-
-          filteredData = [...rawData];
-          buildFilters(rawData);
-          buildMonthButtons();
-          renderDashboard();
-        },
-        error: function(err) {
-          console.error("Error parsing CSV:", err);
-          document.getElementById('tableBody').innerHTML = `
-            <tr>
-              <td colspan="11" class="text-center py-12 text-red-500 font-semibold">
-                <i class="fa-solid fa-triangle-exclamation text-2xl mb-2"></i><br>
-                Unable to load data from the Google Sheet. Please check the CSV publish permissions.
-              </td>
-            </tr>`;
-        }
-      });
-    }
-
-    // Helper function to combine split month entries (e.g. May 1 & May 2)
-    function combineMonthValues(v1, v2) {
-      const clean1 = (v1 || '').trim();
-      const clean2 = (v2 || '').trim();
-
-      const isInvalid1 = !clean1 || clean1 === '-' || clean1 === '0' || clean1.toLowerCase() === 'no';
-      const isInvalid2 = !clean2 || clean2 === '-' || clean2 === '0' || clean2.toLowerCase() === 'no';
-
-      if (isInvalid1 && isInvalid2) return '-';
-      if (!isInvalid1 && isInvalid2) return clean1;
-      if (isInvalid1 && !isInvalid2) return clean2;
-      
-      if (clean1 === clean2) return clean1;
-      return `${clean1}, ${clean2}`;
-    }
-
-    function buildFilters(data) {
-      const states = new Set();
-      const statuses = new Set();
-      const genders = new Set();
-      const expertiseSet = new Set();
-
-      data.forEach(row => {
-        if (row['Native State']) states.add(row['Native State']);
-        if (row['Status']) statuses.add(row['Status']);
-        if (row['Gender']) genders.add(row['Gender']);
-        
-        if (row['Expertise']) {
-          row['Expertise'].split(/[,;]/).forEach(exp => {
-            const trimmed = exp.trim();
-            if (trimmed) expertiseSet.add(trimmed);
-          });
-        }
-      });
-
-      populateSelect('stateFilter', Array.from(states).sort());
-      populateSelect('statusFilter', Array.from(statuses).sort());
-      populateSelect('genderFilter', Array.from(genders).sort());
-
-      // Expertise Checkbox Pills
-      const expContainer = document.getElementById('expertiseContainer');
-      expContainer.innerHTML = '';
-
-      if (expertiseSet.size === 0) {
-        expContainer.innerHTML = `<span class="text-xs text-slate-400">No explicit expertise categories found.</span>`;
-        return;
-      }
-
-      Array.from(expertiseSet).sort().forEach((exp, idx) => {
-        const id = `exp_chk_${idx}`;
-        const wrapper = document.createElement('div');
-        wrapper.className = 'inline-block';
-        wrapper.innerHTML = `
-          <input type="checkbox" id="${id}" value="${exp}" class="pill-checkbox-input sr-only">
-          <label for="${id}" class="pill-checkbox-label px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium cursor-pointer inline-flex items-center gap-1.5 select-none">
-            <i class="fa-solid fa-check text-[10px] opacity-0 check-icon transition-opacity"></i>
-            <span>${exp}</span>
-          </label>
-        `;
-
-        const checkbox = wrapper.querySelector('input');
-        checkbox.addEventListener('change', (e) => {
-          const checkIcon = wrapper.querySelector('.check-icon');
-          if (e.target.checked) {
-            selectedExpertise.add(e.target.value);
-            checkIcon.classList.remove('opacity-0');
-          } else {
-            selectedExpertise.delete(e.target.value);
-            checkIcon.classList.add('opacity-0');
-          }
-          toggleClearExpertiseBtn();
-          applyFilters();
-        });
-
-        expContainer.appendChild(wrapper);
-      });
-    }
-
-    function populateSelect(selectId, items) {
-      const select = document.getElementById(selectId);
-      items.forEach(item => {
-        const opt = document.createElement('option');
-        opt.value = item;
-        opt.textContent = item;
-        select.appendChild(opt);
-      });
-    }
-
-    function buildMonthButtons() {
-      const container = document.getElementById('monthFilterContainer');
-      
-      DISPLAY_MONTHS.forEach(month => {
-        const btn = document.createElement('button');
-        btn.dataset.month = month;
-        btn.className = "month-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap";
-        btn.textContent = month;
-        
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.month-btn').forEach(b => {
-            b.className = "month-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap";
-          });
-          btn.className = "month-btn active px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-sm hover:bg-blue-700 transition whitespace-nowrap";
-          selectedMonth = month;
-          
-          const tag = document.getElementById('activeMonthTag');
-          if (month === 'ALL') {
-            tag.classList.add('hidden');
-          } else {
-            tag.textContent = `Filtering experts deployed in ${month}`;
-            tag.classList.remove('hidden');
-          }
-
-          applyFilters();
-        });
-
-        container.appendChild(btn);
-      });
-    }
-
-    function setupEventListeners() {
-      document.getElementById('searchInput').addEventListener('input', applyFilters);
-      document.getElementById('stateFilter').addEventListener('change', applyFilters);
-      document.getElementById('statusFilter').addEventListener('change', applyFilters);
-      document.getElementById('genderFilter').addEventListener('change', applyFilters);
-      
-      document.getElementById('clearExpertiseBtn').addEventListener('click', () => {
-        selectedExpertise.clear();
-        document.querySelectorAll('.pill-checkbox-input').forEach(chk => {
-          chk.checked = false;
-        });
-        document.querySelectorAll('.check-icon').forEach(i => i.classList.add('opacity-0'));
-        toggleClearExpertiseBtn();
-        applyFilters();
-      });
-
-      document.getElementById('exportCsvBtn').addEventListener('click', exportToCSV);
-
-      // Modal controls
-      document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-      document.getElementById('closeModalFooterBtn').addEventListener('click', closeModal);
-      document.getElementById('expertModal').addEventListener('click', (e) => {
-        if (e.target.id === 'expertModal') closeModal();
-      });
-    }
-
-    function toggleClearExpertiseBtn() {
-      const btn = document.getElementById('clearExpertiseBtn');
-      if (selectedExpertise.size > 0) {
-        btn.classList.remove('hidden');
-      } else {
-        btn.classList.add('hidden');
-      }
-    }
-
-    function applyFilters() {
-      const searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
-      const stateValue = document.getElementById('stateFilter').value;
-      const statusValue = document.getElementById('statusFilter').value;
-      const genderValue = document.getElementById('genderFilter').value;
-
-      filteredData = rawData.filter(row => {
-        // Search Filter
-        const name = (row['Name of The NWE'] || '').toLowerCase();
-        const nweId = (row['NWE ID'] || '').toLowerCase();
-        const email = (row['Email'] || '').toLowerCase();
-        const matchesSearch = !searchValue || name.includes(searchValue) || nweId.includes(searchValue) || email.includes(searchValue);
-
-        // State Filter
-        const matchesState = !stateValue || row['Native State'] === stateValue;
-
-        // Status Filter
-        const matchesStatus = !statusValue || row['Status'] === statusValue;
-
-        // Gender Filter
-        const matchesGender = !genderValue || row['Gender'] === genderValue;
-
-        // Expertise Filter
-        let matchesExpertise = true;
-        if (selectedExpertise.size > 0) {
-          const rowExp = (row['Expertise'] || '').split(/[,;]/).map(s => s.trim());
-          matchesExpertise = Array.from(selectedExpertise).some(exp => rowExp.includes(exp));
-        }
-
-        // Consolidated Deployment Month Filter
-        let matchesMonth = true;
-        if (selectedMonth !== 'ALL') {
-          const monthVal = (row[selectedMonth] || '').toLowerCase().trim();
-          matchesMonth = monthVal !== '' && monthVal !== 'no' && monthVal !== '0' && monthVal !== 'false' && monthVal !== '-';
-        }
-
-        return matchesSearch && matchesState && matchesStatus && matchesGender && matchesExpertise && matchesMonth;
-      });
-
-      renderDashboard();
-    }
-
-    function renderDashboard() {
-      renderMetrics();
-      renderTable();
-    }
-
-    function renderMetrics() {
-      const total = filteredData.length;
-      let activeCount = 0;
-      let totalVisits = 0;
-      const nativeStates = new Set();
-
-      filteredData.forEach(row => {
-        const st = (row['Status'] || '').toLowerCase();
-        if (st.includes('active') || st.includes('empanelled') || st.includes('deployed')) {
-          activeCount++;
-        }
-
-        const visits = parseInt(row['Total No. of Visits']) || 0;
-        totalVisits += visits;
-
-        if (row['Native State']) nativeStates.add(row['Native State']);
-      });
-
-      document.getElementById('metricTotal').textContent = total;
-      document.getElementById('metricActive').textContent = activeCount;
-      document.getElementById('metricVisits').textContent = totalVisits;
-      document.getElementById('metricStates').textContent = nativeStates.size;
-      document.getElementById('recordCountBadge').textContent = `${total} records`;
-    }
-
-    function renderTable() {
-      const tbody = document.getElementById('tableBody');
-      tbody.innerHTML = '';
-
-      if (filteredData.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="11" class="text-center py-10 text-slate-400 font-medium">
-              <i class="fa-solid fa-folder-open text-2xl mb-2 text-slate-300"></i><br>
-              No National WASH Experts matched your filter criteria.
-            </td>
-          </tr>`;
-        return;
-      }
-
-      filteredData.forEach((row, index) => {
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-blue-50/40 transition border-b border-slate-100 cursor-pointer group";
-
-        // Format Expertise Tags
-        const expList = (row['Expertise'] || '').split(/[,;]/).map(e => e.trim()).filter(Boolean);
-        let expHtml = '-';
-        if (expList.length > 0) {
-          expHtml = expList.slice(0, 2).map(exp => 
-            `<span class="inline-block bg-slate-100 text-slate-700 border border-slate-200/80 rounded-md px-1.5 py-0.5 text-[11px] font-medium mr-1 mb-0.5">${exp}</span>`
-          ).join('');
-          if (expList.length > 2) {
-            expHtml += `<span class="text-[11px] text-blue-600 font-bold">+${expList.length - 2} more</span>`;
-          }
-        }
-
-        const statusClass = getStatusBadge(row['Status']);
-        const visits = row['Total No. of Visits'] || '0';
-
-        tr.innerHTML = `
-          <td class="p-3.5 pl-5 font-semibold text-slate-400">${row['Sl.'] || (index + 1)}</td>
-          <td class="p-3.5 font-bold text-blue-600 group-hover:underline">${row['NWE ID'] || '-'}</td>
-          <td class="p-3.5 font-extrabold text-slate-800">${row['Name of The NWE'] || '-'}</td>
-          <td class="p-3.5 font-medium">${row['Native State'] || '-'}</td>
-          <td class="p-3.5">${row['Gender'] || '-'}</td>
-          <td class="p-3.5 max-w-[200px]">${expHtml}</td>
-          <td class="p-3.5">
-            <span class="inline-flex items-center px-2.5 py-0.5 text-xs font-bold rounded-full ${statusClass}">
-              ${row['Status'] || 'Active'}
-            </span>
-          </td>
-          <td class="p-3.5 text-center font-extrabold text-slate-800">${visits}</td>
-          <td class="p-3.5 text-slate-600 font-medium">${row['Last Month'] || '-'}</td>
-          <td class="p-3.5 text-slate-600 font-medium">${row['Last State'] || '-'}</td>
-          <td class="p-3.5 pr-5 text-right whitespace-nowrap" onclick="event.stopPropagation()">
-            <div class="flex items-center justify-end gap-1.5">
-              ${row['Email'] ? `<a href="mailto:${row['Email']}" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white flex items-center justify-center transition" title="${row['Email']}"><i class="fa-solid fa-envelope"></i></a>` : ''}
-              ${row['Mobile'] ? `<a href="tel:${row['Mobile']}" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition" title="${row['Mobile']}"><i class="fa-solid fa-phone"></i></a>` : ''}
-              <button onclick="openModal(${index})" class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-700 hover:text-white flex items-center justify-center transition" title="View Detailed Profile">
-                <i class="fa-solid fa-circle-info"></i>
-              </button>
-            </div>
-          </td>
-        `;
-
-        tr.addEventListener('click', () => openModal(index));
-        tbody.appendChild(tr);
-      });
-    }
-
-    function getStatusBadge(status) {
-      if (!status) return 'bg-emerald-100 text-emerald-800 border border-emerald-200';
-      const st = status.toLowerCase();
-      if (st.includes('empanelled') || st.includes('active')) return 'bg-emerald-100 text-emerald-800 border border-emerald-200';
-      if (st.includes('deployed') || st.includes('busy')) return 'bg-amber-100 text-amber-800 border border-amber-200';
-      if (st.includes('inactive') || st.includes('leave')) return 'bg-slate-100 text-slate-600 border border-slate-200';
-      return 'bg-blue-100 text-blue-800 border border-blue-200';
-    }
-
-    function openModal(index) {
-      const expert = filteredData[index];
-      if (!expert) return;
-
-      document.getElementById('modalNweId').textContent = expert['NWE ID'] || 'NWE-EXPERT';
-      document.getElementById('modalName').textContent = expert['Name of The NWE'] || 'Expert Name';
-      document.getElementById('modalEmail').textContent = expert['Email'] || 'N/A';
-      document.getElementById('modalMobile').textContent = expert['Mobile'] || 'N/A';
-      document.getElementById('modalPan').textContent = expert['PAN Card'] || 'N/A';
-      document.getElementById('modalDemographics').textContent = `${expert['Gender'] || '-'} / ${expert['Native State'] || '-'}`;
-
-      // Detailed Expertise Tags
-      const tagsContainer = document.getElementById('modalExpertiseTags');
-      tagsContainer.innerHTML = '';
-      const expList = (expert['Expertise'] || '').split(/[,;]/).map(e => e.trim()).filter(Boolean);
-      if (expList.length === 0) {
-        tagsContainer.innerHTML = `<span class="text-slate-400 italic">No expertise domains recorded.</span>`;
-      } else {
-        expList.forEach(exp => {
-          const tag = document.createElement('span');
-          tag.className = "px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-xs sm:text-sm font-semibold";
-          tag.textContent = exp;
-          tagsContainer.appendChild(tag);
-        });
-      }
-
-      // Deployment Stats
-      document.getElementById('modalTotalVisits').textContent = expert['Total No. of Visits'] || '0';
-      document.getElementById('modalLastMonth').textContent = expert['Last Month'] || '-';
-      document.getElementById('modalLastState').textContent = expert['Last State'] || '-';
-
-      // Deployment Consolidated Month Matrix Table
-      const headerRow = document.getElementById('modalMonthHeaderRow');
-      const valueRow = document.getElementById('modalMonthValueRow');
-      headerRow.innerHTML = '';
-      valueRow.innerHTML = '';
-
-      DISPLAY_MONTHS.forEach(month => {
-        const th = document.createElement('th');
-        th.className = "p-2 bg-slate-100 text-xs uppercase font-bold border-r border-slate-200 last:border-0";
-        th.textContent = month;
-        headerRow.appendChild(th);
-
-        const td = document.createElement('td');
-        td.className = "p-2 border-r border-slate-100 last:border-0";
-        const val = expert[month] || '-';
-        if (val !== '-' && val !== '' && val !== '0') {
-          td.innerHTML = `<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-xs">${val}</span>`;
-        } else {
-          td.innerHTML = `<span class="text-slate-300">-</span>`;
-        }
-        valueRow.appendChild(td);
-      });
-
-      document.getElementById('expertModal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('expertModal').classList.add('hidden');
-    }
-
-    function exportToCSV() {
-      if (filteredData.length === 0) {
-        alert("No records available to export.");
-        return;
-      }
-
-      const csvContent = Papa.unparse(filteredData);
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", `SPM_NIWAS_NWE_Export_${new Date().toISOString().slice(0,10)}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  </script>
-</body>
-</html>
+          <tbody id="tableBody" class="divide-y divide-slate-10
