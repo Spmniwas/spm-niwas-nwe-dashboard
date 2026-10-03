@@ -1,1567 +1,1367 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>SPM NIWAS - National WASH Experts (NWEs) Dashboard</title>
-
-  <!-- Font Awesome icons only -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  >
-
-  <style>
-    /* =========================================================
-       GLOBAL
-       ========================================================= */
-
-    :root {
-      --blue: #2563eb;
-      --blue-dark: #1e3a8a;
-      --blue-light: #eff6ff;
-      --green: #16a34a;
-      --purple: #7c3aed;
-      --orange: #ea580c;
-
-      --text: #1e293b;
-      --muted: #64748b;
-      --light-muted: #94a3b8;
-
-      --border: #e2e8f0;
-      --background: #f4f6f9;
-      --white: #ffffff;
-
-      --radius: 14px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background: var(--background);
-      color: var(--text);
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Helvetica,
-        Arial,
-        sans-serif;
-      font-size: 16px;
-      line-height: 1.45;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    /* =========================================================
-       HEADER
-       ========================================================= */
-
-    .header {
-      background:
-        linear-gradient(
-          135deg,
-          #1d4ed8 0%,
-          #1e40af 50%,
-          #1e3a8a 100%
-        );
-
-      color: white;
-      padding: 24px 20px;
-      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.12);
-    }
-
-    .header-inner {
-      max-width: 1280px;
-      margin: auto;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SPM NIWAS - National WASH Experts (NWEs) Dashboard</title>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+
+:root {
+  --blue: #2563eb;
+  --blue-dark: #1e3a8a;
+  --blue-light: #eff6ff;
+  --green: #16a34a;
+  --purple: #7c3aed;
+  --orange: #ea580c;
+
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --background: #f4f6f9;
+  --white: #ffffff;
+
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
 
-    .brand-icon {
-      width: 48px;
-      height: 48px;
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  font-size: 16px;
+  line-height: 1.45;
+}
 
-      border-radius: 12px;
+button,
+input,
+select {
+  font: inherit;
+}
 
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.22);
+button {
+  cursor: pointer;
+}
 
-      font-size: 24px;
-      color: #bfdbfe;
-    }
 
-    .brand-title {
-      margin: 0;
+/* =========================================================
+   HEADER
+   ========================================================= */
 
-      font-size: 27px;
-      line-height: 1.2;
-      font-weight: 800;
-      letter-spacing: -0.4px;
-    }
+.header {
+  background:
+    linear-gradient(
+      135deg,
+      #1d4ed8 0%,
+      #1e40af 50%,
+      #1e3a8a 100%
+    );
 
-    .brand-subtitle {
-      margin-top: 5px;
+  color: white;
 
-      font-size: 18px;
-      font-weight: 600;
+  padding: 25px 20px;
 
-      color: #dbeafe;
-    }
+  box-shadow:
+    0 4px 15px rgba(15, 23, 42, 0.12);
+}
 
-    .live-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
+.header-inner {
+  max-width: 1280px;
+  margin: auto;
 
-      padding: 9px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-      border-radius: 999px;
+  gap: 24px;
+}
 
-      background: rgba(15,23,42,0.35);
-      border: 1px solid rgba(147,197,253,0.3);
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
-      color: #dbeafe;
+.brand-icon {
+  width: 50px;
+  height: 50px;
 
-      font-size: 15px;
-      font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      white-space: nowrap;
-    }
+  border-radius: 12px;
 
-    .live-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #34d399;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
 
-      box-shadow: 0 0 0 4px rgba(52,211,153,0.12);
-    }
+  font-size: 25px;
+  color: #bfdbfe;
+}
 
-    /* =========================================================
-       PAGE
-       ========================================================= */
+.brand-title {
+  margin: 0;
 
-    .page {
-      max-width: 1280px;
-      margin: auto;
-      padding: 28px 20px 50px;
-    }
+  font-size: 28px;
+  line-height: 1.2;
 
-    /* =========================================================
-       CARD
-       ========================================================= */
+  font-weight: 800;
+}
 
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: 0 2px 7px rgba(15,23,42,0.04);
-    }
+.brand-subtitle {
+  margin-top: 5px;
 
-    /* =========================================================
-       FILTERS
-       ========================================================= */
+  font-size: 20px;
+  font-weight: 600;
 
-    .filter-card {
-      padding: 24px;
-      margin-bottom: 24px;
-    }
+  color: #dbeafe;
+}
 
-    .section-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
 
-      margin-bottom: 20px;
-    }
+  padding: 9px 15px;
 
-    .section-heading h2 {
-      margin: 0;
+  border-radius: 999px;
 
-      font-size: 20px;
-      font-weight: 800;
-    }
+  background: rgba(15,23,42,0.35);
+  border: 1px solid rgba(147,197,253,0.3);
 
-    .section-heading p {
-      margin: 4px 0 0;
+  color: #dbeafe;
 
-      color: var(--muted);
-      font-size: 15px;
-    }
+  font-size: 15px;
+  font-weight: 600;
 
-    .reset-button {
-      border: 0;
-      background: transparent;
+  white-space: nowrap;
+}
 
-      color: var(--blue);
+.live-dot {
+  width: 10px;
+  height: 10px;
 
-      font-size: 15px;
-      font-weight: 600;
-    }
+  border-radius: 50%;
 
-    .reset-button:hover {
-      text-decoration: underline;
-    }
+  background: #34d399;
 
-    .filter-grid {
-      display: grid;
+  box-shadow:
+    0 0 0 4px rgba(52,211,153,0.12);
+}
 
-      grid-template-columns:
-        minmax(250px, 1.6fr)
-        minmax(180px, 1fr)
-        minmax(180px, 1fr)
-        minmax(180px, 1fr);
 
-      gap: 16px;
-    }
+/* =========================================================
+   PAGE
+   ========================================================= */
 
-    .filter-group label {
-      display: block;
+.page {
+  max-width: 1280px;
 
-      margin-bottom: 7px;
+  margin: auto;
 
-      color: #475569;
+  padding: 28px 20px 50px;
+}
 
-      font-size: 14px;
-      font-weight: 800;
 
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-    }
+/* =========================================================
+   CARD
+   ========================================================= */
 
-    .input-wrapper {
-      position: relative;
-    }
+.card {
+  background: white;
 
-    .input-icon {
-      position: absolute;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 
-      left: 14px;
-      top: 50%;
+  box-shadow:
+    0 2px 7px rgba(15,23,42,0.04);
+}
 
-      transform: translateY(-50%);
 
-      color: var(--light-muted);
-    }
+/* =========================================================
+   FILTER CARD
+   ========================================================= */
 
-    .input,
-    .select {
-      width: 100%;
+.filter-card {
+  padding: 24px;
 
-      height: 44px;
+  margin-bottom: 24px;
+}
 
-      padding: 0 13px;
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
+  margin-bottom: 20px;
+}
 
-      background: #f8fafc;
+.section-heading h2 {
+  margin: 0;
 
-      color: #0f172a;
+  font-size: 21px;
+  font-weight: 800;
+}
 
-      font-size: 16px;
+.section-heading p {
+  margin: 5px 0 0;
 
-      outline: none;
+  color: var(--muted);
 
-      transition: 0.15s ease;
-    }
+  font-size: 16px;
+}
 
-    .input.with-icon {
-      padding-left: 42px;
-    }
+.reset-button {
+  border: 0;
 
-    .input:focus,
-    .select:focus {
-      background: white;
-      border-color: #60a5fa;
+  background: transparent;
 
-      box-shadow:
-        0 0 0 3px rgba(59,130,246,0.12);
-    }
+  color: var(--blue);
 
-    /* =========================================================
-       MONTH FILTER
-       ========================================================= */
+  font-size: 16px;
+  font-weight: 600;
+}
 
-    .month-section {
-      margin-top: 22px;
-      padding-top: 20px;
+.reset-button:hover {
+  text-decoration: underline;
+}
 
-      border-top: 1px solid #f1f5f9;
-    }
 
-    .filter-label {
-      display: block;
+/* =========================================================
+   FILTER GRID
+   ========================================================= */
 
-      margin-bottom: 10px;
+.filter-grid {
+  display: grid;
 
-      color: #475569;
+  grid-template-columns:
+    minmax(250px, 1.6fr)
+    minmax(180px, 1fr)
+    minmax(180px, 1fr)
+    minmax(180px, 1fr);
 
-      font-size: 14px;
-      font-weight: 800;
+  gap: 16px;
+}
 
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-    }
+.filter-group label {
+  display: block;
 
-    .month-buttons {
-      display: flex;
-      gap: 8px;
+  margin-bottom: 7px;
 
-      overflow-x: auto;
+  color: #475569;
 
-      padding-bottom: 4px;
-    }
+  font-size: 15px;
+  font-weight: 800;
 
-    .month-button {
-      flex: 0 0 auto;
+  text-transform: uppercase;
 
-      padding: 8px 15px;
+  letter-spacing: 0.5px;
+}
 
-      border: 1px solid #cbd5e1;
-      border-radius: 9px;
+.input-wrapper {
+  position: relative;
+}
 
-      background: white;
+.input-icon {
+  position: absolute;
 
-      color: #475569;
+  left: 14px;
+  top: 50%;
 
-      font-size: 15px;
-      font-weight: 600;
+  transform: translateY(-50%);
 
-      transition: 0.15s ease;
-    }
+  color: #94a3b8;
+}
 
-    .month-button:hover {
-      border-color: #60a5fa;
-      background: #eff6ff;
-    }
+.input,
+.select {
+  width: 100%;
 
-    .month-button.active {
-      border-color: var(--blue);
-      background: var(--blue);
-      color: white;
-    }
+  height: 46px;
 
-    /* =========================================================
-       EXPERTISE
-       ========================================================= */
+  padding: 0 13px;
 
-    .expertise-section {
-      margin-top: 22px;
-      padding-top: 20px;
+  border:
+    1px solid #cbd5e1;
 
-      border-top: 1px solid #f1f5f9;
-    }
+  border-radius: 10px;
 
-    .expertise-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+  background: #f8fafc;
 
-    .expertise-checkbox {
-      display: none;
-    }
+  color: #0f172a;
 
-    .expertise-label {
-      display: inline-flex;
-      align-items: center;
+  font-size: 16px;
 
-      padding: 8px 13px;
+  outline: none;
+}
 
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
+.input.with-icon {
+  padding-left: 42px;
+}
 
-      background: white;
+.input:focus,
+.select:focus {
+  background: white;
 
-      color: #475569;
+  border-color: #60a5fa;
 
-      font-size: 14px;
-      font-weight: 600;
+  box-shadow:
+    0 0 0 3px rgba(59,130,246,0.12);
+}
 
-      cursor: pointer;
 
-      transition: 0.15s ease;
-    }
+/* =========================================================
+   MONTH FILTER
+   ========================================================= */
 
-    .expertise-label:hover {
-      border-color: #60a5fa;
-      background: #f8fafc;
-    }
+.month-section {
+  margin-top: 22px;
 
-    .expertise-checkbox:checked + .expertise-label {
-      border-color: var(--blue);
-      background: #eff6ff;
-      color: #1d4ed8;
-    }
+  padding-top: 20px;
 
-    .clear-expertise {
-      margin-left: 10px;
+  border-top:
+    1px solid #f1f5f9;
+}
 
-      border: 0;
-      background: transparent;
+.filter-label {
+  display: block;
 
-      color: var(--muted);
+  margin-bottom: 10px;
 
-      font-size: 14px;
-      font-weight: 600;
-    }
+  color: #475569;
 
-    .clear-expertise:hover {
-      color: var(--blue);
-    }
+  font-size: 15px;
+  font-weight: 800;
 
-    /* =========================================================
-       METRICS
-       ========================================================= */
+  text-transform: uppercase;
 
-    .metrics {
-      display: grid;
+  letter-spacing: 0.5px;
+}
 
-      grid-template-columns:
-        repeat(4, minmax(0, 1fr));
+.month-buttons {
+  display: flex;
 
-      gap: 16px;
+  gap: 8px;
 
-      margin-bottom: 24px;
-    }
+  overflow-x: auto;
 
-    .metric {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  padding-bottom: 4px;
+}
 
-      padding: 20px;
+.month-button {
+  flex: 0 0 auto;
 
-      background: white;
+  padding: 9px 16px;
 
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+  border:
+    1px solid #cbd5e1;
 
-      box-shadow: 0 2px 7px rgba(15,23,42,0.04);
-    }
+  border-radius: 9px;
 
-    .metric-label {
-      margin: 0;
+  background: white;
 
-      color: #64748b;
+  color: #475569;
 
-      font-size: 14px;
-      font-weight: 800;
+  font-size: 15px;
+  font-weight: 600;
 
-      text-transform: uppercase;
-      letter-spacing: 0.7px;
-    }
+  transition: 0.15s ease;
+}
 
-    .metric-value {
-      margin: 4px 0 0;
+.month-button:hover {
+  border-color: #60a5fa;
 
-      font-size: 32px;
-      line-height: 1.1;
-      font-weight: 800;
-    }
+  background: #eff6ff;
+}
 
-    .metric-icon {
-      width: 50px;
-      height: 50px;
+.month-button.active {
+  border-color: var(--blue);
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  background: var(--blue);
 
-      border-radius: 12px;
+  color: white;
+}
 
-      font-size: 21px;
-    }
 
-    .metric-blue .metric-value {
-      color: #1e40af;
-    }
+/* =========================================================
+   EXPERTISE FILTER
+   ========================================================= */
 
-    .metric-blue .metric-icon {
-      background: #eff6ff;
-      color: #2563eb;
-    }
+.expertise-section {
+  margin-top: 22px;
 
-    .metric-green .metric-value {
-      color: #16a34a;
-    }
+  padding-top: 20px;
 
-    .metric-green .metric-icon {
-      background: #f0fdf4;
-      color: #16a34a;
-    }
+  border-top:
+    1px solid #f1f5f9;
+}
 
-    .metric-purple .metric-value {
-      color: #7c3aed;
-    }
+.expertise-container {
+  display: flex;
 
-    .metric-purple .metric-icon {
-      background: #faf5ff;
-      color: #7c3aed;
-    }
+  flex-wrap: wrap;
 
-    .metric-orange .metric-value {
-      color: #ea580c;
-    }
+  gap: 8px;
+}
 
-    .metric-orange .metric-icon {
-      background: #fff7ed;
-      color: #ea580c;
-    }
+.expertise-checkbox {
+  display: none;
+}
 
-    /* =========================================================
-       TABLE
-       ========================================================= */
+.expertise-label {
+  display: inline-flex;
 
-    .table-card {
-      overflow: hidden;
-    }
+  align-items: center;
 
-    .table-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  padding: 8px 13px;
 
-      gap: 16px;
+  border:
+    1px solid #cbd5e1;
 
-      padding: 18px 20px;
+  border-radius: 8px;
 
-      background: #f8fafc;
+  background: white;
 
-      border-bottom: 1px solid var(--border);
-    }
+  color: #475569;
 
-    .table-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+  font-size: 15px;
+  font-weight: 600;
 
-    .table-title h2 {
-      margin: 0;
+  cursor: pointer;
+}
 
-      font-size: 19px;
-      font-weight: 800;
-    }
+.expertise-label:hover {
+  border-color: #60a5fa;
 
-    .record-badge {
-      padding: 4px 9px;
+  background: #f8fafc;
+}
 
-      border-radius: 999px;
+.expertise-checkbox:checked + .expertise-label {
+  border-color: var(--blue);
 
-      background: #e2e8f0;
-      color: #475569;
+  background: #eff6ff;
 
-      font-size: 14px;
-      font-weight: 700;
-    }
+  color: #1d4ed8;
+}
 
-    .export-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+.clear-expertise {
+  margin-left: 10px;
 
-      padding: 9px 14px;
+  border: 0;
 
-      border: 1px solid #cbd5e1;
-      border-radius: 9px;
+  background: transparent;
 
-      background: white;
+  color: var(--muted);
 
-      color: #334155;
+  font-size: 15px;
 
-      font-size: 15px;
-      font-weight: 700;
-    }
+  font-weight: 600;
+}
 
-    .export-button:hover {
-      border-color: #93c5fd;
-      color: var(--blue);
-      background: #f8fafc;
-    }
 
-    .table-container {
-      width: 100%;
-      overflow-x: auto;
-    }
+/* =========================================================
+   METRICS
+   ========================================================= */
 
-    table {
-      width: 100%;
+.metrics {
+  display: grid;
 
-      border-collapse: collapse;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
 
-      font-size: 16px;
-    }
+  gap: 16px;
 
-    thead th {
-      padding: 14px 13px;
+  margin-bottom: 24px;
+}
 
-      background: #f8fafc;
+.metric {
+  display: flex;
 
-      border-bottom: 1px solid var(--border);
+  align-items: center;
 
-      color: #475569;
+  justify-content: space-between;
 
-      font-size: 14px;
-      font-weight: 800;
+  padding: 20px;
 
-      text-align: left;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+  background: white;
 
-      white-space: nowrap;
-    }
+  border:
+    1px solid var(--border);
 
-    tbody td {
-      padding: 15px 13px;
+  border-radius: var(--radius);
 
-      border-bottom: 1px solid #eef2f7;
+  box-shadow:
+    0 2px 7px rgba(15,23,42,0.04);
+}
 
-      vertical-align: middle;
-    }
+.metric-label {
+  margin: 0;
 
-    tbody tr:hover {
-      background: #f8fafc;
-    }
+  color: #64748b;
 
-    .serial {
-      width: 55px;
-      color: #64748b;
-    }
+  font-size: 15px;
 
-    .expert-name {
-      font-weight: 750;
-      color: #0f172a;
-    }
+  font-weight: 800;
 
-    .nwe-id {
-      margin-top: 3px;
+  text-transform: uppercase;
 
-      color: #94a3b8;
+  letter-spacing: 0.6px;
+}
 
-      font-size: 14px;
-    }
+.metric-value {
+  margin: 5px 0 0;
 
-    .expertise-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
+  font-size: 33px;
 
-    .expertise-tag {
-      display: inline-block;
+  line-height: 1.1;
 
-      padding: 5px 8px;
+  font-weight: 800;
+}
 
-      border: 1px solid #bfdbfe;
-      border-radius: 6px;
+.metric-icon {
+  width: 50px;
+  height: 50px;
 
-      background: #eff6ff;
-      color: #1d4ed8;
+  display: flex;
 
-      font-size: 13px;
-      line-height: 1.25;
-    }
+  align-items: center;
+  justify-content: center;
 
-    .status-pill {
-      display: inline-flex;
+  border-radius: 12px;
 
-      padding: 5px 10px;
+  font-size: 21px;
+}
 
-      border-radius: 999px;
+.metric-blue .metric-value {
+  color: #1e40af;
+}
 
-      background: #f1f5f9;
-      color: #475569;
+.metric-blue .metric-icon {
+  background: #eff6ff;
+  color: #2563eb;
+}
 
-      font-size: 14px;
-      font-weight: 700;
+.metric-green .metric-value {
+  color: #16a34a;
+}
 
-      white-space: nowrap;
-    }
+.metric-green .metric-icon {
+  background: #f0fdf4;
+  color: #16a34a;
+}
 
-    .status-active {
-      background: #dcfce7;
-      color: #15803d;
-    }
+.metric-purple .metric-value {
+  color: #7c3aed;
+}
 
-    .status-deployed {
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
+.metric-purple .metric-icon {
+  background: #faf5ff;
+  color: #7c3aed;
+}
 
-    .status-extended {
-      background: #f1f5f9;
-      color: #475569;
-    }
+.metric-orange .metric-value {
+  color: #ea580c;
+}
 
-    .visits {
-      text-align: center;
-      font-weight: 800;
-    }
+.metric-orange .metric-icon {
+  background: #fff7ed;
+  color: #ea580c;
+}
 
-    .action-button {
-      width: 36px;
-      height: 36px;
 
-      border: 0;
-      border-radius: 8px;
+/* =========================================================
+   TABLE
+   ========================================================= */
 
-      background: #eff6ff;
-      color: #2563eb;
+.table-card {
+  overflow: hidden;
+}
 
-      font-size: 16px;
-    }
+.table-header {
+  display: flex;
 
-    .action-button:hover {
-      background: #dbeafe;
-    }
+  align-items: center;
 
-    /* =========================================================
-       LOADING / ERROR / EMPTY
-       ========================================================= */
+  justify-content: space-between;
 
-    .loading-area,
-    .error-area,
-    .empty-area {
-      min-height: 220px;
+  gap: 16px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  padding: 18px 20px;
 
-      flex-direction: column;
+  background: #f8fafc;
 
-      gap: 12px;
+  border-bottom:
+    1px solid var(--border);
+}
 
-      padding: 35px;
+.table-title {
+  display: flex;
 
-      color: #64748b;
+  align-items: center;
 
-      text-align: center;
-    }
+  gap: 10px;
+}
 
-    .spinner {
-      width: 36px;
-      height: 36px;
+.table-title h2 {
+  margin: 0;
 
-      border: 3px solid #dbeafe;
-      border-top-color: #2563eb;
+  font-size: 20px;
 
-      border-radius: 50%;
+  font-weight: 800;
+}
 
-      animation: spin 0.8s linear infinite;
-    }
+.record-badge {
+  padding: 4px 10px;
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+  border-radius: 999px;
 
-    .error-area {
-      color: #b91c1c;
-      background: #fff7f7;
-    }
+  background: #e2e8f0;
 
-    .error-icon {
-      font-size: 28px;
-    }
+  color: #475569;
 
-    .retry-button {
-      padding: 8px 14px;
+  font-size: 14px;
 
-      border: 1px solid #fecaca;
-      border-radius: 8px;
+  font-weight: 700;
+}
 
-      background: white;
-      color: #b91c1c;
+.export-button {
+  display: inline-flex;
 
-      font-weight: 700;
-    }
+  align-items: center;
 
-    .retry-button:hover {
-      background: #fef2f2;
-    }
+  gap: 8px;
 
-    /* =========================================================
-       MODAL
-       ========================================================= */
+  padding: 9px 14px;
 
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
+  border:
+    1px solid #cbd5e1;
 
-      z-index: 1000;
+  border-radius: 9px;
 
-      display: none;
-      align-items: center;
-      justify-content: center;
+  background: white;
 
-      padding: 20px;
+  color: #334155;
 
-      background: rgba(15,23,42,0.55);
-    }
+  font-size: 15px;
 
-    .modal-overlay.show {
-      display: flex;
-    }
+  font-weight: 700;
+}
 
-    .modal {
-      width: min(700px, 100%);
+.export-button:hover {
+  border-color: #93c5fd;
 
-      max-height: 90vh;
+  color: var(--blue);
 
-      overflow-y: auto;
+  background: #f8fafc;
+}
 
-      background: white;
+.table-container {
+  width: 100%;
 
-      border-radius: 16px;
+  overflow-x: auto;
+}
 
-      box-shadow: 0 20px 60px rgba(15,23,42,0.25);
-    }
+table {
+  width: 100%;
 
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  border-collapse: collapse;
 
-      padding: 20px;
+  font-size: 16px;
+}
 
-      border-bottom: 1px solid var(--border);
-    }
+thead th {
+  padding: 14px 13px;
 
-    .modal-header h2 {
-      margin: 0;
+  background: #f8fafc;
 
-      font-size: 21px;
-    }
+  border-bottom:
+    1px solid var(--border);
 
-    .modal-close {
-      width: 36px;
-      height: 36px;
+  color: #475569;
 
-      border: 0;
-      border-radius: 8px;
+  font-size: 14px;
 
-      background: #f1f5f9;
+  font-weight: 800;
 
-      color: #475569;
+  text-align: left;
 
-      font-size: 18px;
-    }
+  text-transform: uppercase;
 
-    .modal-body {
-      padding: 20px;
-    }
+  letter-spacing: 0.5px;
 
-    .detail-grid {
-      display: grid;
+  white-space: nowrap;
+}
 
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+tbody td {
+  padding: 15px 13px;
 
-      gap: 16px;
-    }
+  border-bottom:
+    1px solid #eef2f7;
 
-    .detail-item {
-      padding: 13px;
+  vertical-align: middle;
+}
 
-      border-radius: 9px;
+tbody tr:hover {
+  background: #f8fafc;
+}
 
-      background: #f8fafc;
-    }
+.serial {
+  width: 55px;
 
-    .detail-label {
-      margin-bottom: 3px;
+  color: #64748b;
+}
 
-      color: #64748b;
+.nwe-cell {
+  min-width: 300px;
+}
 
-      font-size: 13px;
-      font-weight: 800;
+.nwe-name {
+  color: #0f172a;
 
-      text-transform: uppercase;
-    }
+  font-size: 17px;
 
-    .detail-value {
-      color: #0f172a;
+  font-weight: 800;
+}
 
-      font-size: 16px;
-      font-weight: 600;
-    }
+.nwe-id {
+  margin-top: 3px;
 
-    /* =========================================================
-       RESPONSIVE
-       ========================================================= */
+  color: #64748b;
 
-    @media (max-width: 1050px) {
+  font-size: 14px;
 
-      .filter-grid {
-        grid-template-columns:
-          repeat(2, minmax(0, 1fr));
-      }
+  font-weight: 600;
+}
 
-      .metrics {
-        grid-template-columns:
-          repeat(2, minmax(0, 1fr));
-      }
+.nwe-sector {
+  display: inline-block;
 
-      .header-inner {
-        align-items: flex-start;
-        flex-direction: column;
-      }
+  margin-top: 5px;
 
-      .live-badge {
-        align-self: flex-start;
-      }
-    }
+  padding: 4px 8px;
 
-    @media (max-width: 650px) {
+  border:
+    1px solid #bfdbfe;
 
-      html,
-      body {
-        font-size: 16px;
-      }
+  border-radius: 6px;
 
-      .page {
-        padding: 18px 12px 35px;
-      }
+  background: #eff6ff;
 
-      .header {
-        padding: 20px 15px;
-      }
+  color: #1d4ed8;
 
-      .brand-title {
-        font-size: 23px;
-      }
+  font-size: 14px;
 
-      .brand-subtitle {
-        font-size: 16px;
-      }
+  font-weight: 600;
+}
 
-      .filter-grid {
-        grid-template-columns: 1fr;
-      }
+.status-pill {
+  display: inline-flex;
 
-      .metrics {
-        grid-template-columns: 1fr;
-      }
+  padding: 5px 10px;
 
-      .filter-card {
-        padding: 18px;
-      }
+  border-radius: 999px;
 
-      .table-header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
+  background: #f1f5f9;
 
-      .detail-grid {
-        grid-template-columns: 1fr;
-      }
+  color: #475569;
 
-      .live-badge {
-        font-size: 14px;
-      }
-    }
-  </style>
+  font-size: 14px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.status-active {
+  background: #dcfce7;
+
+  color: #15803d;
+}
+
+.status-deployed {
+  background: #dbeafe;
+
+  color: #1d4ed8;
+}
+
+.status-extended {
+  background: #f1f5f9;
+
+  color: #475569;
+}
+
+.visits {
+  text-align: center;
+
+  font-weight: 800;
+}
+
+.action-button {
+  width: 36px;
+  height: 36px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  font-size: 16px;
+}
+
+.action-button:hover {
+  background: #dbeafe;
+}
+
+
+/* =========================================================
+   LOADING / ERROR
+   ========================================================= */
+
+.loading-area,
+.error-area,
+.empty-area {
+  min-height: 220px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+  padding: 35px;
+
+  color: #64748b;
+
+  text-align: center;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+
+  border:
+    3px solid #dbeafe;
+
+  border-top-color:
+    #2563eb;
+
+  border-radius: 50%;
+
+  animation:
+    spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+.error-area {
+  color: #b91c1c;
+
+  background: #fff7f7;
+}
+
+.retry-button {
+  padding: 8px 14px;
+
+  border:
+    1px solid #fecaca;
+
+  border-radius: 8px;
+
+  background: white;
+
+  color: #b91c1c;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+.pagination {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  padding: 18px;
+
+  border-top:
+    1px solid var(--border);
+
+  background: #f8fafc;
+
+  flex-wrap: wrap;
+}
+
+.page-button {
+  min-width: 38px;
+  height: 38px;
+
+  padding: 0 10px;
+
+  border:
+    1px solid #cbd5e1;
+
+  border-radius: 8px;
+
+  background: white;
+
+  color: #475569;
+
+  font-size: 15px;
+
+  font-weight: 700;
+}
+
+.page-button:hover {
+  border-color: #60a5fa;
+
+  background: #eff6ff;
+
+  color: #1d4ed8;
+}
+
+.page-button.active {
+  border-color: var(--blue);
+
+  background: var(--blue);
+
+  color: white;
+}
+
+.page-button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+.page-info {
+  margin: 0 10px;
+
+  color: #64748b;
+
+  font-size: 15px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    rgba(15,23,42,0.55);
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal {
+  width: min(700px, 100%);
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: white;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 20px 60px rgba(15,23,42,0.25);
+}
+
+.modal-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 20px;
+
+  border-bottom:
+    1px solid var(--border);
+}
+
+.modal-header h2 {
+  margin: 0;
+
+  font-size: 22px;
+}
+
+.modal-close {
+  width: 36px;
+  height: 36px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: #f1f5f9;
+
+  color: #475569;
+
+  font-size: 18px;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.detail-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+.detail-item {
+  padding: 13px;
+
+  border-radius: 9px;
+
+  background: #f8fafc;
+}
+
+.detail-label {
+  margin-bottom: 3px;
+
+  color: #64748b;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+.detail-value {
+  color: #0f172a;
+
+  font-size: 16px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+  .filter-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .metrics {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .header-inner {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .live-badge {
+    align-self: flex-start;
+  }
+
+}
+
+@media (max-width: 650px) {
+
+  .page {
+    padding:
+      18px 12px 35px;
+  }
+
+  .header {
+    padding:
+      20px 15px;
+  }
+
+  .brand-title {
+    font-size: 24px;
+  }
+
+  .brand-subtitle {
+    font-size: 17px;
+  }
+
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-card {
+    padding: 18px;
+  }
+
+  .table-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-  <!-- =======================================================
-       HEADER
-       ======================================================= -->
 
-  <header class="header">
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
 
-    <div class="header-inner">
+<header class="header">
 
-      <div class="brand">
+  <div class="header-inner">
 
-        <div class="brand-icon">
-          <i class="fa-solid fa-water"></i>
-        </div>
+    <div class="brand">
 
-        <div>
-
-          <h1 class="brand-title">
-            SPM NIWAS
-          </h1>
-
-          <div class="brand-subtitle">
-            National WASH Experts (NWEs) Dashboard
-          </div>
-
-        </div>
-
+      <div class="brand-icon">
+        <i class="fa-solid fa-water"></i>
       </div>
 
-      <div class="live-badge">
+      <div>
 
-        <span class="live-dot"></span>
+        <h1 class="brand-title">
+          SPM NIWAS
+        </h1>
 
-        <span>
-          Live Google Sheet Data
-        </span>
+        <div class="brand-subtitle">
+          National WASH Experts (NWEs) Dashboard
+        </div>
 
       </div>
 
     </div>
 
-  </header>
 
+    <div class="live-badge">
 
-  <!-- =======================================================
-       MAIN
-       ======================================================= -->
+      <span class="live-dot"></span>
 
-  <main class="page">
+      Live Google Sheet Data
 
+    </div>
 
-    <!-- =====================================================
-         FILTER CARD
-         ===================================================== -->
+  </div>
 
-    <section class="card filter-card">
+</header>
 
-      <div class="section-heading">
 
-        <div>
+<!-- =========================================================
+     MAIN PAGE
+     ========================================================= -->
 
-          <h2>
-            <i class="fa-solid fa-filter"></i>
-            Filters
-          </h2>
+<main class="page">
 
-          <p>
-            Filter the empanelled National WASH Experts.
-          </p>
 
-        </div>
+<!-- =========================================================
+     FILTERS
+     ========================================================= -->
 
-        <button
-          type="button"
-          class="reset-button"
-          id="resetFilters"
-        >
-          <i class="fa-solid fa-rotate-left"></i>
-          Reset
-        </button>
+<section class="card filter-card">
 
-      </div>
+  <div class="section-heading">
 
+    <div>
 
-      <div class="filter-grid">
+      <h2>
+        <i class="fa-solid fa-filter"></i>
+        Filters
+      </h2>
 
+      <p>
+        Filter the empanelled National WASH Experts.
+      </p>
 
-        <!-- SEARCH -->
+    </div>
 
-        <div class="filter-group">
 
-          <label for="searchInput">
-            Search
-          </label>
+    <button
+      type="button"
+      class="reset-button"
+      id="resetFilters"
+    >
 
-          <div class="input-wrapper">
+      <i class="fa-solid fa-rotate-left"></i>
 
-            <i class="fa-solid fa-magnifying-glass input-icon"></i>
+      Reset
 
-            <input
-              type="text"
-              id="searchInput"
-              class="input with-icon"
-              placeholder="Search name, NWE ID, expertise..."
-              autocomplete="off"
-            >
+    </button>
 
-          </div>
+  </div>
 
-        </div>
 
+  <div class="filter-grid">
 
-        <!-- STATE -->
 
-        <div class="filter-group">
+    <!-- SEARCH -->
 
-          <label for="stateFilter">
-            Native State
-          </label>
+    <div class="filter-group">
 
-          <select
-            id="stateFilter"
-            class="select"
-          >
+      <label for="searchInput">
+        Search
+      </label>
 
-            <option value="">
-              All States
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- STATUS -->
-
-        <div class="filter-group">
-
-          <label for="statusFilter">
-            Status
-          </label>
-
-          <select
-            id="statusFilter"
-            class="select"
-          >
-
-            <option value="">
-              All Statuses
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <!-- GENDER -->
-
-        <div class="filter-group">
-
-          <label for="genderFilter">
-            Gender
-          </label>
-
-          <select
-            id="genderFilter"
-            class="select"
-          >
-
-            <option value="">
-              All
-            </option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-
-      <!-- ===================================================
-           DEPLOYMENT MONTH
-           =================================================== -->
-
-      <div class="month-section">
-
-        <span class="filter-label">
-          Deployment Month
-        </span>
-
-        <div
-          id="monthFilterContainer"
-          class="month-buttons"
-        >
-
-          <button
-            type="button"
-            class="month-button active"
-            data-month="ALL"
-          >
-            All Months
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- ===================================================
-           EXPERTISE
-           =================================================== -->
-
-      <div class="expertise-section">
-
-        <div>
-
-          <span class="filter-label">
-            Expertise Area
-          </span>
-
-          <button
-            type="button"
-            id="clearExpertise"
-            class="clear-expertise"
-            style="display:none;"
-          >
-            Clear Expertise Filters
-          </button>
-
-        </div>
-
-        <div
-          id="expertiseContainer"
-          class="expertise-container"
-        >
-
-          <span style="color:#94a3b8;">
-            Loading expertise areas...
-          </span>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         METRICS
-         ===================================================== -->
-
-    <section class="metrics">
-
-
-      <div class="metric metric-blue">
-
-        <div>
-
-          <p class="metric-label">
-            Total NWEs Found
-          </p>
-
-          <div
-            id="metricTotal"
-            class="metric-value"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="metric-icon">
-          <i class="fa-solid fa-users"></i>
-        </div>
-
-      </div>
-
-
-      <div class="metric metric-green">
-
-        <div>
-
-          <p class="metric-label">
-            Active / Deployed
-          </p>
-
-          <div
-            id="metricActive"
-            class="metric-value"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="metric-icon">
-          <i class="fa-solid fa-user-check"></i>
-        </div>
-
-      </div>
-
-
-      <div class="metric metric-purple">
-
-        <div>
-
-          <p class="metric-label">
-            Visits Completed
-          </p>
-
-          <div
-            id="metricVisits"
-            class="metric-value"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="metric-icon">
-          <i class="fa-solid fa-route"></i>
-        </div>
-
-      </div>
-
-
-      <div class="metric metric-orange">
-
-        <div>
-
-          <p class="metric-label">
-            States Represented
-          </p>
-
-          <div
-            id="metricStates"
-            class="metric-value"
-          >
-            0
-          </div>
-
-        </div>
-
-        <div class="metric-icon">
-          <i class="fa-solid fa-map-location-dot"></i>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         TABLE
-         ===================================================== -->
-
-    <section class="card table-card">
-
-
-      <div class="table-header">
-
-        <div class="table-title">
-
-          <h2>
-            National WASH Experts
-          </h2>
-
-          <span
-            id="recordCountBadge"
-            class="record-badge"
-          >
-            0 records
-          </span>
-
-        </div>
-
-
-        <button
-          type="button"
-          id="exportCsvBtn"
-          class="export-button"
-        >
-
-          <i class="fa-solid fa-file-csv"></i>
-
-          Export CSV
-
-        </button>
-
-      </div>
-
-
-      <!-- LOADING -->
-
-      <div
-        id="loadingArea"
-        class="loading-area"
-      >
-
-        <div class="spinner"></div>
-
-        <div>
-          Loading NWE data...
-        </div>
-
-      </div>
-
-
-      <!-- ERROR -->
-
-      <div
-        id="errorArea"
-        class="error-area"
-        style="display:none;"
-      >
-
-        <div class="error-icon">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </div>
-
-        <strong>
-          Unable to load NWE data.
-        </strong>
-
-        <div id="errorMessage">
-          Please try again.
-        </div>
-
-        <button
-          type="button"
-          id="retryButton"
-          class="retry-button"
-        >
-          <i class="fa-solid fa-rotate-right"></i>
-          Retry
-        </button>
-
-      </div>
-
-
-      <!-- EMPTY -->
-
-      <div
-        id="emptyArea"
-        class="empty-area"
-        style="display:none;"
-      >
+      <div class="input-wrapper">
 
         <i
-          class="fa-solid fa-magnifying-glass"
-          style="font-size:28px;"
+          class="fa-solid fa-magnifying-glass input-icon"
         ></i>
 
-        <strong>
-          No NWEs found.
-        </strong>
-
-        <span>
-          Try changing the filters.
-        </span>
-
-      </div>
-
-
-      <!-- TABLE -->
-
-      <div
-        id="tableContainer"
-        class="table-container"
-        style="display:none;"
-      >
-
-        <table>
-
-          <thead>
-
-            <tr>
-
-              <th>
-                Sl.
-              </th>
-
-              <th>
-                National WASH Expert (NWE)
-              </th>
-
-              <th>
-                Native State
-              </th>
-
-              <th>
-                Expertise
-              </th>
-
-              <th>
-                Status
-              </th>
-
-              <th style="text-align:center;">
-                Total Visits
-              </th>
-
-              <th>
-                Last Month
-              </th>
-
-              <th>
-                Last State
-              </th>
-
-              <th style="text-align:right;">
-                Actions
-              </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody id="tableBody">
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <!-- =======================================================
-       DETAIL MODAL
-       ======================================================= -->
-
-  <div
-    id="detailModal"
-    class="modal-overlay"
-  >
-
-    <div class="modal">
-
-      <div class="modal-header">
-
-        <h2 id="modalTitle">
-          NWE Details
-        </h2>
-
-        <button
-          type="button"
-          id="closeModal"
-          class="modal-close"
+        <input
+          type="text"
+          id="searchInput"
+          class="input with-icon"
+          placeholder="Search name, NWE ID, sector..."
+          autocomplete="off"
         >
-          <i class="fa-solid fa-xmark"></i>
-        </button>
 
       </div>
 
-      <div
-        id="modalBody"
-        class="modal-body"
+    </div>
+
+
+    <!-- STATE -->
+
+    <div class="filter-group">
+
+      <label for="stateFilter">
+        Native State
+      </label>
+
+      <select
+        id="stateFilter"
+        class="select"
       >
-      </div>
+
+        <option value="">
+          All States
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div class="filter-group">
+
+      <label for="statusFilter">
+        Status
+      </label>
+
+      <select
+        id="statusFilter"
+        class="select"
+      >
+
+        <option value="">
+          All Statuses
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- GENDER -->
+
+    <div class="filter-group">
+
+      <label for="genderFilter">
+        Gender
+      </label>
+
+      <select
+        id="genderFilter"
+        class="select"
+      >
+
+        <option value="">
+          All
+        </option>
+
+      </select>
 
     </div>
 
@@ -1569,2195 +1369,3233 @@
 
 
   <!-- =======================================================
-       JAVASCRIPT
+       DEPLOYMENT MONTH
        ======================================================= -->
 
-  <script>
+  <div class="month-section">
 
-    /* =======================================================
-       GOOGLE SHEET
-       ======================================================= */
+    <span class="filter-label">
+      Deployment Month
+    </span>
 
-    const CSV_URL =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXbSW6CTlQ7fValLHtpYpHFOYn126Z4BAkdQfRNI3JgPVe_1tVV5RZRMk6ceRyhep5MAaXIppJBFjB/pub?output=csv";
+    <div
+      id="monthFilterContainer"
+      class="month-buttons"
+    >
 
+      <button
+        type="button"
+        class="month-button active"
+        data-month="ALL"
+      >
+        All Months
+      </button>
 
-    /* =======================================================
-       MONTH ORDER
-       
-       IMPORTANT:
-       "May 1" and "May 2" become "May".
-       "Jun1" and "Jun2" become "Jun".
-       ======================================================= */
+    </div>
 
-    const MONTH_ORDER = [
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-      "Jan",
-      "Feb",
-      "Mar"
-    ];
+  </div>
 
 
-    /* =======================================================
-       APPLICATION STATE
-       ======================================================= */
+  <!-- =======================================================
+       EXPERTISE / SECTOR
+       ======================================================= -->
 
-    let allData = [];
-    let filteredData = [];
+  <div class="expertise-section">
 
-    let selectedMonth = "ALL";
-    let selectedExpertise = new Set();
+    <div>
 
+      <span class="filter-label">
+        Sector / Expertise
+      </span>
 
-    /* =======================================================
-       DOM ELEMENTS
-       ======================================================= */
+      <button
+        type="button"
+        id="clearExpertise"
+        class="clear-expertise"
+        style="display:none;"
+      >
+        Clear Sector Filters
+      </button>
 
-    const searchInput =
-      document.getElementById("searchInput");
+    </div>
 
-    const stateFilter =
-      document.getElementById("stateFilter");
 
-    const statusFilter =
-      document.getElementById("statusFilter");
+    <div
+      id="expertiseContainer"
+      class="expertise-container"
+    >
 
-    const genderFilter =
-      document.getElementById("genderFilter");
+      <span style="color:#94a3b8;">
+        Loading sectors...
+      </span>
 
-    const monthFilterContainer =
-      document.getElementById("monthFilterContainer");
+    </div>
 
-    const expertiseContainer =
-      document.getElementById("expertiseContainer");
+  </div>
 
-    const clearExpertise =
-      document.getElementById("clearExpertise");
+</section>
 
-    const tableBody =
-      document.getElementById("tableBody");
 
-    const tableContainer =
-      document.getElementById("tableContainer");
+<!-- =========================================================
+     METRICS
+     ========================================================= -->
 
-    const loadingArea =
-      document.getElementById("loadingArea");
+<section class="metrics">
 
-    const errorArea =
-      document.getElementById("errorArea");
 
-    const emptyArea =
-      document.getElementById("emptyArea");
+  <div class="metric metric-blue">
 
-    const errorMessage =
-      document.getElementById("errorMessage");
+    <div>
 
-    const recordCountBadge =
-      document.getElementById("recordCountBadge");
+      <p class="metric-label">
+        Total NWEs Found
+      </p>
 
-    const metricTotal =
-      document.getElementById("metricTotal");
+      <div
+        id="metricTotal"
+        class="metric-value"
+      >
+        0
+      </div>
 
-    const metricActive =
-      document.getElementById("metricActive");
+    </div>
 
-    const metricVisits =
-      document.getElementById("metricVisits");
+    <div class="metric-icon">
+      <i class="fa-solid fa-users"></i>
+    </div>
 
-    const metricStates =
-      document.getElementById("metricStates");
+  </div>
 
 
-    /* =======================================================
-       UTILITY FUNCTIONS
-       ======================================================= */
+  <div class="metric metric-green">
 
-    function clean(value) {
+    <div>
 
-      if (
-        value === null ||
-        value === undefined
-      ) {
-        return "";
-      }
+      <p class="metric-label">
+        Active / Deployed
+      </p>
 
-      return String(value).trim();
+      <div
+        id="metricActive"
+        class="metric-value"
+      >
+        0
+      </div>
 
-    }
+    </div>
 
+    <div class="metric-icon">
+      <i class="fa-solid fa-user-check"></i>
+    </div>
 
-    function escapeHTML(value) {
+  </div>
 
-      return clean(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 
-    }
+  <div class="metric metric-purple">
 
+    <div>
 
-    /*
-      Converts:
+      <p class="metric-label">
+        Visits Completed
+      </p>
 
-      May
-      May 1
-      May 2
-      May1
-      May2
+      <div
+        id="metricVisits"
+        class="metric-value"
+      >
+        0
+      </div>
 
-      into:
+    </div>
 
-      May
-    */
+    <div class="metric-icon">
+      <i class="fa-solid fa-route"></i>
+    </div>
 
-    function normaliseMonth(value) {
+  </div>
 
-      let v = clean(value);
 
-      if (!v) {
-        return "";
-      }
+  <div class="metric metric-orange">
 
-      v = v
-        .replace(/\s+/g, "")
-        .toLowerCase();
+    <div>
 
-      const monthMap = {
-        apr: "Apr",
-        april: "Apr",
+      <p class="metric-label">
+        States Represented
+      </p>
 
-        may: "May",
-        may1: "May",
-        may2: "May",
+      <div
+        id="metricStates"
+        class="metric-value"
+      >
+        0
+      </div>
 
-        jun: "Jun",
-        june: "Jun",
-        jun1: "Jun",
-        jun2: "Jun",
+    </div>
 
-        jul: "Jul",
-        july: "Jul",
+    <div class="metric-icon">
+      <i class="fa-solid fa-map-location-dot"></i>
+    </div>
 
-        aug: "Aug",
-        august: "Aug",
+  </div>
 
-        sep: "Sep",
-        sept: "Sep",
-        september: "Sep",
+</section>
 
-        oct: "Oct",
-        october: "Oct",
 
-        nov: "Nov",
-        november: "Nov",
+<!-- =========================================================
+     DATA TABLE
+     ========================================================= -->
 
-        dec: "Dec",
-        december: "Dec",
+<section class="card table-card">
 
-        jan: "Jan",
-        january: "Jan",
 
-        feb: "Feb",
-        february: "Feb",
+  <div class="table-header">
 
-        mar: "Mar",
-        march: "Mar"
-      };
+    <div class="table-title">
 
-      return monthMap[v] || clean(value);
+      <h2>
+        National WASH Experts
+      </h2>
 
-    }
+      <span
+        id="recordCountBadge"
+        class="record-badge"
+      >
+        0 records
+      </span>
 
+    </div>
 
-    /*
-      Return deployment months for one NWE.
 
-      This deliberately consolidates:
-        May 1 + May 2 = May
+    <button
+      type="button"
+      id="exportCsvBtn"
+      class="export-button"
+    >
 
-      If both May 1 and May 2 are populated,
-      "May" occurs only once.
-    */
+      <i class="fa-solid fa-file-csv"></i>
 
-    function getDeploymentMonths(row) {
+      Export CSV
 
-      const months = new Set();
+    </button>
 
-      Object.keys(row).forEach(key => {
+  </div>
 
-        const normalKey =
-          clean(key).toLowerCase();
 
-        let matchedMonth = "";
+  <!-- LOADING -->
 
-        MONTH_ORDER.forEach(month => {
+  <div
+    id="loadingArea"
+    class="loading-area"
+  >
 
-          const lower =
-            month.toLowerCase();
+    <div class="spinner"></div>
 
-          if (
-            normalKey === lower ||
-            normalKey === lower + "1" ||
-            normalKey === lower + "2" ||
-            normalKey === lower + " 1" ||
-            normalKey === lower + " 2"
-          ) {
-            matchedMonth = month;
-          }
+    <div>
+      Loading NWE data...
+    </div>
 
-        });
+  </div>
 
-        if (
-          matchedMonth &&
-          clean(row[key]) !== ""
-        ) {
-          months.add(matchedMonth);
-        }
 
-      });
+  <!-- ERROR -->
 
-      return MONTH_ORDER.filter(
-        month => months.has(month)
-      );
+  <div
+    id="errorArea"
+    class="error-area"
+    style="display:none;"
+  >
 
-    }
+    <i
+      class="fa-solid fa-triangle-exclamation"
+      style="font-size:28px;"
+    ></i>
 
+    <strong>
+      Unable to load NWE data.
+    </strong>
 
-    /*
-      Last Month is always one month.
+    <div id="errorMessage">
+      Please try again.
+    </div>
 
-      If an NWE has:
-        May 1
-        May 2
+    <button
+      type="button"
+      id="retryButton"
+      class="retry-button"
+    >
 
-      the dashboard shows:
-        May
+      <i class="fa-solid fa-rotate-right"></i>
 
-      If an NWE has:
-        May
-        Jun
+      Retry
 
-      it shows:
-        Jun
+    </button>
 
-      based on the dashboard month order.
-    */
+  </div>
 
-    function getLastDeploymentMonth(row) {
 
-      const months =
-        getDeploymentMonths(row);
+  <!-- EMPTY -->
 
-      if (!months.length) {
-        return "";
-      }
+  <div
+    id="emptyArea"
+    class="empty-area"
+    style="display:none;"
+  >
 
-      return months[months.length - 1];
+    <i
+      class="fa-solid fa-magnifying-glass"
+      style="font-size:28px;"
+    ></i>
 
-    }
+    <strong>
+      No NWEs found.
+    </strong>
 
+    <span>
+      Try changing the filters.
+    </span>
 
-    /*
-      Determine total visits.
+  </div>
 
-      Uses "Total No. of Visits" from the sheet.
-    */
 
-    function getVisits(row) {
+  <!-- TABLE -->
 
-      const possibleKeys = [
-        "Total No. of Visits",
-        "Total Visits",
-        "Total no. of visits",
-        "Total No of Visits"
-      ];
+  <div
+    id="tableContainer"
+    class="table-container"
+    style="display:none;"
+  >
 
-      for (const key of possibleKeys) {
+    <table>
 
-        if (
-          Object.prototype.hasOwnProperty.call(
-            row,
-            key
-          )
-        ) {
-
-          const n =
-            Number(
-              clean(row[key]).replace(/,/g, "")
-            );
-
-          return Number.isFinite(n)
-            ? n
-            : 0;
-
-        }
-
-      }
-
-      return 0;
-
-    }
-
-
-    function getField(row, names) {
-
-      for (const name of names) {
-
-        if (
-          Object.prototype.hasOwnProperty.call(
-            row,
-            name
-          )
-        ) {
-
-          const value =
-            clean(row[name]);
-
-          if (value !== "") {
-            return value;
-          }
-
-        }
-
-      }
-
-      return "";
-
-    }
-
-
-    /*
-      Convert Status into a CSS class.
-    */
-
-    function statusClass(status) {
-
-      const s =
-        clean(status).toLowerCase();
-
-      if (
-        s.includes("active")
-      ) {
-        return "status-active";
-      }
-
-      if (
-        s.includes("deployed")
-      ) {
-        return "status-deployed";
-      }
-
-      if (
-        s.includes("extended")
-      ) {
-        return "status-extended";
-      }
-
-      return "";
-
-    }
-
-
-    /* =======================================================
-       CSV PARSER
-       
-       Native parser.
-       No PapaParse dependency.
-       ======================================================= */
-
-    function parseCSV(text) {
-
-      const rows = [];
-
-      let row = [];
-      let value = "";
-
-      let insideQuotes = false;
-
-      for (
-        let i = 0;
-        i < text.length;
-        i++
-      ) {
-
-        const char = text[i];
-        const next = text[i + 1];
-
-        if (char === '"') {
-
-          if (
-            insideQuotes &&
-            next === '"'
-          ) {
-
-            value += '"';
-            i++;
-
-          } else {
-
-            insideQuotes =
-              !insideQuotes;
-
-          }
-
-        }
-
-        else if (
-          char === "," &&
-          !insideQuotes
-        ) {
-
-          row.push(value);
-          value = "";
-
-        }
-
-        else if (
-          (char === "\n" || char === "\r") &&
-          !insideQuotes
-        ) {
-
-          if (
-            char === "\r" &&
-            next === "\n"
-          ) {
-            i++;
-          }
-
-          row.push(value);
-          value = "";
-
-          if (
-            row.some(
-              cell => clean(cell) !== ""
-            )
-          ) {
-            rows.push(row);
-          }
-
-          row = [];
-
-        }
-
-        else {
-
-          value += char;
-
-        }
-
-      }
-
-
-      if (
-        value !== "" ||
-        row.length
-      ) {
-
-        row.push(value);
-
-        if (
-          row.some(
-            cell => clean(cell) !== ""
-          )
-        ) {
-          rows.push(row);
-        }
-
-      }
-
-
-      if (!rows.length) {
-        return [];
-      }
-
-
-      const headers =
-        rows[0].map(
-          header => clean(header)
-        );
-
-
-      return rows
-        .slice(1)
-        .map(row => {
-
-          const obj = {};
-
-          headers.forEach(
-            (header, index) => {
-
-              obj[header] =
-                clean(row[index]);
-
-            }
-          );
-
-          return obj;
-
-        })
-        .filter(row => {
-
-          return Object.values(row)
-            .some(
-              value => clean(value) !== ""
-            );
-
-        });
-
-    }
-
-
-    /* =======================================================
-       FETCH GOOGLE SHEET
-       ======================================================= */
-
-    async function fetchGoogleSheet() {
-
-      /*
-        Cache-busting parameter prevents GitHub/browser
-        from displaying an old CSV.
-      */
-
-      const separator =
-        CSV_URL.includes("?")
-          ? "&"
-          : "?";
-
-      const url =
-        CSV_URL +
-        separator +
-        "_=" +
-        Date.now();
-
-
-      const controller =
-        new AbortController();
-
-      const timeout =
-        setTimeout(
-          () => controller.abort(),
-          20000
-        );
-
-
-      try {
-
-        const response =
-          await fetch(
-            url,
-            {
-              method: "GET",
-              mode: "cors",
-              cache: "no-store",
-              redirect: "follow",
-              signal: controller.signal
-            }
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            "Google Sheet returned HTTP " +
-            response.status
-          );
-
-        }
-
-
-        const text =
-          await response.text();
-
-
-        if (
-          !text ||
-          text.trim().length < 10
-        ) {
-
-          throw new Error(
-            "The Google Sheet returned empty data."
-          );
-
-        }
-
-
-        return text;
-
-      }
-
-      catch (error) {
-
-        if (
-          error.name === "AbortError"
-        ) {
-
-          throw new Error(
-            "The Google Sheet took too long to respond."
-          );
-
-        }
-
-        throw error;
-
-      }
-
-      finally {
-
-        clearTimeout(timeout);
-
-      }
-
-    }
-
-
-    /* =======================================================
-       NORMALISE DATA
-       ======================================================= */
-
-    function normaliseData(rows) {
-
-      return rows.map(
-        (row, index) => {
-
-          const deploymentMonths =
-            getDeploymentMonths(row);
-
-
-          const lastMonth =
-            getLastDeploymentMonth(row);
-
-
-          const name =
-            getField(
-              row,
-              [
-                "Name of The NWE",
-                "Name of the NWE",
-                "Name"
-              ]
-            );
-
-
-          const id =
-            getField(
-              row,
-              [
-                "NWE ID",
-                "NWEID",
-                "NWE Id"
-              ]
-            );
-
-
-          const state =
-            getField(
-              row,
-              [
-                "Native State",
-                "State"
-              ]
-            );
-
-
-          const gender =
-            getField(
-              row,
-              [
-                "Gender"
-              ]
-            );
-
-
-          const expertise =
-            getField(
-              row,
-              [
-                "Expertise",
-                "Expertise Area"
-              ]
-            );
-
-
-          const status =
-            getField(
-              row,
-              [
-                "Status"
-              ]
-            );
-
-
-          const lastState =
-            getField(
-              row,
-              [
-                "Last State"
-              ]
-            );
-
-
-          return {
-
-            ...row,
-
-            __index: index,
-
-            __name: name,
-
-            __id: id,
-
-            __state: state,
-
-            __gender: gender,
-
-            __expertise: expertise,
-
-            __status: status,
-
-            __lastState: lastState,
-
-            __visits: getVisits(row),
-
-            __months:
-              deploymentMonths,
-
-            __lastMonth:
-              lastMonth
-
-          };
-
-        }
-      );
-
-    }
-
-
-    /* =======================================================
-       POPULATE FILTERS
-       ======================================================= */
-
-    function populateFilters() {
-
-      const states =
-        uniqueSorted(
-          allData.map(
-            row => row.__state
-          )
-        );
-
-
-      const statuses =
-        uniqueSorted(
-          allData.map(
-            row => row.__status
-          )
-        );
-
-
-      const genders =
-        uniqueSorted(
-          allData.map(
-            row => row.__gender
-          )
-        );
-
-
-      fillSelect(
-        stateFilter,
-        states,
-        "All States"
-      );
-
-
-      fillSelect(
-        statusFilter,
-        statuses,
-        "All Statuses"
-      );
-
-
-      fillSelect(
-        genderFilter,
-        genders,
-        "All"
-      );
-
-
-      populateMonths();
-
-      populateExpertise();
-
-    }
-
-
-    function uniqueSorted(values) {
-
-      return [
-        ...new Set(
-          values
-            .map(clean)
-            .filter(Boolean)
-        )
-      ].sort(
-        (a,b) =>
-          a.localeCompare(
-            b,
-            undefined,
-            {
-              sensitivity: "base"
-            }
-          )
-      );
-
-    }
-
-
-    function fillSelect(
-      select,
-      values,
-      defaultText
-    ) {
-
-      select.innerHTML =
-        `<option value="">${defaultText}</option>`;
-
-
-      values.forEach(
-        value => {
-
-          const option =
-            document.createElement("option");
-
-          option.value = value;
-          option.textContent = value;
-
-          select.appendChild(option);
-
-        }
-      );
-
-    }
-
-
-    function populateMonths() {
-
-      monthFilterContainer.innerHTML = "";
-
-
-      const allButton =
-        document.createElement("button");
-
-      allButton.type = "button";
-
-      allButton.className =
-        "month-button active";
-
-      allButton.dataset.month =
-        "ALL";
-
-      allButton.textContent =
-        "All Months";
-
-
-      monthFilterContainer
-        .appendChild(allButton);
-
-
-      MONTH_ORDER.forEach(
-        month => {
-
-          const exists =
-            allData.some(
-              row =>
-                row.__months.includes(month)
-            );
-
-
-          if (!exists) {
-            return;
-          }
-
-
-          const button =
-            document.createElement("button");
-
-          button.type = "button";
-
-          button.className =
-            "month-button";
-
-          button.dataset.month =
-            month;
-
-          button.textContent =
-            month;
-
-
-          monthFilterContainer
-            .appendChild(button);
-
-        }
-      );
-
-    }
-
-
-    function populateExpertise() {
-
-      const values =
-        new Set();
-
-
-      allData.forEach(
-        row => {
-
-          splitExpertise(
-            row.__expertise
-          ).forEach(
-            item => values.add(item)
-          );
-
-        }
-      );
-
-
-      const expertise =
-        [...values].sort(
-          (a,b) =>
-            a.localeCompare(b)
-        );
-
-
-      if (!expertise.length) {
-
-        expertiseContainer.innerHTML =
-          `<span style="color:#94a3b8;">
-             No expertise data available.
-           </span>`;
-
-        return;
-
-      }
-
-
-      expertiseContainer.innerHTML =
-        "";
-
-
-      expertise.forEach(
-        (item, index) => {
-
-          const id =
-            "expertise_" +
-            index;
-
-
-          const wrapper =
-            document.createElement("div");
-
-
-          wrapper.innerHTML = `
-
-            <input
-              type="checkbox"
-              class="expertise-checkbox"
-              id="${id}"
-              value="${escapeHTML(item)}"
-            >
-
-            <label
-              class="expertise-label"
-              for="${id}"
-            >
-              ${escapeHTML(item)}
-            </label>
-
-          `;
-
-
-          const checkbox =
-            wrapper.querySelector(
-              "input"
-            );
-
-
-          checkbox.addEventListener(
-            "change",
-            () => {
-
-              if (checkbox.checked) {
-
-                selectedExpertise.add(
-                  item
-                );
-
-              } else {
-
-                selectedExpertise.delete(
-                  item
-                );
-
-              }
-
-
-              updateExpertiseButton();
-
-              applyFilters();
-
-            }
-          );
-
-
-          expertiseContainer
-            .appendChild(wrapper);
-
-        }
-      );
-
-    }
-
-
-    /*
-      Expertise may be separated by:
-        ,
-        ;
-        /
-        |
-    */
-
-    function splitExpertise(value) {
-
-      return clean(value)
-        .split(/[;,|\/]+/)
-        .map(item => clean(item))
-        .filter(Boolean);
-
-    }
-
-
-    function updateExpertiseButton() {
-
-      clearExpertise.style.display =
-        selectedExpertise.size
-          ? "inline-block"
-          : "none";
-
-    }
-
-
-    /* =======================================================
-       FILTERING
-       ======================================================= */
-
-    function applyFilters() {
-
-      const search =
-        clean(
-          searchInput.value
-        ).toLowerCase();
-
-
-      const state =
-        clean(
-          stateFilter.value
-        );
-
-
-      const status =
-        clean(
-          statusFilter.value
-        );
-
-
-      const gender =
-        clean(
-          genderFilter.value
-        );
-
-
-      filteredData =
-        allData.filter(
-          row => {
-
-
-            /* SEARCH */
-
-            if (search) {
-
-              const searchText =
-                [
-                  row.__name,
-                  row.__id,
-                  row.__state,
-                  row.__gender,
-                  row.__expertise,
-                  row.__status,
-                  row.__lastState
-                ]
-                .join(" ")
-                .toLowerCase();
-
-
-              if (
-                !searchText.includes(search)
-              ) {
-                return false;
-              }
-
-            }
-
-
-            /* STATE */
-
-            if (
-              state &&
-              row.__state !== state
-            ) {
-              return false;
-            }
-
-
-            /* STATUS */
-
-            if (
-              status &&
-              row.__status !== status
-            ) {
-              return false;
-            }
-
-
-            /* GENDER */
-
-            if (
-              gender &&
-              row.__gender !== gender
-            ) {
-              return false;
-            }
-
-
-            /* MONTH */
-
-            if (
-              selectedMonth !== "ALL" &&
-              !row.__months.includes(
-                selectedMonth
-              )
-            ) {
-              return false;
-            }
-
-
-            /* EXPERTISE */
-
-            if (
-              selectedExpertise.size
-            ) {
-
-              const rowExpertise =
-                splitExpertise(
-                  row.__expertise
-                );
-
-
-              const matches =
-                [...selectedExpertise]
-                  .some(
-                    selected =>
-                      rowExpertise.includes(
-                        selected
-                      )
-                  );
-
-
-              if (!matches) {
-                return false;
-              }
-
-            }
-
-
-            return true;
-
-          }
-        );
-
-
-      render();
-
-    }
-
-
-    /* =======================================================
-       RENDER
-       ======================================================= */
-
-    function render() {
-
-      updateMetrics();
-
-      renderTable();
-
-    }
-
-
-    function updateMetrics() {
-
-      metricTotal.textContent =
-        filteredData.length;
-
-
-      const activeCount =
-        filteredData.filter(
-          row => {
-
-            const status =
-              row.__status
-                .toLowerCase();
-
-            return (
-              status.includes("active") ||
-              status.includes("deployed")
-            );
-
-          }
-        ).length;
-
-
-      metricActive.textContent =
-        activeCount;
-
-
-      const totalVisits =
-        filteredData.reduce(
-          (sum, row) =>
-            sum + row.__visits,
-          0
-        );
-
-
-      metricVisits.textContent =
-        totalVisits;
-
-
-      const states =
-        new Set(
-          filteredData
-            .map(
-              row => row.__state
-            )
-            .filter(Boolean)
-        );
-
-
-      metricStates.textContent =
-        states.size;
-
-
-      recordCountBadge.textContent =
-        filteredData.length +
-        (
-          filteredData.length === 1
-            ? " record"
-            : " records"
-        );
-
-    }
-
-
-    function renderTable() {
-
-      if (!filteredData.length) {
-
-        tableContainer.style.display =
-          "none";
-
-        emptyArea.style.display =
-          "flex";
-
-        return;
-
-      }
-
-
-      emptyArea.style.display =
-        "none";
-
-      tableContainer.style.display =
-        "block";
-
-
-      tableBody.innerHTML =
-        filteredData
-          .map(
-            (row, index) =>
-              createTableRow(
-                row,
-                index
-              )
-          )
-          .join("");
-
-    }
-
-
-    function createTableRow(
-      row,
-      index
-    ) {
-
-      const expertise =
-        splitExpertise(
-          row.__expertise
-        );
-
-
-      const expertiseHTML =
-        expertise.length
-
-          ? `
-            <div class="expertise-list">
-
-              ${expertise
-                .map(
-                  item =>
-                    `<span class="expertise-tag">
-                       ${escapeHTML(item)}
-                     </span>`
-                )
-                .join("")
-              }
-
-            </div>
-          `
-
-          : "—";
-
-
-      const statusCSS =
-        statusClass(
-          row.__status
-        );
-
-
-      return `
+      <thead>
 
         <tr>
 
-          <td class="serial">
-            ${index + 1}
-          </td>
+          <th>
+            Sl.
+          </th>
 
+          <th>
+            National WASH Expert
+          </th>
 
-          <td>
+          <th>
+            Native State
+          </th>
 
-            <div class="expert-name">
-              ${escapeHTML(
-                row.__name || "—"
-              )}
-            </div>
+          <th>
+            Status
+          </th>
 
-            <div class="nwe-id">
-              ${escapeHTML(
-                row.__id || ""
-              )}
-            </div>
+          <th style="text-align:center;">
+            Total Visits
+          </th>
 
-          </td>
+          <th>
+            Last Month
+          </th>
 
+          <th>
+            Last State
+          </th>
 
-          <td>
-            ${escapeHTML(
-              row.__state || "—"
-            )}
-          </td>
-
-
-          <td>
-            ${expertiseHTML}
-          </td>
-
-
-          <td>
-
-            <span
-              class="status-pill ${statusCSS}"
-            >
-              ${escapeHTML(
-                row.__status || "—"
-              )}
-            </span>
-
-          </td>
-
-
-          <td class="visits">
-            ${row.__visits}
-          </td>
-
-
-          <td>
-            ${escapeHTML(
-              row.__lastMonth || "—"
-            )}
-          </td>
-
-
-          <td>
-            ${escapeHTML(
-              row.__lastState || "—"
-            )}
-          </td>
-
-
-          <td style="text-align:right;">
-
-            <button
-              type="button"
-              class="action-button"
-              title="View NWE details"
-              data-index="${row.__index}"
-            >
-
-              <i class="fa-solid fa-eye"></i>
-
-            </button>
-
-          </td>
+          <th style="text-align:right;">
+            Actions
+          </th>
 
         </tr>
 
-      `;
+      </thead>
 
-    }
+      <tbody id="tableBody">
+      </tbody>
 
+    </table>
 
-    /* =======================================================
-       LOADING STATES
-       ======================================================= */
-
-    function showLoading() {
-
-      loadingArea.style.display =
-        "flex";
-
-      errorArea.style.display =
-        "none";
-
-      emptyArea.style.display =
-        "none";
-
-      tableContainer.style.display =
-        "none";
-
-    }
+  </div>
 
 
-    function showError(message) {
+  <!-- PAGINATION -->
 
-      loadingArea.style.display =
-        "none";
-
-      errorArea.style.display =
-        "flex";
-
-      emptyArea.style.display =
-        "none";
-
-      tableContainer.style.display =
-        "none";
+  <div
+    id="pagination"
+    class="pagination"
+    style="display:none;"
+  >
+  </div>
 
 
-      errorMessage.textContent =
-        message;
+</section>
 
-    }
-
-
-    function showData() {
-
-      loadingArea.style.display =
-        "none";
-
-      errorArea.style.display =
-        "none";
-
-    }
+</main>
 
 
-    /* =======================================================
-       LOAD DATA
-       ======================================================= */
+<!-- =========================================================
+     DETAIL MODAL
+     ========================================================= -->
 
-    async function loadData() {
+<div
+  id="detailModal"
+  class="modal-overlay"
+>
 
-      showLoading();
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2 id="modalTitle">
+        NWE Details
+      </h2>
+
+      <button
+        type="button"
+        id="closeModal"
+        class="modal-close"
+      >
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+    </div>
 
 
-      try {
+    <div
+      id="modalBody"
+      class="modal-body"
+    >
+    </div>
 
-        const csv =
-          await fetchGoogleSheet();
+  </div>
+
+</div>
 
 
-        const rows =
-          parseCSV(csv);
+<script>
 
 
-        if (!rows.length) {
+/* =========================================================
+   GOOGLE SHEET URL
+   ========================================================= */
 
-          throw new Error(
-            "No records were found in the Google Sheet."
-          );
+const CSV_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRXbSW6CTlQ7fValLHtpYpHFOYn126Z4BAkdQfRNI3JgPVe_1tVV5RZRMk6ceRyhep5MAaXIppJBFjB/pub?output=csv";
 
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+const ITEMS_PER_PAGE = 20;
+
+let currentPage = 1;
+
+
+/* =========================================================
+   MONTH ORDER
+   ========================================================= */
+
+const MONTH_ORDER = [
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+  "Jan",
+  "Feb",
+  "Mar"
+];
+
+
+/* =========================================================
+   APPLICATION DATA
+   ========================================================= */
+
+let allData = [];
+
+let filteredData = [];
+
+let selectedMonth = "ALL";
+
+let selectedExpertise = new Set();
+
+
+/* =========================================================
+   DOM ELEMENTS
+   ========================================================= */
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const stateFilter =
+  document.getElementById("stateFilter");
+
+const statusFilter =
+  document.getElementById("statusFilter");
+
+const genderFilter =
+  document.getElementById("genderFilter");
+
+const monthFilterContainer =
+  document.getElementById(
+    "monthFilterContainer"
+  );
+
+const expertiseContainer =
+  document.getElementById(
+    "expertiseContainer"
+  );
+
+const clearExpertise =
+  document.getElementById(
+    "clearExpertise"
+  );
+
+const tableBody =
+  document.getElementById(
+    "tableBody"
+  );
+
+const tableContainer =
+  document.getElementById(
+    "tableContainer"
+  );
+
+const loadingArea =
+  document.getElementById(
+    "loadingArea"
+  );
+
+const errorArea =
+  document.getElementById(
+    "errorArea"
+  );
+
+const emptyArea =
+  document.getElementById(
+    "emptyArea"
+  );
+
+const errorMessage =
+  document.getElementById(
+    "errorMessage"
+  );
+
+const recordCountBadge =
+  document.getElementById(
+    "recordCountBadge"
+  );
+
+const pagination =
+  document.getElementById(
+    "pagination"
+  );
+
+const metricTotal =
+  document.getElementById(
+    "metricTotal"
+  );
+
+const metricActive =
+  document.getElementById(
+    "metricActive"
+  );
+
+const metricVisits =
+  document.getElementById(
+    "metricVisits"
+  );
+
+const metricStates =
+  document.getElementById(
+    "metricStates"
+  );
+
+
+/* =========================================================
+   BASIC HELPERS
+   ========================================================= */
+
+function clean(value) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+    return "";
+  }
+
+  return String(value).trim();
+
+}
+
+
+function escapeHTML(value) {
+
+  return clean(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function uniqueSorted(values) {
+
+  return [
+    ...new Set(
+      values
+        .map(clean)
+        .filter(Boolean)
+    )
+  ].sort(
+    (a,b) =>
+      a.localeCompare(
+        b,
+        undefined,
+        {
+          sensitivity: "base"
         }
+      )
+  );
+
+}
 
 
-        allData =
-          normaliseData(rows);
+/* =========================================================
+   FIELD FINDER
+   ========================================================= */
 
+function getField(row, names) {
 
-        populateFilters();
+  for (
+    const name of names
+  ) {
 
+    if (
+      Object.prototype.hasOwnProperty.call(
+        row,
+        name
+      )
+    ) {
 
-        selectedMonth =
-          "ALL";
+      const value =
+        clean(row[name]);
 
-        selectedExpertise.clear();
-
-
-        showData();
-
-
-        applyFilters();
-
+      if (value !== "") {
+        return value;
       }
 
-      catch (error) {
-
-        console.error(
-          "NWE Dashboard:",
-          error
-        );
-
-
-        showError(
-          error.message ||
-          "The Google Sheet could not be loaded."
-        );
-
-      }
-
     }
 
+  }
 
-    /* =======================================================
-       MONTH BUTTON EVENTS
-       ======================================================= */
+  return "";
 
-    monthFilterContainer
-      .addEventListener(
-        "click",
-        event => {
-
-          const button =
-            event.target.closest(
-              ".month-button"
-            );
+}
 
 
-          if (!button) {
-            return;
-          }
+/* =========================================================
+   MONTH NORMALISATION
+   =========================================================
+
+   IMPORTANT:
+
+   May
+   May 1
+   May 2
+   May1
+   May2
+
+   ALL become:
+
+   May
+
+   This means May 1 + May 2 are treated
+   as ONE dashboard month.
+   ========================================================= */
+
+function normaliseMonth(value) {
+
+  let v =
+    clean(value)
+      .toLowerCase()
+      .replace(/\s+/g, "");
+
+  const map = {
+
+    apr: "Apr",
+    april: "Apr",
+
+    may: "May",
+    may1: "May",
+    may2: "May",
+
+    jun: "Jun",
+    june: "Jun",
+    jun1: "Jun",
+    jun2: "Jun",
+
+    jul: "Jul",
+    july: "Jul",
+
+    aug: "Aug",
+    august: "Aug",
+
+    sep: "Sep",
+    sept: "Sep",
+    september: "Sep",
+
+    oct: "Oct",
+    october: "Oct",
+
+    nov: "Nov",
+    november: "Nov",
+
+    dec: "Dec",
+    december: "Dec",
+
+    jan: "Jan",
+    january: "Jan",
+
+    feb: "Feb",
+    february: "Feb",
+
+    mar: "Mar",
+    march: "Mar"
+
+  };
+
+  return map[v] || "";
+
+}
 
 
-          selectedMonth =
-            button.dataset.month;
+/* =========================================================
+   FIND MONTH FROM COLUMN HEADER
+   ========================================================= */
 
+function monthFromHeader(header) {
 
-          document
-            .querySelectorAll(
-              ".month-button"
-            )
-            .forEach(
-              item =>
-                item.classList.remove(
-                  "active"
-                )
-            );
+  const value =
+    clean(header);
 
+  /*
+    Handles:
 
-          button.classList.add(
-            "active"
-          );
+    May
+    May 1
+    May 2
+    May1
+    May2
 
+    etc.
+  */
 
-          applyFilters();
-
-        }
-      );
-
-
-    /* =======================================================
-       SEARCH / SELECT EVENTS
-       ======================================================= */
-
-    searchInput.addEventListener(
-      "input",
-      applyFilters
+  const match =
+    value.match(
+      /^(Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Jan|Feb|Mar)\s*(1|2)?$/i
     );
 
+  if (!match) {
+    return "";
+  }
 
-    stateFilter.addEventListener(
-      "change",
-      applyFilters
-    );
+  return normaliseMonth(
+    match[1]
+  );
 
-
-    statusFilter.addEventListener(
-      "change",
-      applyFilters
-    );
+}
 
 
-    genderFilter.addEventListener(
-      "change",
-      applyFilters
-    );
+/* =========================================================
+   GET DEPLOYMENT MONTHS
+   ========================================================= */
+
+function getDeploymentMonths(row) {
+
+  const months =
+    new Set();
 
 
-    /* =======================================================
-       RESET
-       ======================================================= */
+  Object.keys(row).forEach(
+    header => {
 
-    document
-      .getElementById("resetFilters")
-      .addEventListener(
-        "click",
-        () => {
+      const month =
+        monthFromHeader(header);
 
-          searchInput.value =
-            "";
-
-          stateFilter.value =
-            "";
-
-          statusFilter.value =
-            "";
-
-          genderFilter.value =
-            "";
-
-
-          selectedMonth =
-            "ALL";
-
-
-          selectedExpertise.clear();
-
-
-          document
-            .querySelectorAll(
-              ".expertise-checkbox"
-            )
-            .forEach(
-              checkbox =>
-                checkbox.checked =
-                  false
-            );
-
-
-          updateExpertiseButton();
-
-
-          document
-            .querySelectorAll(
-              ".month-button"
-            )
-            .forEach(
-              button =>
-                button.classList.toggle(
-                  "active",
-                  button.dataset.month ===
-                  "ALL"
-                )
-            );
-
-
-          applyFilters();
-
-        }
-      );
-
-
-    /* =======================================================
-       CLEAR EXPERTISE
-       ======================================================= */
-
-    clearExpertise.addEventListener(
-      "click",
-      () => {
-
-        selectedExpertise.clear();
-
-
-        document
-          .querySelectorAll(
-            ".expertise-checkbox"
-          )
-          .forEach(
-            checkbox =>
-              checkbox.checked =
-                false
-          );
-
-
-        updateExpertiseButton();
-
-        applyFilters();
-
+      if (!month) {
+        return;
       }
-    );
 
 
-    /* =======================================================
-       DETAIL MODAL
-       ======================================================= */
-
-    tableBody.addEventListener(
-      "click",
-      event => {
-
-        const button =
-          event.target.closest(
-            ".action-button"
-          );
-
-
-        if (!button) {
-          return;
-        }
-
-
-        const index =
-          Number(
-            button.dataset.index
-          );
-
-
-        const row =
-          allData.find(
-            item =>
-              item.__index === index
-          );
-
-
-        if (row) {
-          openModal(row);
-        }
-
-      }
-    );
-
-
-    function openModal(row) {
-
-      document.getElementById(
-        "modalTitle"
-      ).textContent =
-        row.__name ||
-        "NWE Details";
-
-
-      const expertise =
-        splitExpertise(
-          row.__expertise
-        ).join(", ");
-
-
-      const months =
-        row.__months.join(", ");
+      const value =
+        clean(row[header]);
 
 
       /*
-        Deliberately only public dashboard
-        information is displayed here.
+        A non-empty cell means that
+        deployment exists in that month.
+
+        May 1 and May 2 therefore both
+        add only "May" to the Set.
       */
 
-      document.getElementById(
-        "modalBody"
-      ).innerHTML = `
+      if (value !== "") {
 
-        <div class="detail-grid">
+        months.add(month);
 
+      }
 
-          <div class="detail-item">
-
-            <div class="detail-label">
-              NWE ID
-            </div>
-
-            <div class="detail-value">
-              ${escapeHTML(
-                row.__id || "—"
-              )}
-            </div>
-
-          </div>
+    }
+  );
 
 
-          <div class="detail-item">
+  return MONTH_ORDER.filter(
+    month =>
+      months.has(month)
+  );
 
-            <div class="detail-label">
-              Native State
-            </div>
-
-            <div class="detail-value">
-              ${escapeHTML(
-                row.__state || "—"
-              )}
-            </div>
-
-          </div>
+}
 
 
-          <div class="detail-item">
+/* =========================================================
+   LAST DEPLOYMENT MONTH
+   ========================================================= */
 
-            <div class="detail-label">
-              Gender
-            </div>
+function getLastDeploymentMonth(row) {
 
-            <div class="detail-value">
-              ${escapeHTML(
-                row.__gender || "—"
-              )}
-            </div>
+  const months =
+    getDeploymentMonths(row);
 
-          </div>
+  if (!months.length) {
+    return "";
+  }
 
+  return months[
+    months.length - 1
+  ];
 
-          <div class="detail-item">
-
-            <div class="detail-label">
-              Status
-            </div>
-
-            <div class="detail-value">
-              ${escapeHTML(
-                row.__status || "—"
-              )}
-            </div>
-
-          </div>
+}
 
 
-          <div class="detail-item">
+/* =========================================================
+   EXPERTISE / SECTOR
 
-            <div class="detail-label">
-              Expertise
-            </div>
+   IMPORTANT CHANGE:
 
-            <div class="detail-value">
-              ${escapeHTML(
-                expertise || "—"
-              )}
-            </div>
+   DO NOT split on "/"
 
-          </div>
+   Therefore:
 
+   Regional/ Bulk Water Supply Expert
 
-          <div class="detail-item">
+   remains ONE sector.
 
-            <div class="detail-label">
-              Total Visits
-            </div>
+   We only split where the sheet clearly uses
+   semicolon or pipe as a separator.
+   ========================================================= */
 
-            <div class="detail-value">
-              ${row.__visits}
-            </div>
+function splitExpertise(value) {
 
-          </div>
+  const text =
+    clean(value);
 
-
-          <div class="detail-item">
-
-            <div class="detail-label">
-              Deployment Months
-            </div>
-
-            <div class="detail-value">
-              ${escapeHTML(
-                months || "—"
-              )}
-            </div>
-
-          </div>
+  if (!text) {
+    return [];
+  }
 
 
-          <div class="detail-item">
+  return text
+    .split(/[;|]+/)
+    .map(
+      item => clean(item)
+    )
+    .filter(Boolean);
 
-            <div class="detail-label">
-              Last Month
-            </div>
-
-            <div class="detail-value">
-              ${escapeHTML(
-                row.__lastMonth || "—"
-              )}
-            </div>
-
-          </div>
+}
 
 
-          <div class="detail-item">
+/* =========================================================
+   VISITS
+   ========================================================= */
 
-            <div class="detail-label">
-              Last State
-            </div>
+function getVisits(row) {
 
-            <div class="detail-value">
-              ${escapeHTML(
-                row.__lastState || "—"
-              )}
-            </div>
+  const possibleKeys = [
 
-          </div>
+    "Total No. of Visits",
+    "Total Visits",
+    "Total no. of visits",
+    "Total No of Visits"
 
-
-        </div>
-
-      `;
+  ];
 
 
-      document
-        .getElementById(
-          "detailModal"
+  for (
+    const key of possibleKeys
+  ) {
+
+    if (
+      Object.prototype.hasOwnProperty.call(
+        row,
+        key
+      )
+    ) {
+
+      const n =
+        Number(
+          clean(row[key])
+            .replace(/,/g, "")
+        );
+
+
+      if (
+        Number.isFinite(n)
+      ) {
+
+        return n;
+
+      }
+
+    }
+
+  }
+
+
+  return 0;
+
+}
+
+
+/* =========================================================
+   CSV PARSER
+   ========================================================= */
+
+function parseCSV(text) {
+
+  const rows = [];
+
+  let row = [];
+
+  let value = "";
+
+  let insideQuotes = false;
+
+
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
+
+    const char =
+      text[i];
+
+    const next =
+      text[i + 1];
+
+
+    if (
+      char === '"'
+    ) {
+
+      if (
+        insideQuotes &&
+        next === '"'
+      ) {
+
+        value += '"';
+
+        i++;
+
+      } else {
+
+        insideQuotes =
+          !insideQuotes;
+
+      }
+
+    }
+
+    else if (
+      char === "," &&
+      !insideQuotes
+    ) {
+
+      row.push(value);
+
+      value = "";
+
+    }
+
+    else if (
+      (
+        char === "\n" ||
+        char === "\r"
+      ) &&
+      !insideQuotes
+    ) {
+
+      if (
+        char === "\r" &&
+        next === "\n"
+      ) {
+        i++;
+      }
+
+
+      row.push(value);
+
+      value = "";
+
+
+      if (
+        row.some(
+          cell =>
+            clean(cell) !== ""
         )
-        .classList.add("show");
+      ) {
+
+        rows.push(row);
+
+      }
+
+
+      row = [];
+
+    }
+
+    else {
+
+      value += char;
+
+    }
+
+  }
+
+
+  if (
+    value !== "" ||
+    row.length
+  ) {
+
+    row.push(value);
+
+    if (
+      row.some(
+        cell =>
+          clean(cell) !== ""
+      )
+    ) {
+
+      rows.push(row);
+
+    }
+
+  }
+
+
+  if (!rows.length) {
+    return [];
+  }
+
+
+  const headers =
+    rows[0].map(
+      header =>
+        clean(header)
+    );
+
+
+  return rows
+    .slice(1)
+    .map(
+      row => {
+
+        const obj = {};
+
+
+        headers.forEach(
+          (
+            header,
+            index
+          ) => {
+
+            obj[header] =
+              clean(
+                row[index]
+              );
+
+          }
+        );
+
+
+        return obj;
+
+      }
+    )
+    .filter(
+      row =>
+        Object.values(row)
+          .some(
+            value =>
+              clean(value) !== ""
+          )
+    );
+
+}
+
+
+/* =========================================================
+   NORMALISE DATA
+   ========================================================= */
+
+function normaliseData(rows) {
+
+  return rows.map(
+    (
+      row,
+      index
+    ) => {
+
+      const deploymentMonths =
+        getDeploymentMonths(row);
+
+
+      return {
+
+        ...row,
+
+        __index:
+          index,
+
+        __name:
+          getField(
+            row,
+            [
+              "Name of The NWE",
+              "Name of the NWE",
+              "Name"
+            ]
+          ),
+
+        __id:
+          getField(
+            row,
+            [
+              "NWE ID",
+              "NWEID",
+              "NWE Id"
+            ]
+          ),
+
+        __state:
+          getField(
+            row,
+            [
+              "Native State",
+              "State"
+            ]
+          ),
+
+        __gender:
+          getField(
+            row,
+            [
+              "Gender"
+            ]
+          ),
+
+        __expertise:
+          getField(
+            row,
+            [
+              "Expertise",
+              "Expertise Area"
+            ]
+          ),
+
+        __status:
+          getField(
+            row,
+            [
+              "Status"
+            ]
+          ),
+
+        __lastState:
+          getField(
+            row,
+            [
+              "Last State"
+            ]
+          ),
+
+        __visits:
+          getVisits(row),
+
+        __months:
+          deploymentMonths,
+
+        __lastMonth:
+          deploymentMonths.length
+            ? deploymentMonths[
+                deploymentMonths.length - 1
+              ]
+            : ""
+
+      };
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   FETCH GOOGLE SHEET
+   ========================================================= */
+
+async function fetchGoogleSheet() {
+
+  const separator =
+    CSV_URL.includes("?")
+      ? "&"
+      : "?";
+
+
+  const url =
+    CSV_URL +
+    separator +
+    "_=" +
+    Date.now();
+
+
+  const controller =
+    new AbortController();
+
+
+  const timeout =
+    setTimeout(
+      () =>
+        controller.abort(),
+      20000
+    );
+
+
+  try {
+
+    const response =
+      await fetch(
+        url,
+        {
+          method: "GET",
+          mode: "cors",
+          cache: "no-store",
+          redirect: "follow",
+          signal:
+            controller.signal
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Google Sheet returned HTTP " +
+        response.status
+      );
 
     }
 
 
-    document
-      .getElementById("closeModal")
-      .addEventListener(
-        "click",
-        closeModal
+    const text =
+      await response.text();
+
+
+    if (
+      !text ||
+      text.trim().length < 10
+    ) {
+
+      throw new Error(
+        "The Google Sheet returned empty data."
+      );
+
+    }
+
+
+    return text;
+
+  }
+
+  catch (error) {
+
+    if (
+      error.name ===
+      "AbortError"
+    ) {
+
+      throw new Error(
+        "The Google Sheet took too long to respond."
+      );
+
+    }
+
+
+    throw error;
+
+  }
+
+  finally {
+
+    clearTimeout(timeout);
+
+  }
+
+}
+
+
+/* =========================================================
+   POPULATE SELECT FILTERS
+   ========================================================= */
+
+function populateFilters() {
+
+  const states =
+    uniqueSorted(
+      allData.map(
+        row => row.__state
+      )
+    );
+
+
+  const statuses =
+    uniqueSorted(
+      allData.map(
+        row => row.__status
+      )
+    );
+
+
+  const genders =
+    uniqueSorted(
+      allData.map(
+        row => row.__gender
+      )
+    );
+
+
+  fillSelect(
+    stateFilter,
+    states,
+    "All States"
+  );
+
+
+  fillSelect(
+    statusFilter,
+    statuses,
+    "All Statuses"
+  );
+
+
+  fillSelect(
+    genderFilter,
+    genders,
+    "All"
+  );
+
+
+  populateMonths();
+
+  populateExpertise();
+
+}
+
+
+function fillSelect(
+  select,
+  values,
+  defaultText
+) {
+
+  select.innerHTML =
+    "";
+
+
+  const defaultOption =
+    document.createElement(
+      "option"
+    );
+
+
+  defaultOption.value =
+    "";
+
+  defaultOption.textContent =
+    defaultText;
+
+
+  select.appendChild(
+    defaultOption
+  );
+
+
+  values.forEach(
+    value => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        value;
+
+      option.textContent =
+        value;
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   POPULATE MONTH BUTTONS
+   ========================================================= */
+
+function populateMonths() {
+
+  monthFilterContainer.innerHTML =
+    "";
+
+
+  const allButton =
+    document.createElement(
+      "button"
+    );
+
+
+  allButton.type =
+    "button";
+
+  allButton.className =
+    "month-button active";
+
+  allButton.dataset.month =
+    "ALL";
+
+  allButton.textContent =
+    "All Months";
+
+
+  monthFilterContainer
+    .appendChild(
+      allButton
+    );
+
+
+  MONTH_ORDER.forEach(
+    month => {
+
+      const exists =
+        allData.some(
+          row =>
+            row.__months.includes(
+              month
+            )
+        );
+
+
+      if (!exists) {
+        return;
+      }
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.type =
+        "button";
+
+      button.className =
+        "month-button";
+
+      button.dataset.month =
+        month;
+
+      button.textContent =
+        month;
+
+
+      monthFilterContainer
+        .appendChild(
+          button
+        );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   POPULATE SECTORS
+   ========================================================= */
+
+function populateExpertise() {
+
+  const values =
+    new Set();
+
+
+  allData.forEach(
+    row => {
+
+      splitExpertise(
+        row.__expertise
+      ).forEach(
+        item =>
+          values.add(item)
+      );
+
+    }
+  );
+
+
+  const expertise =
+    [...values].sort(
+      (a,b) =>
+        a.localeCompare(b)
+    );
+
+
+  expertiseContainer.innerHTML =
+    "";
+
+
+  expertise.forEach(
+    (
+      item,
+      index
+    ) => {
+
+      const id =
+        "sector_" +
+        index;
+
+
+      const wrapper =
+        document.createElement(
+          "div"
+        );
+
+
+      wrapper.innerHTML = `
+
+        <input
+          type="checkbox"
+          class="expertise-checkbox"
+          id="${id}"
+          value="${escapeHTML(item)}"
+        >
+
+        <label
+          class="expertise-label"
+          for="${id}"
+        >
+          ${escapeHTML(item)}
+        </label>
+
+      `;
+
+
+      const checkbox =
+        wrapper.querySelector(
+          "input"
+        );
+
+
+      checkbox.addEventListener(
+        "change",
+        () => {
+
+          if (
+            checkbox.checked
+          ) {
+
+            selectedExpertise.add(
+              item
+            );
+
+          }
+
+          else {
+
+            selectedExpertise.delete(
+              item
+            );
+
+          }
+
+
+          clearExpertise.style.display =
+            selectedExpertise.size
+              ? "inline-block"
+              : "none";
+
+
+          currentPage =
+            1;
+
+
+          applyFilters();
+
+        }
       );
 
 
-    document
-      .getElementById("detailModal")
-      .addEventListener(
-        "click",
-        event => {
+      expertiseContainer
+        .appendChild(
+          wrapper
+        );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   APPLY FILTERS
+   ========================================================= */
+
+function applyFilters() {
+
+  const search =
+    clean(
+      searchInput.value
+    ).toLowerCase();
+
+
+  const state =
+    clean(
+      stateFilter.value
+    );
+
+
+  const status =
+    clean(
+      statusFilter.value
+    );
+
+
+  const gender =
+    clean(
+      genderFilter.value
+    );
+
+
+  filteredData =
+    allData.filter(
+      row => {
+
+
+        /* SEARCH */
+
+        if (search) {
+
+          const searchText =
+            [
+              row.__name,
+              row.__id,
+              row.__state,
+              row.__gender,
+              row.__expertise,
+              row.__status,
+              row.__lastState
+            ]
+            .join(" ")
+            .toLowerCase();
+
 
           if (
-            event.target.id ===
-            "detailModal"
+            !searchText.includes(
+              search
+            )
           ) {
 
-            closeModal();
+            return false;
 
           }
 
         }
-      );
 
 
-    document.addEventListener(
-      "keydown",
-      event => {
+        /* STATE */
 
         if (
-          event.key === "Escape"
+          state &&
+          row.__state !== state
         ) {
 
-          closeModal();
+          return false;
 
         }
+
+
+        /* STATUS */
+
+        if (
+          status &&
+          row.__status !== status
+        ) {
+
+          return false;
+
+        }
+
+
+        /* GENDER */
+
+        if (
+          gender &&
+          row.__gender !== gender
+        ) {
+
+          return false;
+
+        }
+
+
+        /* MONTH */
+
+        if (
+          selectedMonth !== "ALL"
+        ) {
+
+          /*
+            This is the important fix.
+
+            The row stores:
+
+              May 1 -> May
+              May 2 -> May
+
+            Therefore:
+
+              selectedMonth = May
+
+            correctly matches either
+            May 1 or May 2.
+          */
+
+          if (
+            !row.__months.includes(
+              selectedMonth
+            )
+          ) {
+
+            return false;
+
+          }
+
+        }
+
+
+        /* SECTOR */
+
+        if (
+          selectedExpertise.size
+        ) {
+
+          const rowExpertise =
+            splitExpertise(
+              row.__expertise
+            );
+
+
+          const matches =
+            [...selectedExpertise]
+              .some(
+                selected =>
+                  rowExpertise.includes(
+                    selected
+                  )
+              );
+
+
+          if (!matches) {
+
+            return false;
+
+          }
+
+        }
+
+
+        return true;
 
       }
     );
 
 
-    function closeModal() {
+  /*
+    Always return to page 1 when
+    a filter changes.
+  */
 
-      document
-        .getElementById(
-          "detailModal"
+  currentPage = 1;
+
+
+  render();
+
+}
+
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+
+function render() {
+
+  updateMetrics();
+
+  renderTable();
+
+  renderPagination();
+
+}
+
+
+/* =========================================================
+   METRICS
+   ========================================================= */
+
+function updateMetrics() {
+
+  metricTotal.textContent =
+    filteredData.length;
+
+
+  const activeCount =
+    filteredData.filter(
+      row => {
+
+        const status =
+          row.__status
+            .toLowerCase();
+
+
+        return (
+          status.includes("active") ||
+          status.includes("deployed")
+        );
+
+      }
+    ).length;
+
+
+  metricActive.textContent =
+    activeCount;
+
+
+  const totalVisits =
+    filteredData.reduce(
+      (
+        sum,
+        row
+      ) =>
+        sum +
+        row.__visits,
+      0
+    );
+
+
+  metricVisits.textContent =
+    totalVisits;
+
+
+  const states =
+    new Set(
+      filteredData
+        .map(
+          row =>
+            row.__state
         )
-        .classList.remove("show");
+        .filter(Boolean)
+    );
+
+
+  metricStates.textContent =
+    states.size;
+
+
+  recordCountBadge.textContent =
+    filteredData.length +
+    (
+      filteredData.length === 1
+        ? " record"
+        : " records"
+    );
+
+}
+
+
+/* =========================================================
+   TABLE RENDERING
+   ========================================================= */
+
+function renderTable() {
+
+  if (
+    !filteredData.length
+  ) {
+
+    tableContainer.style.display =
+      "none";
+
+    emptyArea.style.display =
+      "flex";
+
+    return;
+
+  }
+
+
+  emptyArea.style.display =
+    "none";
+
+  tableContainer.style.display =
+    "block";
+
+
+  /*
+    Only 20 records are rendered.
+  */
+
+  const start =
+    (
+      currentPage - 1
+    ) *
+    ITEMS_PER_PAGE;
+
+
+  const end =
+    start +
+    ITEMS_PER_PAGE;
+
+
+  const pageData =
+    filteredData.slice(
+      start,
+      end
+    );
+
+
+  tableBody.innerHTML =
+    pageData
+      .map(
+        (
+          row,
+          index
+        ) =>
+          createTableRow(
+            row,
+            start + index
+          )
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   TABLE ROW
+   ========================================================= */
+
+function createTableRow(
+  row,
+  displayIndex
+) {
+
+  const status =
+    clean(
+      row.__status
+    );
+
+
+  const statusLower =
+    status.toLowerCase();
+
+
+  let statusClass = "";
+
+
+  if (
+    statusLower.includes(
+      "active"
+    )
+  ) {
+
+    statusClass =
+      "status-active";
+
+  }
+
+  else if (
+    statusLower.includes(
+      "deployed"
+    )
+  ) {
+
+    statusClass =
+      "status-deployed";
+
+  }
+
+  else if (
+    statusLower.includes(
+      "extended"
+    )
+  ) {
+
+    statusClass =
+      "status-extended";
+
+  }
+
+
+  /*
+    The NWE name, NWE ID and Sector
+    are now deliberately shown as ONE
+    combined field.
+  */
+
+  const sector =
+    row.__expertise ||
+    "—";
+
+
+  return `
+
+    <tr>
+
+      <td class="serial">
+        ${displayIndex + 1}
+      </td>
+
+
+      <td class="nwe-cell">
+
+        <div class="nwe-name">
+          ${escapeHTML(
+            row.__name ||
+            "—"
+          )}
+        </div>
+
+        <div class="nwe-id">
+          ${escapeHTML(
+            row.__id ||
+            ""
+          )}
+        </div>
+
+        <div class="nwe-sector">
+          ${escapeHTML(
+            sector
+          )}
+        </div>
+
+      </td>
+
+
+      <td>
+        ${escapeHTML(
+          row.__state ||
+          "—"
+        )}
+      </td>
+
+
+      <td>
+
+        <span
+          class="status-pill ${statusClass}"
+        >
+          ${escapeHTML(
+            status ||
+            "—"
+          )}
+        </span>
+
+      </td>
+
+
+      <td class="visits">
+        ${row.__visits}
+      </td>
+
+
+      <td>
+        ${escapeHTML(
+          row.__lastMonth ||
+          "—"
+        )}
+      </td>
+
+
+      <td>
+        ${escapeHTML(
+          row.__lastState ||
+          "—"
+        )}
+      </td>
+
+
+      <td style="text-align:right;">
+
+        <button
+          type="button"
+          class="action-button"
+          title="View NWE details"
+          data-index="${row.__index}"
+        >
+
+          <i class="fa-solid fa-eye"></i>
+
+        </button>
+
+      </td>
+
+    </tr>
+
+  `;
+
+}
+
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+function renderPagination() {
+
+  const totalPages =
+    Math.ceil(
+      filteredData.length /
+      ITEMS_PER_PAGE
+    );
+
+
+  if (
+    totalPages <= 1
+  ) {
+
+    pagination.style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  pagination.style.display =
+    "flex";
+
+
+  let html = "";
+
+
+  /* PREVIOUS */
+
+  html += `
+
+    <button
+      type="button"
+      class="page-button"
+      data-page="prev"
+      ${currentPage === 1 ? "disabled" : ""}
+    >
+      <i class="fa-solid fa-chevron-left"></i>
+      Prev
+    </button>
+
+  `;
+
+
+  /*
+    Page numbers.
+
+    For a large number of pages we avoid
+    displaying an excessively long row.
+  */
+
+  const pages =
+    getPageNumbers(
+      currentPage,
+      totalPages
+    );
+
+
+  pages.forEach(
+    page => {
+
+      if (
+        page === "..."
+      ) {
+
+        html += `
+
+          <span class="page-info">
+            ...
+          </span>
+
+        `;
+
+        return;
+
+      }
+
+
+      html += `
+
+        <button
+          type="button"
+          class="page-button ${
+            page === currentPage
+              ? "active"
+              : ""
+          }"
+          data-page="${page}"
+        >
+          ${page}
+        </button>
+
+      `;
+
+    }
+  );
+
+
+  /* NEXT */
+
+  html += `
+
+    <button
+      type="button"
+      class="page-button"
+      data-page="next"
+      ${
+        currentPage === totalPages
+          ? "disabled"
+          : ""
+      }
+    >
+      Next
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+  `;
+
+
+  pagination.innerHTML =
+    html;
+
+}
+
+
+/* =========================================================
+   PAGE NUMBER LOGIC
+   ========================================================= */
+
+function getPageNumbers(
+  current,
+  total
+) {
+
+  if (
+    total <= 7
+  ) {
+
+    return Array.from(
+      {
+        length: total
+      },
+      (
+        _,
+        index
+      ) =>
+        index + 1
+    );
+
+  }
+
+
+  const pages = [];
+
+
+  pages.push(1);
+
+
+  if (
+    current > 4
+  ) {
+
+    pages.push("...");
+
+  }
+
+
+  const start =
+    Math.max(
+      2,
+      current - 1
+    );
+
+
+  const end =
+    Math.min(
+      total - 1,
+      current + 1
+    );
+
+
+  for (
+    let i = start;
+    i <= end;
+    i++
+  ) {
+
+    pages.push(i);
+
+  }
+
+
+  if (
+    current < total - 3
+  ) {
+
+    pages.push("...");
+
+  }
+
+
+  pages.push(total);
+
+
+  return pages;
+
+}
+
+
+/* =========================================================
+   PAGINATION CLICK
+   ========================================================= */
+
+pagination.addEventListener(
+  "click",
+  event => {
+
+    const button =
+      event.target.closest(
+        ".page-button"
+      );
+
+
+    if (!button) {
+      return;
+    }
+
+
+    const action =
+      button.dataset.page;
+
+
+    const totalPages =
+      Math.ceil(
+        filteredData.length /
+        ITEMS_PER_PAGE
+      );
+
+
+    if (
+      action === "prev"
+    ) {
+
+      if (
+        currentPage > 1
+      ) {
+
+        currentPage--;
+
+      }
+
+    }
+
+    else if (
+      action === "next"
+    ) {
+
+      if (
+        currentPage <
+        totalPages
+      ) {
+
+        currentPage++;
+
+      }
+
+    }
+
+    else {
+
+      currentPage =
+        Number(action);
 
     }
 
 
-    /* =======================================================
-       EXPORT CSV
-       
-       Exports only public dashboard fields.
-       ======================================================= */
+    render();
+
+
+    /*
+      Scroll the table back to
+      the top after changing page.
+    */
 
     document
-      .getElementById("exportCsvBtn")
-      .addEventListener(
-        "click",
-        () => {
+      .querySelector(
+        ".table-card"
+      )
+      .scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
 
-          if (!filteredData.length) {
-            return;
-          }
-
-
-          const headers = [
-
-            "Sl.",
-            "NWE ID",
-            "Name of The NWE",
-            "Native State",
-            "Gender",
-            "Expertise",
-            "Status",
-            "Deployment Months",
-            "Total No. of Visits",
-            "Last Month",
-            "Last State"
-
-          ];
+  }
+);
 
 
-          const csvRows =
-            [headers];
+/* =========================================================
+   MONTH FILTER CLICK
+   ========================================================= */
+
+monthFilterContainer.addEventListener(
+  "click",
+  event => {
+
+    const button =
+      event.target.closest(
+        ".month-button"
+      );
 
 
-          filteredData.forEach(
-            (row, index) => {
-
-              csvRows.push([
-
-                index + 1,
-
-                row.__id,
-
-                row.__name,
-
-                row.__state,
-
-                row.__gender,
-
-                row.__expertise,
-
-                row.__status,
-
-                row.__months.join(", "),
-
-                row.__visits,
-
-                row.__lastMonth,
-
-                row.__lastState
-
-              ]);
-
-            }
-          );
+    if (!button) {
+      return;
+    }
 
 
-          const csv =
-            csvRows
-              .map(
-                row =>
-                  row.map(
-                    value =>
-                      `"${String(
-                        value ?? ""
-                      ).replace(
-                        /"/g,
-                        '""'
-                      )}"`
-                  ).join(",")
-              )
-              .join("\r\n");
+    /*
+      This is the actual filter value.
+    */
+
+    selectedMonth =
+      button.dataset.month;
 
 
-          const blob =
-            new Blob(
-              [csv],
-              {
-                type:
-                  "text/csv;charset=utf-8;"
-              }
-            );
+    /*
+      Visually mark selected month.
+    */
+
+    document
+      .querySelectorAll(
+        ".month-button"
+      )
+      .forEach(
+        item =>
+          item.classList.remove(
+            "active"
+          )
+      );
 
 
-          const url =
-            URL.createObjectURL(
-              blob
-            );
+    button.classList.add(
+      "active"
+    );
 
 
-          const link =
-            document.createElement(
-              "a"
-            );
+    /*
+      Re-run the complete filter.
+    */
+
+    currentPage = 1;
+
+    applyFilters();
+
+  }
+);
 
 
-          link.href =
-            url;
+/* =========================================================
+   SEARCH / SELECT EVENTS
+   ========================================================= */
 
-          link.download =
-            "SPM-NIWAS-NWE-Dashboard.csv";
+searchInput.addEventListener(
+  "input",
+  () => {
 
+    currentPage = 1;
 
-          document.body.appendChild(
-            link
-          );
+    applyFilters();
 
-
-          link.click();
-
-
-          link.remove();
+  }
+);
 
 
-          URL.revokeObjectURL(
-            url
-          );
+stateFilter.addEventListener(
+  "change",
+  () => {
+
+    currentPage = 1;
+
+    applyFilters();
+
+  }
+);
+
+
+statusFilter.addEventListener(
+  "change",
+  () => {
+
+    currentPage = 1;
+
+    applyFilters();
+
+  }
+);
+
+
+genderFilter.addEventListener(
+  "change",
+  () => {
+
+    currentPage = 1;
+
+    applyFilters();
+
+  }
+);
+
+
+/* =========================================================
+   RESET FILTERS
+   ========================================================= */
+
+document
+  .getElementById(
+    "resetFilters"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      searchInput.value =
+        "";
+
+      stateFilter.value =
+        "";
+
+      statusFilter.value =
+        "";
+
+      genderFilter.value =
+        "";
+
+
+      selectedMonth =
+        "ALL";
+
+
+      selectedExpertise.clear();
+
+
+      document
+        .querySelectorAll(
+          ".expertise-checkbox"
+        )
+        .forEach(
+          checkbox =>
+            checkbox.checked =
+              false
+        );
+
+
+      clearExpertise.style.display =
+        "none";
+
+
+      document
+        .querySelectorAll(
+          ".month-button"
+        )
+        .forEach(
+          button =>
+            button.classList.toggle(
+              "active",
+              button.dataset.month ===
+              "ALL"
+            )
+        );
+
+
+      currentPage = 1;
+
+
+      applyFilters();
+
+    }
+  );
+
+
+/* =========================================================
+   CLEAR SECTOR FILTER
+   ========================================================= */
+
+clearExpertise.addEventListener(
+  "click",
+  () => {
+
+    selectedExpertise.clear();
+
+
+    document
+      .querySelectorAll(
+        ".expertise-checkbox"
+      )
+      .forEach(
+        checkbox =>
+          checkbox.checked =
+            false
+      );
+
+
+    clearExpertise.style.display =
+      "none";
+
+
+    currentPage = 1;
+
+
+    applyFilters();
+
+  }
+);
+
+
+/* =========================================================
+   DETAIL MODAL
+   ========================================================= */
+
+tableBody.addEventListener(
+  "click",
+  event => {
+
+    const button =
+      event.target.closest(
+        ".action-button"
+      );
+
+
+    if (!button) {
+      return;
+    }
+
+
+    const index =
+      Number(
+        button.dataset.index
+      );
+
+
+    const row =
+      allData.find(
+        item =>
+          item.__index === index
+      );
+
+
+    if (row) {
+
+      openModal(row);
+
+    }
+
+  }
+);
+
+
+function openModal(row) {
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    row.__name ||
+    "NWE Details";
+
+
+  const months =
+    row.__months.join(
+      ", "
+    );
+
+
+  document.getElementById(
+    "modalBody"
+  ).innerHTML = `
+
+    <div class="detail-grid">
+
+
+      <div class="detail-item">
+
+        <div class="detail-label">
+          NWE ID
+        </div>
+
+        <div class="detail-value">
+          ${escapeHTML(
+            row.__id ||
+            "—"
+          )}
+        </div>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <div class="detail-label">
+          Native State
+        </div>
+
+        <div class="detail-value">
+          ${escapeHTML(
+            row.__state ||
+            "—"
+          )}
+        </div>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <div class="detail-label">
+          Gender
+        </div>
+
+        <div class="detail-value">
+          ${escapeHTML(
+            row.__gender ||
+            "—"
+          )}
+        </div>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <div class="detail-label">
+          Status
+        </div>
+
+        <div class="detail-value">
+          ${escapeHTML(
+            row.__status ||
+            "—"
+          )}
+        </div>
+
+      </div>
+
+
+      <div
+        class="detail-item"
+        style="grid-column:1/-1;"
+      >
+
+        <div class="detail-label">
+          Sector
+        </div>
+
+        <div class="detail-value">
+          ${escapeHTML(
+            row.__expertise ||
+            "—"
+          )}
+        </div>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <div class="detail-label">
+          Total Visits
+        </div>
+
+        <div class="detail-value">
+          ${row.__visits}
+        </div>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <div class="detail-label">
+          Deployment Months
+        </div>
+
+        <div class="detail-value">
+          ${escapeHTML(
+            months ||
+            "—"
+          )}
+        </div>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <div class="detail-label">
+          Last Month
+        </div>
+
+        <div class="detail-value">
+          ${escapeHTML(
+            row.__lastMonth ||
+            "—"
+          )}
+        </div>
+
+      </div>
+
+
+      <div class="detail-item">
+
+        <div class="detail-label">
+          Last State
+        </div>
+
+        <div class="detail-value">
+          ${escapeHTML(
+            row.__lastState ||
+            "—"
+          )}
+        </div>
+
+      </div>
+
+
+    </div>
+
+  `;
+
+
+  document
+    .getElementById(
+      "detailModal"
+    )
+    .classList.add(
+      "show"
+    );
+
+}
+
+
+document
+  .getElementById(
+    "closeModal"
+  )
+  .addEventListener(
+    "click",
+    closeModal
+  );
+
+
+document
+  .getElementById(
+    "detailModal"
+  )
+  .addEventListener(
+    "click",
+    event => {
+
+      if (
+        event.target.id ===
+        "detailModal"
+      ) {
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key ===
+      "Escape"
+    ) {
+
+      closeModal();
+
+    }
+
+  }
+);
+
+
+function closeModal() {
+
+  document
+    .getElementById(
+      "detailModal"
+    )
+    .classList.remove(
+      "show"
+    );
+
+}
+
+
+/* =========================================================
+   EXPORT CSV
+   ========================================================= */
+
+document
+  .getElementById(
+    "exportCsvBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      if (
+        !filteredData.length
+      ) {
+        return;
+      }
+
+
+      const headers = [
+
+        "Sl.",
+        "NWE ID",
+        "Name of The NWE",
+        "Native State",
+        "Gender",
+        "Sector",
+        "Status",
+        "Deployment Months",
+        "Total No. of Visits",
+        "Last Month",
+        "Last State"
+
+      ];
+
+
+      const rows =
+        [headers];
+
+
+      filteredData.forEach(
+        (
+          row,
+          index
+        ) => {
+
+          rows.push([
+
+            index + 1,
+
+            row.__id,
+
+            row.__name,
+
+            row.__state,
+
+            row.__gender,
+
+            row.__expertise,
+
+            row.__status,
+
+            row.__months.join(
+              ", "
+            ),
+
+            row.__visits,
+
+            row.__lastMonth,
+
+            row.__lastState
+
+          ]);
 
         }
       );
 
 
-    /* =======================================================
-       RETRY
-       ======================================================= */
+      const csv =
+        rows
+          .map(
+            row =>
+              row
+                .map(
+                  value =>
+                    `"${String(
+                      value ?? ""
+                    ).replace(
+                      /"/g,
+                      '""'
+                    )}"`
+                )
+                .join(",")
+          )
+          .join("\r\n");
 
-    document
-      .getElementById("retryButton")
-      .addEventListener(
-        "click",
-        loadData
+
+      const blob =
+        new Blob(
+          [csv],
+          {
+            type:
+              "text/csv;charset=utf-8;"
+          }
+        );
+
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      const link =
+        document.createElement(
+          "a"
+        );
+
+
+      link.href =
+        url;
+
+      link.download =
+        "SPM-NIWAS-NWE-Dashboard.csv";
+
+
+      document.body.appendChild(
+        link
       );
 
 
-    /* =======================================================
-       START APPLICATION
-       ======================================================= */
+      link.click();
 
-    loadData();
 
-  </script>
+      link.remove();
+
+
+      URL.revokeObjectURL(
+        url
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   LOADING STATES
+   ========================================================= */
+
+function showLoading() {
+
+  loadingArea.style.display =
+    "flex";
+
+  errorArea.style.display =
+    "none";
+
+  emptyArea.style.display =
+    "none";
+
+  tableContainer.style.display =
+    "none";
+
+  pagination.style.display =
+    "none";
+
+}
+
+
+function showError(message) {
+
+  loadingArea.style.display =
+    "none";
+
+  errorArea.style.display =
+    "flex";
+
+  emptyArea.style.display =
+    "none";
+
+  tableContainer.style.display =
+    "none";
+
+  pagination.style.display =
+    "none";
+
+
+  errorMessage.textContent =
+    message;
+
+}
+
+
+function showData() {
+
+  loadingArea.style.display =
+    "none";
+
+  errorArea.style.display =
+    "none";
+
+}
+
+
+/* =========================================================
+   RETRY
+   ========================================================= */
+
+document
+  .getElementById(
+    "retryButton"
+  )
+  .addEventListener(
+    "click",
+    loadData
+  );
+
+
+/* =========================================================
+   LOAD DATA
+   ========================================================= */
+
+async function loadData() {
+
+  showLoading();
+
+
+  try {
+
+    const csv =
+      await fetchGoogleSheet();
+
+
+    const rows =
+      parseCSV(csv);
+
+
+    if (!rows.length) {
+
+      throw new Error(
+        "No records were found in the Google Sheet."
+      );
+
+    }
+
+
+    allData =
+      normaliseData(
+        rows
+      );
+
+
+    populateFilters();
+
+
+    selectedMonth =
+      "ALL";
+
+
+    selectedExpertise.clear();
+
+
+    currentPage =
+      1;
+
+
+    showData();
+
+
+    applyFilters();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "NWE Dashboard:",
+      error
+    );
+
+
+    showError(
+      error.message ||
+      "The Google Sheet could not be loaded."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+loadData();
+
+</script>
 
 </body>
 </html>
