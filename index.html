@@ -1,1925 +1,4565 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>SPM NIWAS - National WASH Experts (NWEs) Dashboard</title>
+<title>SPM NIWAS - National WASH Experts Dashboard</title>
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<style>
 
-  <!-- PapaParse -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+/* =========================================================
+   BASE
+   ========================================================= */
 
-  <!-- Font Awesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  />
+:root {
+    --blue: #2563eb;
+    --blue-dark: #1e3a8a;
+    --blue-light: #eff6ff;
 
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fb;
-    }
+    --green: #059669;
+    --green-light: #ecfdf5;
 
-    .header-gradient {
-      background: linear-gradient(135deg, #0f4c81 0%, #1769aa 50%, #2196c9 100%);
-    }
+    --indigo: #4f46e5;
+    --indigo-light: #eef2ff;
 
-    .metric-card {
-      transition: all 0.2s ease;
-    }
+    --amber: #d97706;
+    --amber-light: #fffbeb;
 
-    .metric-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    }
+    --slate-900: #0f172a;
+    --slate-800: #1e293b;
+    --slate-700: #334155;
+    --slate-600: #475569;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
 
-    .table-container {
-      overflow-x: auto;
-    }
+    --white: #ffffff;
 
-    table {
-      min-width: 1100px;
-    }
+    --shadow-sm:
+        0 1px 2px rgba(15, 23, 42, 0.05);
 
-    th {
-      white-space: nowrap;
-    }
+    --shadow-md:
+        0 4px 12px rgba(15, 23, 42, 0.08);
 
-    td {
-      vertical-align: middle;
-    }
+    --radius: 14px;
+}
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 9px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
 
-    .loading-spinner {
-      border: 3px solid #e5e7eb;
-      border-top: 3px solid #1769aa;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      animation: spin 0.8s linear infinite;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    @keyframes spin {
-      100% {
+
+html {
+    font-size: 15px;
+}
+
+
+body {
+    margin: 0;
+    background: #f4f6f9;
+    color: var(--slate-800);
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+    background:
+        linear-gradient(
+            135deg,
+            #1d4ed8 0%,
+            #1e40af 52%,
+            #1e3a8a 100%
+        );
+
+    color: white;
+    padding: 22px 20px;
+    box-shadow:
+        0 3px 12px rgba(15, 23, 42, 0.15);
+}
+
+
+.header-inner {
+    max-width: 1280px;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+
+.logo {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+
+    font-size: 23px;
+}
+
+
+.brand-title {
+    margin: 0;
+
+    font-size: 27px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+
+.brand-subtitle {
+    margin-top: 5px;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    color: #dbeafe;
+}
+
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 13px;
+
+    border-radius: 999px;
+
+    background: rgba(15,23,42,0.35);
+    border: 1px solid rgba(147,197,253,0.35);
+
+    color: #dbeafe;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+.live-dot {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: #34d399;
+
+    box-shadow:
+        0 0 0 3px rgba(52,211,153,0.12);
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.page {
+    max-width: 1280px;
+
+    margin: auto;
+
+    padding:
+        25px 20px 40px;
+}
+
+
+/* =========================================================
+   FILTER CARD
+   ========================================================= */
+
+.card {
+    background: white;
+
+    border:
+        1px solid rgba(226,232,240,0.9);
+
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+.filters {
+    padding: 20px;
+
+    margin-bottom: 22px;
+}
+
+
+.filter-grid {
+    display: grid;
+
+    grid-template-columns:
+        2fr
+        1fr
+        1fr
+        1fr;
+
+    gap: 15px;
+}
+
+
+.filter-group label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--slate-500);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+
+.search-wrap {
+    position: relative;
+}
+
+
+.search-icon {
+    position: absolute;
+
+    left: 13px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: var(--slate-400);
+
+    font-size: 15px;
+
+    pointer-events: none;
+}
+
+
+input,
+select {
+    width: 100%;
+
+    height: 40px;
+
+    border:
+        1px solid var(--slate-300);
+
+    border-radius: 9px;
+
+    background: var(--slate-50);
+
+    color: var(--slate-800);
+
+    font-family: inherit;
+    font-size: 13px;
+
+    outline: none;
+
+    transition:
+        border-color .15s,
+        box-shadow .15s,
+        background .15s;
+}
+
+
+input {
+    padding:
+        0 12px 0 36px;
+}
+
+
+select {
+    padding:
+        0 35px 0 12px;
+
+    cursor: pointer;
+}
+
+
+input:focus,
+select:focus {
+    border-color: var(--blue);
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px rgba(37,99,235,0.10);
+}
+
+
+/* =========================================================
+   FILTER SECTIONS
+   ========================================================= */
+
+.filter-section {
+    margin-top: 19px;
+
+    padding-top: 16px;
+
+    border-top:
+        1px solid var(--slate-100);
+}
+
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 9px;
+}
+
+
+.section-label {
+    color: var(--slate-500);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+
+.reset-btn,
+.clear-btn {
+    border: 0;
+    background: transparent;
+
+    color: var(--blue);
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.reset-btn:hover,
+.clear-btn:hover {
+    text-decoration: underline;
+}
+
+
+.month-list {
+    display: flex;
+
+    gap: 6px;
+
+    overflow-x: auto;
+
+    padding-bottom: 4px;
+}
+
+
+.month-btn {
+    flex: 0 0 auto;
+
+    border:
+        1px solid var(--slate-300);
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: var(--slate-600);
+
+    padding:
+        7px 12px;
+
+    font-family: inherit;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background .15s,
+        color .15s,
+        border .15s;
+}
+
+
+.month-btn:hover {
+    border-color: #93c5fd;
+}
+
+
+.month-btn.active {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+}
+
+
+.expertise-list {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+
+.expertise-option {
+    position: relative;
+}
+
+
+.expertise-option input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+.expertise-option label {
+    display: block;
+
+    padding:
+        6px 10px;
+
+    border:
+        1px solid var(--slate-300);
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: var(--slate-600);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all .15s;
+}
+
+
+.expertise-option label:hover {
+    border-color: #93c5fd;
+}
+
+
+.expertise-option input:checked + label {
+    background: var(--blue-light);
+
+    border-color: var(--blue);
+
+    color: var(--blue-dark);
+}
+
+
+.expertise-more {
+    color: var(--slate-400);
+
+    font-size: 11px;
+
+    padding: 7px 3px;
+}
+
+
+/* =========================================================
+   METRICS
+   ========================================================= */
+
+.metrics {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+
+.metric {
+    background: white;
+
+    border:
+        1px solid rgba(226,232,240,0.9);
+
+    border-radius: var(--radius);
+
+    padding: 17px;
+
+    box-shadow: var(--shadow-sm);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+
+.metric-label {
+    color: var(--slate-400);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.7px;
+
+    text-transform: uppercase;
+}
+
+
+.metric-value {
+    margin-top: 4px;
+
+    font-size: 29px;
+    line-height: 1;
+
+    font-weight: 800;
+
+    color: var(--slate-800);
+}
+
+
+.metric-icon {
+    width: 46px;
+    height: 46px;
+
+    border-radius: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+.metric-blue .metric-icon {
+    color: var(--blue);
+    background: var(--blue-light);
+}
+
+
+.metric-green .metric-icon {
+    color: var(--green);
+    background: var(--green-light);
+}
+
+
+.metric-indigo .metric-icon {
+    color: var(--indigo);
+    background: var(--indigo-light);
+}
+
+
+.metric-amber .metric-icon {
+    color: var(--amber);
+    background: var(--amber-light);
+}
+
+
+.metric-green .metric-value {
+    color: var(--green);
+}
+
+
+.metric-indigo .metric-value {
+    color: var(--indigo);
+}
+
+
+.metric-amber .metric-value {
+    color: var(--amber);
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.table-card {
+    overflow: hidden;
+}
+
+
+.table-header {
+    min-height: 67px;
+
+    padding:
+        14px 18px;
+
+    background: rgba(248,250,252,0.75);
+
+    border-bottom:
+        1px solid var(--slate-200);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+
+.table-title-wrap {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+.table-title {
+    margin: 0;
+
+    color: var(--slate-700);
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 0.7px;
+
+    text-transform: uppercase;
+}
+
+
+.record-count {
+    padding:
+        3px 8px;
+
+    border-radius: 999px;
+
+    background: var(--slate-200);
+
+    color: var(--slate-700);
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+
+.header-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+
+.action-button {
+    height: 34px;
+
+    padding:
+        0 12px;
+
+    border-radius: 8px;
+
+    border:
+        1px solid var(--slate-300);
+
+    background: white;
+
+    color: var(--slate-700);
+
+    font-family: inherit;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all .15s;
+}
+
+
+.action-button:hover {
+    background: var(--slate-50);
+
+    border-color:
+        #93c5fd;
+
+    color: var(--blue);
+}
+
+
+.table-scroll {
+    overflow-x: auto;
+
+    min-height: 180px;
+}
+
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 1000px;
+}
+
+
+thead {
+    background: var(--slate-100);
+}
+
+
+th {
+    padding:
+        11px 13px;
+
+    color: var(--slate-600);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.6px;
+
+    text-align: left;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    border-bottom:
+        1px solid var(--slate-200);
+}
+
+
+th:first-child,
+td:first-child {
+    padding-left: 18px;
+}
+
+
+th:last-child,
+td:last-child {
+    padding-right: 18px;
+}
+
+
+td {
+    padding:
+        11px 13px;
+
+    border-bottom:
+        1px solid var(--slate-100);
+
+    color: var(--slate-700);
+
+    font-size: 12px;
+
+    vertical-align: middle;
+}
+
+
+tbody tr:hover {
+    background: #f8fbff;
+}
+
+
+.nwe-name {
+    color: var(--slate-800);
+
+    font-weight: 700;
+}
+
+
+.nwe-id {
+    margin-top: 3px;
+
+    color: var(--slate-400);
+
+    font-size: 10px;
+}
+
+
+.expertise-tags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 4px;
+
+    max-width: 280px;
+}
+
+
+.tag {
+    display: inline-block;
+
+    padding:
+        4px 7px;
+
+    border-radius: 5px;
+
+    background: var(--blue-light);
+
+    border:
+        1px solid #dbeafe;
+
+    color: #155e91;
+
+    font-size: 9px;
+    font-weight: 600;
+}
+
+
+.status {
+    display: inline-block;
+
+    padding:
+        5px 8px;
+
+    border-radius: 999px;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+.status-active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+
+.status-deployed {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+
+.status-extended {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+
+.status-other {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+
+.view-button {
+    width: 31px;
+    height: 31px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: var(--blue-light);
+
+    color: var(--blue);
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+.view-button:hover {
+    background: #dbeafe;
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.loading-area {
+    min-height: 230px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    color: var(--slate-500);
+
+    font-size: 12px;
+}
+
+
+.spinner {
+    width: 31px;
+    height: 31px;
+
+    border:
+        3px solid var(--slate-200);
+
+    border-top-color:
+        var(--blue);
+
+    border-radius: 50%;
+
+    animation:
+        spin .7s linear infinite;
+}
+
+
+@keyframes spin {
+    to {
         transform: rotate(360deg);
-      }
+    }
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.error-area {
+    min-height: 230px;
+
+    padding: 40px 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.error-icon {
+    font-size: 32px;
+
+    color: #dc2626;
+
+    margin-bottom: 10px;
+}
+
+
+.error-title {
+    font-size: 14px;
+
+    font-weight: 800;
+
+    color: var(--slate-800);
+}
+
+
+.error-message {
+    max-width: 650px;
+
+    margin-top: 6px;
+
+    color: var(--slate-500);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-area {
+    min-height: 230px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: var(--slate-400);
+}
+
+
+.empty-icon {
+    font-size: 32px;
+
+    margin-bottom: 10px;
+}
+
+
+.empty-title {
+    color: var(--slate-700);
+
+    font-weight: 700;
+
+    font-size: 13px;
+}
+
+
+.empty-text {
+    margin-top: 4px;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   LAST UPDATED
+   ========================================================= */
+
+.footer-info {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        11px 18px;
+
+    color: var(--slate-400);
+
+    font-size: 10px;
+
+    border-top:
+        1px solid var(--slate-100);
+}
+
+
+.refresh-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal-backdrop {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(15,23,42,0.55);
+
+    backdrop-filter:
+        blur(3px);
+}
+
+
+.modal {
+    width: 100%;
+
+    max-width: 650px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: white;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 25px 60px rgba(15,23,42,0.25);
+}
+
+
+.modal-header {
+    padding:
+        17px 20px;
+
+    border-bottom:
+        1px solid var(--slate-200);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+
+.modal-title {
+    margin: 0;
+
+    color: var(--slate-800);
+
+    font-size: 17px;
+
+    font-weight: 800;
+}
+
+
+.modal-subtitle {
+    margin-top: 3px;
+
+    color: var(--slate-400);
+
+    font-size: 10px;
+}
+
+
+.close-button {
+    width: 32px;
+    height: 32px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: var(--slate-100);
+
+    color: var(--slate-600);
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+
+.close-button:hover {
+    background: var(--slate-200);
+}
+
+
+.modal-body {
+    padding: 20px;
+}
+
+
+.detail-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 11px;
+}
+
+
+.detail-box {
+    padding: 12px;
+
+    background: var(--slate-50);
+
+    border:
+        1px solid var(--slate-100);
+
+    border-radius: 9px;
+}
+
+
+.detail-label {
+    color: var(--slate-400);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: .5px;
+}
+
+
+.detail-value {
+    margin-top: 4px;
+
+    color: var(--slate-800);
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.modal-section {
+    margin-top: 18px;
+}
+
+
+.modal-section-title {
+    margin-bottom: 7px;
+
+    color: var(--slate-500);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: .6px;
+}
+
+
+.deployment-box {
+    padding: 12px;
+
+    background: var(--slate-50);
+
+    border-radius: 9px;
+
+    color: var(--slate-700);
+
+    font-size: 11px;
+
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+    .filter-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
-    .expertise-tag {
-      display: inline-block;
-      margin: 2px;
-      padding: 3px 7px;
-      border-radius: 5px;
-      background: #eef6fc;
-      color: #155e91;
-      font-size: 10px;
-      border: 1px solid #d7eaf7;
+    .metrics {
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
-    .action-btn {
-      width: 30px;
-      height: 30px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
+}
+
+
+@media (max-width: 650px) {
+
+    .header-inner {
+        align-items: flex-start;
+
+        flex-direction: column;
     }
 
-    .action-btn:hover {
-      transform: translateY(-1px);
+    .live-badge {
+        align-self: flex-start;
     }
 
-    .modal-backdrop {
-      background: rgba(15, 23, 42, 0.55);
+    .page {
+        padding:
+            16px 12px 30px;
     }
 
-    .hidden-important {
-      display: none !important;
+    .filter-grid {
+        grid-template-columns:
+            1fr;
     }
-  </style>
+
+    .metrics {
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 9px;
+    }
+
+    .metric {
+        padding: 13px;
+    }
+
+    .metric-value {
+        font-size: 24px;
+    }
+
+    .metric-icon {
+        width: 38px;
+        height: 38px;
+
+        font-size: 16px;
+    }
+
+    .brand-title {
+        font-size: 23px;
+    }
+
+    .detail-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .table-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline:
+        3px solid rgba(37,99,235,0.25);
+
+    outline-offset: 1px;
+}
+
+</style>
 </head>
 
-<body class="text-gray-800">
 
-  <!-- HEADER -->
-  <header class="header-gradient text-white shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+<body>
 
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-        <div>
-          <div class="flex items-center gap-3">
-            <div class="bg-white/15 rounded-xl p-3">
-              <i class="fa-solid fa-droplet text-2xl"></i>
+<!-- =======================================================
+     HEADER
+     ======================================================= -->
+
+<header class="header">
+
+    <div class="header-inner">
+
+        <div class="brand">
+
+            <div class="logo">
+                💧
             </div>
 
             <div>
-              <h1 class="text-2xl md:text-3xl font-bold">
-                SPM NIWAS
-              </h1>
 
-              <p class="text-sm md:text-base text-blue-100 mt-1">
-                Capacity Building & Training Initiative Dashboard —
-                National WASH Experts (NWEs)
-              </p>
+                <h1 class="brand-title">
+                    SPM NIWAS
+                </h1>
+
+                <div class="brand-subtitle">
+                    Capacity Building & Training Initiative Dashboard —
+                    National WASH Experts (NWEs)
+                </div>
+
             </div>
-          </div>
+
         </div>
 
-        <div class="flex items-center gap-2">
-          <span class="inline-flex items-center gap-2 bg-white/15 px-3 py-2 rounded-full text-xs">
-            <span class="w-2 h-2 bg-green-300 rounded-full"></span>
-            Live Google Sheet
-          </span>
-        </div>
 
-      </div>
+        <div class="live-badge">
+
+            <span class="live-dot"></span>
+
+            Data Source: Live Google Sheet
+
+        </div>
 
     </div>
-  </header>
+
+</header>
 
 
-  <!-- MAIN -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-    <!-- FILTERS -->
-    <section class="bg-white rounded-xl shadow-sm border border-gray-200 p-5 mb-6">
+<!-- =======================================================
+     MAIN
+     ======================================================= -->
 
-      <div class="flex items-center justify-between mb-4">
-        <div>
-          <h2 class="text-lg font-bold text-gray-800">
-            <i class="fa-solid fa-filter text-blue-600 mr-2"></i>
-            Filters
-          </h2>
-
-          <p class="text-xs text-gray-500 mt-1">
-            Filter the empanelled National WASH Experts.
-          </p>
-        </div>
-
-        <button
-          onclick="resetFilters()"
-          class="text-sm text-blue-600 hover:text-blue-800 font-medium"
-        >
-          <i class="fa-solid fa-rotate-left mr-1"></i>
-          Reset
-        </button>
-      </div>
+<main class="page">
 
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+<!-- =======================================================
+     FILTERS
+     ======================================================= -->
+
+<section class="card filters">
+
+
+    <div class="filter-grid">
+
 
         <!-- SEARCH -->
-        <div class="lg:col-span-2">
-          <label class="block text-xs font-semibold text-gray-600 mb-1">
-            Search
-          </label>
 
-          <div class="relative">
-            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <div class="filter-group">
 
-            <input
-              id="searchInput"
-              type="text"
-              placeholder="Search name, NWE ID, expertise..."
-              class="w-full pl-9 pr-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+            <label>
+                Search by Name / NWE ID
+            </label>
+
+            <div class="search-wrap">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Search Expert Name or NWE ID..."
+                >
+
+            </div>
+
         </div>
 
 
         <!-- STATE -->
-        <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">
-            Native State
-          </label>
 
-          <select
-            id="stateFilter"
-            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            <option value="">All States</option>
-          </select>
+        <div class="filter-group">
+
+            <label>
+                Native State
+            </label>
+
+            <select id="stateFilter">
+
+                <option value="">
+                    All States / UTs
+                </option>
+
+            </select>
+
         </div>
 
 
         <!-- STATUS -->
-        <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">
-            Status
-          </label>
 
-          <select
-            id="statusFilter"
-            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            <option value="">All Statuses</option>
-          </select>
+        <div class="filter-group">
+
+            <label>
+                Status
+            </label>
+
+            <select id="statusFilter">
+
+                <option value="">
+                    All Statuses
+                </option>
+
+            </select>
+
         </div>
 
 
         <!-- GENDER -->
-        <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">
-            Gender
-          </label>
 
-          <select
-            id="genderFilter"
-            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            <option value="">All</option>
-          </select>
-        </div>
+        <div class="filter-group">
 
-      </div>
+            <label>
+                Gender
+            </label>
 
+            <select id="genderFilter">
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                <option value="">
+                    All Genders
+                </option>
 
-        <!-- DEPLOYMENT MONTH -->
-        <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">
-            Deployment Month
-          </label>
-
-          <select
-            id="deploymentFilter"
-            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            <option value="">All Months</option>
-            <option value="Apr">Apr</option>
-            <option value="May 1">May 1</option>
-            <option value="May2">May 2</option>
-            <option value="Jun1">Jun 1</option>
-            <option value="Jun2">Jun 2</option>
-            <option value="Jul">Jul</option>
-            <option value="Aug">Aug</option>
-            <option value="Sep">Sep</option>
-            <option value="Oct">Oct</option>
-            <option value="Nov">Nov</option>
-            <option value="Dec">Dec</option>
-            <option value="Jan">Jan</option>
-            <option value="Feb">Feb</option>
-            <option value="Mar">Mar</option>
-          </select>
-        </div>
-
-
-        <!-- EXPERTISE -->
-        <div class="lg:col-span-2">
-          <label class="block text-xs font-semibold text-gray-600 mb-1">
-            Expertise
-          </label>
-
-          <select
-            id="expertiseFilter"
-            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            <option value="">All Expertise Areas</option>
-          </select>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- METRICS -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-
-      <div class="metric-card bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Total NWEs Found
-            </p>
-
-            <p id="totalNwes" class="text-3xl font-bold text-gray-800 mt-2">
-              0
-            </p>
-          </div>
-
-          <div class="bg-blue-50 text-blue-600 rounded-xl p-3">
-            <i class="fa-solid fa-users text-xl"></i>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="metric-card bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Active / Deployed
-            </p>
-
-            <p id="activeNwes" class="text-3xl font-bold text-green-600 mt-2">
-              0
-            </p>
-          </div>
-
-          <div class="bg-green-50 text-green-600 rounded-xl p-3">
-            <i class="fa-solid fa-user-check text-xl"></i>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="metric-card bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Visits Completed
-            </p>
-
-            <p id="totalVisits" class="text-3xl font-bold text-purple-600 mt-2">
-              0
-            </p>
-          </div>
-
-          <div class="bg-purple-50 text-purple-600 rounded-xl p-3">
-            <i class="fa-solid fa-location-dot text-xl"></i>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="metric-card bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              States Represented
-            </p>
-
-            <p id="statesRepresented" class="text-3xl font-bold text-orange-600 mt-2">
-              0
-            </p>
-          </div>
-
-          <div class="bg-orange-50 text-orange-600 rounded-xl p-3">
-            <i class="fa-solid fa-map-location-dot text-xl"></i>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-
-    <!-- TABLE -->
-    <section class="bg-white rounded-xl shadow-sm border border-gray-200">
-
-      <div class="px-5 py-4 border-b border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-
-        <div>
-          <h2 class="text-lg font-bold text-gray-800">
-            National WASH Experts
-          </h2>
-
-          <p class="text-xs text-gray-500 mt-1">
-            Empanelled experts and deployment information.
-          </p>
-        </div>
-
-        <button
-          onclick="exportCSV()"
-          class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
-        >
-          <i class="fa-solid fa-file-csv"></i>
-          Export CSV
-        </button>
-
-      </div>
-
-
-      <!-- LOADING -->
-      <div
-        id="loadingState"
-        class="py-16 flex flex-col items-center justify-center"
-      >
-        <div class="loading-spinner mb-4"></div>
-
-        <p class="text-sm text-gray-500">
-          Loading NWE data...
-        </p>
-      </div>
-
-
-      <!-- ERROR -->
-      <div
-        id="errorState"
-        class="hidden py-16 px-6 text-center"
-      >
-        <div class="text-red-500 text-4xl mb-4">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </div>
-
-        <h3 class="font-semibold text-gray-800 mb-2">
-          Unable to load NWE data
-        </h3>
-
-        <p
-          id="errorMessage"
-          class="text-sm text-gray-500 max-w-xl mx-auto"
-        >
-          The Google Sheet could not be fetched by the browser.
-        </p>
-
-        <button
-          onclick="loadData()"
-          class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm"
-        >
-          <i class="fa-solid fa-refresh mr-1"></i>
-          Try Again
-        </button>
-      </div>
-
-
-      <!-- TABLE -->
-      <div
-        id="tableWrapper"
-        class="table-container hidden"
-      >
-
-        <table class="w-full text-sm">
-
-          <thead class="bg-gray-50 border-b border-gray-200">
-            <tr>
-
-              <th class="px-4 py-3 text-left font-semibold text-gray-600">
-                Sl.
-              </th>
-
-              <th class="px-4 py-3 text-left font-semibold text-gray-600">
-                NWE
-              </th>
-
-              <th class="px-4 py-3 text-left font-semibold text-gray-600">
-                Native State
-              </th>
-
-              <th class="px-4 py-3 text-left font-semibold text-gray-600">
-                Expertise
-              </th>
-
-              <th class="px-4 py-3 text-left font-semibold text-gray-600">
-                Status
-              </th>
-
-              <th class="px-4 py-3 text-center font-semibold text-gray-600">
-                Total Visits
-              </th>
-
-              <th class="px-4 py-3 text-left font-semibold text-gray-600">
-                Last Month
-              </th>
-
-              <th class="px-4 py-3 text-left font-semibold text-gray-600">
-                Last State
-              </th>
-
-              <th class="px-4 py-3 text-center font-semibold text-gray-600">
-                Actions
-              </th>
-
-            </tr>
-          </thead>
-
-          <tbody
-            id="nweTableBody"
-            class="divide-y divide-gray-100"
-          >
-          </tbody>
-
-        </table>
-
-      </div>
-
-
-      <!-- NO DATA -->
-      <div
-        id="noDataState"
-        class="hidden py-16 text-center"
-      >
-        <div class="text-gray-300 text-5xl mb-4">
-          <i class="fa-solid fa-users-slash"></i>
-        </div>
-
-        <h3 class="font-semibold text-gray-700">
-          No experts found
-        </h3>
-
-        <p class="text-sm text-gray-500 mt-1">
-          Try changing or resetting the filters.
-        </p>
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <!-- PROFILE MODAL -->
-  <div
-    id="profileModal"
-    class="hidden fixed inset-0 z-50 modal-backdrop items-center justify-center p-4"
-  >
-
-    <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-
-      <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
-
-        <div>
-          <h2
-            id="modalName"
-            class="text-lg font-bold text-gray-800"
-          >
-          </h2>
-
-          <p
-            id="modalId"
-            class="text-xs text-gray-500 mt-1"
-          >
-          </p>
-        </div>
-
-        <button
-          onclick="closeModal()"
-          class="w-9 h-9 rounded-lg hover:bg-gray-100 text-gray-500"
-        >
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-
-      </div>
-
-
-      <div class="p-5">
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-          <div class="bg-gray-50 rounded-lg p-4">
-            <p class="text-xs text-gray-500">
-              Native State
-            </p>
-
-            <p
-              id="modalState"
-              class="font-semibold text-gray-800 mt-1"
-            >
-            </p>
-          </div>
-
-
-          <div class="bg-gray-50 rounded-lg p-4">
-            <p class="text-xs text-gray-500">
-              Gender
-            </p>
-
-            <p
-              id="modalGender"
-              class="font-semibold text-gray-800 mt-1"
-            >
-            </p>
-          </div>
-
-
-          <div class="bg-gray-50 rounded-lg p-4">
-            <p class="text-xs text-gray-500">
-              Status
-            </p>
-
-            <p
-              id="modalStatus"
-              class="font-semibold text-gray-800 mt-1"
-            >
-            </p>
-          </div>
-
-
-          <div class="bg-gray-50 rounded-lg p-4">
-            <p class="text-xs text-gray-500">
-              Total Visits
-            </p>
-
-            <p
-              id="modalVisits"
-              class="font-semibold text-gray-800 mt-1"
-            >
-            </p>
-          </div>
-
-
-          <div class="bg-gray-50 rounded-lg p-4">
-            <p class="text-xs text-gray-500">
-              Last Month
-            </p>
-
-            <p
-              id="modalLastMonth"
-              class="font-semibold text-gray-800 mt-1"
-            >
-            </p>
-          </div>
-
-
-          <div class="bg-gray-50 rounded-lg p-4">
-            <p class="text-xs text-gray-500">
-              Last State
-            </p>
-
-            <p
-              id="modalLastState"
-              class="font-semibold text-gray-800 mt-1"
-            >
-            </p>
-          </div>
+            </select>
 
         </div>
 
-
-        <div class="mt-4">
-
-          <p class="text-xs font-semibold text-gray-500 mb-2">
-            Expertise
-          </p>
-
-          <div
-            id="modalExpertise"
-            class="flex flex-wrap"
-          >
-          </div>
-
-        </div>
-
-
-        <div class="mt-4">
-
-          <p class="text-xs font-semibold text-gray-500 mb-2">
-            Deployment
-          </p>
-
-          <div
-            id="modalDeployment"
-            class="text-sm text-gray-700 bg-gray-50 rounded-lg p-4 whitespace-pre-wrap"
-          >
-          </div>
-
-        </div>
-
-      </div>
 
     </div>
 
-  </div>
+
+
+    <!-- DEPLOYMENT MONTH -->
+
+    <div class="filter-section">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                Deployment Month Filter
+            </span>
+
+            <button
+                class="reset-btn"
+                id="resetBtn"
+                type="button"
+            >
+                Reset All Filters
+            </button>
+
+        </div>
+
+
+        <div
+            class="month-list"
+            id="monthFilter"
+        >
+
+            <button
+                type="button"
+                class="month-btn active"
+                data-month=""
+            >
+                All Months
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- EXPERTISE -->
+
+    <div class="filter-section">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                Expertise Area
+            </span>
+
+            <button
+                type="button"
+                class="clear-btn hidden"
+                id="clearExpertiseBtn"
+            >
+                Clear Expertise Filters
+            </button>
+
+        </div>
+
+
+        <div
+            class="expertise-list"
+            id="expertiseList"
+        >
+
+            <span class="expertise-more">
+                Loading expertise domains...
+            </span>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =======================================================
+     METRICS
+     ======================================================= -->
+
+<section class="metrics">
+
+
+    <div class="metric metric-blue">
+
+        <div>
+
+            <div class="metric-label">
+                Total NWEs Found
+            </div>
+
+            <div
+                class="metric-value"
+                id="metricTotal"
+            >
+                0
+            </div>
+
+        </div>
+
+        <div class="metric-icon">
+            👥
+        </div>
+
+    </div>
+
+
+
+    <div class="metric metric-green">
+
+        <div>
+
+            <div class="metric-label">
+                Active / Deployed
+            </div>
+
+            <div
+                class="metric-value"
+                id="metricActive"
+            >
+                0
+            </div>
+
+        </div>
+
+        <div class="metric-icon">
+            ✓
+        </div>
+
+    </div>
+
+
+
+    <div class="metric metric-indigo">
+
+        <div>
+
+            <div class="metric-label">
+                Visits Completed
+            </div>
+
+            <div
+                class="metric-value"
+                id="metricVisits"
+            >
+                0
+            </div>
+
+        </div>
+
+        <div class="metric-icon">
+            📍
+        </div>
+
+    </div>
+
+
+
+    <div class="metric metric-amber">
+
+        <div>
+
+            <div class="metric-label">
+                States Represented
+            </div>
+
+            <div
+                class="metric-value"
+                id="metricStates"
+            >
+                0
+            </div>
+
+        </div>
+
+        <div class="metric-icon">
+            🗺
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =======================================================
+     TABLE
+     ======================================================= -->
+
+<section class="card table-card">
+
+
+    <div class="table-header">
+
+
+        <div class="table-title-wrap">
+
+            <h2 class="table-title">
+                National WASH Experts Roster
+            </h2>
+
+            <span
+                class="record-count"
+                id="recordCount"
+            >
+                0 records
+            </span>
+
+        </div>
+
+
+        <div class="header-actions">
+
+            <button
+                type="button"
+                class="action-button"
+                id="exportBtn"
+            >
+                ⇩ Export CSV
+            </button>
+
+            <button
+                type="button"
+                class="action-button"
+                id="refreshBtn"
+            >
+                ↻ Refresh
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- LOADING -->
+
+    <div
+        class="loading-area"
+        id="loadingArea"
+    >
+
+        <div class="spinner"></div>
+
+        <div>
+            Loading NWE data...
+        </div>
+
+    </div>
+
+
+
+    <!-- ERROR -->
+
+    <div
+        class="error-area hidden"
+        id="errorArea"
+    >
+
+        <div class="error-icon">
+            ⚠
+        </div>
+
+        <div class="error-title">
+            Unable to load NWE data
+        </div>
+
+        <div
+            class="error-message"
+            id="errorMessage"
+        >
+            The Google Sheet could not be fetched.
+        </div>
+
+        <button
+            type="button"
+            class="action-button"
+            id="retryBtn"
+            style="margin-top:15px;"
+        >
+            Try Again
+        </button>
+
+    </div>
+
+
+
+    <!-- EMPTY -->
+
+    <div
+        class="empty-area hidden"
+        id="emptyArea"
+    >
+
+        <div class="empty-icon">
+            🔎
+        </div>
+
+        <div class="empty-title">
+            No experts found
+        </div>
+
+        <div class="empty-text">
+            Try changing or resetting the filters.
+        </div>
+
+    </div>
+
+
+
+    <!-- TABLE -->
+
+    <div
+        class="table-scroll hidden"
+        id="tableArea"
+    >
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Sl.
+                    </th>
+
+                    <th>
+                        National WASH Expert
+                    </th>
+
+                    <th>
+                        Native State
+                    </th>
+
+                    <th>
+                        Expertise
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th style="text-align:center;">
+                        Total Visits
+                    </th>
+
+                    <th>
+                        Last Month
+                    </th>
+
+                    <th>
+                        Last State
+                    </th>
+
+                    <th style="text-align:right;">
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="tableBody"></tbody>
+
+        </table>
+
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+    <div class="footer-info">
+
+        <div>
+            Public dashboard view — contact details and PAN are not displayed.
+        </div>
+
+        <div
+            class="refresh-status"
+            id="lastUpdated"
+        >
+            Data not yet loaded
+        </div>
+
+    </div>
+
+
+</section>
+
+
+</main>
+
+
+
+<!-- =======================================================
+     PROFILE MODAL
+     ======================================================= -->
+
+<div
+    class="modal-backdrop hidden"
+    id="modalBackdrop"
+>
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2
+                    class="modal-title"
+                    id="modalName"
+                >
+                    NWE
+                </h2>
+
+                <div
+                    class="modal-subtitle"
+                    id="modalId"
+                >
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="close-button"
+                id="closeModal"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+
+        <div class="modal-body">
+
+
+            <div class="detail-grid">
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Native State
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="modalState"
+                    >
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Gender
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="modalGender"
+                    >
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Status
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="modalStatus"
+                    >
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Total Visits
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="modalVisits"
+                    >
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Last Month
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="modalLastMonth"
+                    >
+                    </div>
+
+                </div>
+
+
+                <div class="detail-box">
+
+                    <div class="detail-label">
+                        Last State
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="modalLastState"
+                    >
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="modal-section">
+
+                <div class="modal-section-title">
+                    Expertise
+                </div>
+
+                <div
+                    class="expertise-tags"
+                    id="modalExpertise"
+                >
+                </div>
+
+            </div>
+
+
+
+            <div class="modal-section">
+
+                <div class="modal-section-title">
+                    Deployment
+                </div>
+
+                <div
+                    class="deployment-box"
+                    id="modalDeployment"
+                >
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
 
 
 <script>
 
-  /*
-   * ==========================================================
-   * GOOGLE SHEET CONFIGURATION
-   * ==========================================================
-   *
-   * Your Google Sheet has been published as CSV.
-   *
-   * IMPORTANT:
-   * The sheet must be published to the web and accessible
-   * without signing in.
-   */
+/* =========================================================
+   CONFIGURATION
+   ========================================================= */
 
-  const CSV_URL =
+/*
+ * Published Google Sheet CSV URL supplied for the
+ * SPM-NIWAS NWE Dashboard.
+ */
+
+const CSV_URL =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXbSW6CTlQ7fValLHtpYpHFOYn126Z4BAkdQfRNI3JgPVe_1tVV5RZRMk6ceRyhep5MAaXIppJBFjB/pub?output=csv";
 
 
-  /*
-   * ==========================================================
-   * DATA VARIABLES
-   * ==========================================================
-   */
+/*
+ * Maximum number of expertise buttons displayed initially.
+ * Remaining expertise areas can still be searched through
+ * the main search box.
+ */
 
-  let allData = [];
-  let filteredData = [];
-
-
-  /*
-   * ==========================================================
-   * LOAD GOOGLE SHEET CSV
-   * ==========================================================
-   */
-
-  async function loadGoogleSheetCSV() {
-
-    const urls = [
-      CSV_URL,
-      CSV_URL + "&_=" + Date.now()
-    ];
-
-    let lastError = null;
-
-    for (const url of urls) {
-
-      try {
-
-        const response = await fetch(url, {
-          method: "GET",
-          mode: "cors",
-          cache: "no-store",
-          redirect: "follow"
-        });
-
-        if (!response.ok) {
-
-          throw new Error(
-            "HTTP " +
-            response.status +
-            " " +
-            response.statusText
-          );
-
-        }
-
-        const text = await response.text();
-
-        if (!text || text.trim().length < 2) {
-
-          throw new Error(
-            "Google Sheet returned empty data."
-          );
-
-        }
-
-        return text;
-
-      } catch (err) {
-
-        lastError = err;
-
-      }
-
-    }
-
-    throw (
-      lastError ||
-      new Error("Unable to fetch Google Sheet.")
-    );
-
-  }
+const MAX_EXPERTISE_BUTTONS = 18;
 
 
-  /*
-   * ==========================================================
-   * LOAD DATA
-   * ==========================================================
-   */
+/*
+ * Deployment months.
+ */
 
-  async function loadData() {
+const DEPLOYMENT_MONTHS = [
+    "Apr",
+    "May 1",
+    "May2",
+    "Jun1",
+    "Jun2",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+    "Jan",
+    "Feb",
+    "Mar"
+];
 
-    showLoading();
 
-    try {
+/* =========================================================
+   APPLICATION STATE
+   ========================================================= */
 
-      const csvText = await loadGoogleSheetCSV();
+let allData = [];
 
-      Papa.parse(csvText, {
+let filteredData = [];
 
-        header: true,
+let selectedExpertise = new Set();
 
-        skipEmptyLines: true,
+let selectedMonth = "";
 
-        complete: function(results) {
+let currentModalRow = null;
 
-          if (
-            !results.data ||
-            results.data.length === 0
-          ) {
 
-            throw new Error(
-              "No rows were found in the Google Sheet."
-            );
+/* =========================================================
+   COLUMN HELPERS
+   ========================================================= */
 
-          }
+function getValue(row, names) {
 
-          allData = results.data.map(function(row) {
+    for (const name of names) {
 
-            const clean = {};
+        if (
+            Object.prototype.hasOwnProperty.call(row, name)
+        ) {
 
-            Object.keys(row).forEach(function(key) {
+            const value = row[name];
 
-              clean[key.trim()] =
-                typeof row[key] === "string"
-                  ? row[key].trim()
-                  : row[key];
-
-            });
-
-            return clean;
-
-          });
-
-          initialiseFilters();
-
-          applyFilters();
-
-        },
-
-        error: function(error) {
-
-          throw error;
+            if (
+                value !== undefined &&
+                value !== null &&
+                String(value).trim() !== ""
+            ) {
+                return String(value).trim();
+            }
 
         }
-
-      });
-
-    } catch (error) {
-
-      console.error(error);
-
-      showError(
-        error && error.message
-          ? error.message
-          : "Unable to load Google Sheet."
-      );
-
-    }
-
-  }
-
-
-  /*
-   * ==========================================================
-   * HELPER - FIND COLUMN
-   * ==========================================================
-   */
-
-  function getValue(row, possibleNames) {
-
-    for (const name of possibleNames) {
-
-      if (
-        Object.prototype.hasOwnProperty.call(row, name)
-      ) {
-
-        return row[name] || "";
-
-      }
 
     }
 
     return "";
 
-  }
+}
 
 
-  /*
-   * ==========================================================
-   * GET VALUES FROM SHEET
-   * ==========================================================
-   */
+function getSl(row, index) {
 
-  function getNweId(row) {
+    return getValue(
+        row,
+        [
+            "Sl.",
+            "Sl",
+            "Serial No.",
+            "Serial"
+        ]
+    ) || String(index + 1);
 
-    return getValue(row, [
-      "NWE ID",
-      "Nwe ID",
-      "NWEID"
-    ]);
-
-  }
+}
 
 
-  function getName(row) {
+function getNweId(row) {
 
-    return getValue(row, [
-      "Name of The NWE",
-      "Name of the NWE",
-      "Name",
-      "NWE"
-    ]);
-
-  }
-
-
-  function getEmail(row) {
-
-    return getValue(row, [
-      "Email",
-      "E-mail",
-      "Email ID"
-    ]);
-
-  }
-
-
-  function getMobile(row) {
-
-    return getValue(row, [
-      "Mobile",
-      "Mobile No.",
-      "Mobile Number"
-    ]);
-
-  }
-
-
-  function getState(row) {
-
-    return getValue(row, [
-      "Native State",
-      "State"
-    ]);
-
-  }
-
-
-  function getGender(row) {
-
-    return getValue(row, [
-      "Gender"
-    ]);
-
-  }
-
-
-  function getExpertise(row) {
-
-    return getValue(row, [
-      "Expertise"
-    ]);
-
-  }
-
-
-  function getStatus(row) {
-
-    return getValue(row, [
-      "Status"
-    ]);
-
-  }
-
-
-  function getDeployment(row) {
-
-    return getValue(row, [
-      "Deployment"
-    ]);
-
-  }
-
-
-  function getPan(row) {
-
-    return getValue(row, [
-      "PAN Card",
-      "PAN"
-    ]);
-
-  }
-
-
-  function getVisits(row) {
-
-    return getValue(row, [
-      "Total No. of Visits",
-      "Total Visits",
-      "Visits"
-    ]);
-
-  }
-
-
-  function getLastMonth(row) {
-
-    return getValue(row, [
-      "Last Month"
-    ]);
-
-  }
-
-
-  function getLastState(row) {
-
-    return getValue(row, [
-      "Last State"
-    ]);
-
-  }
-
-
-  /*
-   * ==========================================================
-   * INITIALISE FILTERS
-   * ==========================================================
-   */
-
-  function initialiseFilters() {
-
-    populateSelect(
-      "stateFilter",
-      allData.map(getState)
+    return getValue(
+        row,
+        [
+            "NWE ID",
+            "Nwe ID",
+            "NWEID",
+            "NWE Id"
+        ]
     );
 
-    populateSelect(
-      "statusFilter",
-      allData.map(getStatus)
+}
+
+
+function getName(row) {
+
+    return getValue(
+        row,
+        [
+            "Name of The NWE",
+            "Name of the NWE",
+            "Name of NWE",
+            "Name",
+            "NWE"
+        ]
     );
 
-    populateSelect(
-      "genderFilter",
-      allData.map(getGender)
+}
+
+
+function getState(row) {
+
+    return getValue(
+        row,
+        [
+            "Native State",
+            "Native state",
+            "State"
+        ]
     );
 
-    populateSelect(
-      "expertiseFilter",
-      allData.map(getExpertise)
-        .flatMap(function(value) {
-          return splitValues(value);
-        })
+}
+
+
+function getGender(row) {
+
+    return getValue(
+        row,
+        [
+            "Gender"
+        ]
     );
 
-  }
+}
 
 
-  /*
-   * ==========================================================
-   * POPULATE SELECT
-   * ==========================================================
-   */
+function getExpertise(row) {
 
-  function populateSelect(id, values) {
+    return getValue(
+        row,
+        [
+            "Expertise",
+            "Expertise Area",
+            "Expertise Areas"
+        ]
+    );
 
-    const select = document.getElementById(id);
-
-    const currentValue = select.value;
-
-    const uniqueValues = [
-      ...new Set(
-        values
-          .map(function(value) {
-            return String(value || "").trim();
-          })
-          .filter(Boolean)
-      )
-    ].sort(function(a, b) {
-
-      return a.localeCompare(b);
-
-    });
+}
 
 
-    while (select.options.length > 1) {
+function getStatus(row) {
 
-      select.remove(1);
+    return getValue(
+        row,
+        [
+            "Status"
+        ]
+    );
+
+}
+
+
+function getDeployment(row) {
+
+    return getValue(
+        row,
+        [
+            "Deployment"
+        ]
+    );
+
+}
+
+
+function getVisits(row) {
+
+    return getValue(
+        row,
+        [
+            "Total No. of Visits",
+            "Total Visits",
+            "Visits"
+        ]
+    );
+
+}
+
+
+function getLastMonth(row) {
+
+    return getValue(
+        row,
+        [
+            "Last Month"
+        ]
+    );
+
+}
+
+
+function getLastState(row) {
+
+    return getValue(
+        row,
+        [
+            "Last State"
+        ]
+    );
+
+}
+
+
+/* =========================================================
+   PUBLIC DATA
+   ========================================================= */
+
+/*
+ * Deliberately excludes:
+ *
+ * Email
+ * Mobile
+ * PAN Card
+ *
+ * from the dashboard and export.
+ */
+
+function publicRecord(row, index) {
+
+    return {
+
+        "Sl.": getSl(row, index),
+
+        "NWE ID":
+            getNweId(row),
+
+        "Name of The NWE":
+            getName(row),
+
+        "Native State":
+            getState(row),
+
+        "Gender":
+            getGender(row),
+
+        "Expertise":
+            getExpertise(row),
+
+        "Status":
+            getStatus(row),
+
+        "Deployment":
+            getDeployment(row),
+
+        "Total No. of Visits":
+            getVisits(row),
+
+        "Last Month":
+            getLastMonth(row),
+
+        "Last State":
+            getLastState(row)
+
+    };
+
+}
+
+
+/* =========================================================
+   LIGHTWEIGHT CSV PARSER
+   ========================================================= */
+
+/*
+ * This removes the need for PapaParse.
+ *
+ * It supports:
+ *
+ * - quoted fields
+ * - commas inside quoted fields
+ * - escaped double quotes
+ * - CRLF / LF line endings
+ */
+
+function parseCSV(text) {
+
+    text = text.replace(/^\uFEFF/, "");
+
+    const rows = [];
+
+    let row = [];
+
+    let field = "";
+
+    let insideQuotes = false;
+
+
+    for (let i = 0; i < text.length; i++) {
+
+        const char = text[i];
+
+        const next = text[i + 1];
+
+
+        if (char === '"') {
+
+            if (
+                insideQuotes &&
+                next === '"'
+            ) {
+
+                field += '"';
+
+                i++;
+
+            } else {
+
+                insideQuotes = !insideQuotes;
+
+            }
+
+            continue;
+        }
+
+
+        if (
+            char === "," &&
+            !insideQuotes
+        ) {
+
+            row.push(field);
+
+            field = "";
+
+            continue;
+        }
+
+
+        if (
+            (char === "\n" || char === "\r") &&
+            !insideQuotes
+        ) {
+
+            if (
+                char === "\r" &&
+                next === "\n"
+            ) {
+                i++;
+            }
+
+            row.push(field);
+
+            field = "";
+
+            if (
+                row.some(
+                    value =>
+                        String(value).trim() !== ""
+                )
+            ) {
+
+                rows.push(row);
+
+            }
+
+            row = [];
+
+            continue;
+        }
+
+
+        field += char;
 
     }
 
 
-    uniqueValues.forEach(function(value) {
+    if (
+        field !== "" ||
+        row.length > 0
+    ) {
 
-      const option =
-        document.createElement("option");
+        row.push(field);
 
-      option.value = value;
-      option.textContent = value;
+        if (
+            row.some(
+                value =>
+                    String(value).trim() !== ""
+            )
+        ) {
 
-      select.appendChild(option);
+            rows.push(row);
 
-    });
+        }
 
-
-    select.value = currentValue;
-
-  }
-
-
-  /*
-   * ==========================================================
-   * SPLIT MULTIPLE VALUES
-   * ==========================================================
-   */
-
-  function splitValues(value) {
-
-    if (!value) {
-      return [];
     }
 
-    return String(value)
-      .split(/[,;|]/)
-      .map(function(item) {
-        return item.trim();
-      })
-      .filter(Boolean);
 
-  }
+    if (rows.length === 0) {
+        return [];
+    }
 
 
-  /*
-   * ==========================================================
-   * APPLY FILTERS
-   * ==========================================================
-   */
-
-  function applyFilters() {
-
-    const search =
-      document
-        .getElementById("searchInput")
-        .value
-        .trim()
-        .toLowerCase();
-
-    const state =
-      document.getElementById("stateFilter").value;
-
-    const status =
-      document.getElementById("statusFilter").value;
-
-    const gender =
-      document.getElementById("genderFilter").value;
-
-    const deployment =
-      document.getElementById("deploymentFilter").value;
-
-    const expertise =
-      document.getElementById("expertiseFilter").value;
-
-
-    filteredData = allData.filter(function(row) {
-
-      const name =
-        getName(row).toLowerCase();
-
-      const nweId =
-        getNweId(row).toLowerCase();
-
-      const email =
-        getEmail(row).toLowerCase();
-
-      const mobile =
-        getMobile(row).toLowerCase();
-
-      const rowExpertise =
-        getExpertise(row).toLowerCase();
-
-      const rowState =
-        getState(row).toLowerCase();
-
-      const rowStatus =
-        getStatus(row).toLowerCase();
-
-      const rowGender =
-        getGender(row).toLowerCase();
-
-      const rowDeployment =
-        getDeployment(row).toLowerCase();
-
-
-      const matchesSearch =
-        !search ||
-        name.includes(search) ||
-        nweId.includes(search) ||
-        email.includes(search) ||
-        mobile.includes(search) ||
-        rowExpertise.includes(search) ||
-        rowState.includes(search);
-
-
-      const matchesState =
-        !state ||
-        getState(row) === state;
-
-
-      const matchesStatus =
-        !status ||
-        getStatus(row) === status;
-
-
-      const matchesGender =
-        !gender ||
-        getGender(row) === gender;
-
-
-      const matchesDeployment =
-        !deployment ||
-        rowDeployment.includes(
-          deployment.toLowerCase()
+    const headers =
+        rows[0].map(
+            header =>
+                String(header).trim()
         );
 
 
-      const matchesExpertise =
-        !expertise ||
-        splitValues(getExpertise(row))
-          .some(function(item) {
+    return rows
+        .slice(1)
+        .map(values => {
 
-            return item === expertise;
+            const object = {};
 
-          });
+            headers.forEach(
+                (header, index) => {
+
+                    object[header] =
+                        values[index] !== undefined
+                            ? String(values[index]).trim()
+                            : "";
+
+                }
+            );
+
+            return object;
+
+        });
+
+}
 
 
-      return (
-        matchesSearch &&
-        matchesState &&
-        matchesStatus &&
-        matchesGender &&
-        matchesDeployment &&
-        matchesExpertise
-      );
+/* =========================================================
+   LOAD GOOGLE SHEET
+   ========================================================= */
+
+async function fetchSheet() {
+
+    /*
+     * IMPORTANT:
+     *
+     * We deliberately do not append Date.now()
+     * to the URL.
+     *
+     * That allows the browser/CDN to cache the
+     * published CSV and makes repeat visits faster.
+     */
+
+    const response =
+        await fetch(
+            CSV_URL,
+            {
+                method: "GET",
+                mode: "cors",
+                cache: "default",
+                redirect: "follow"
+            }
+        );
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Google Sheet returned HTTP " +
+            response.status
+        );
+
+    }
+
+
+    const text =
+        await response.text();
+
+
+    if (
+        !text ||
+        text.trim().length < 2
+    ) {
+
+        throw new Error(
+            "The Google Sheet returned empty data."
+        );
+
+    }
+
+
+    return text;
+
+}
+
+
+/* =========================================================
+   INITIALISE APPLICATION
+   ========================================================= */
+
+async function loadData() {
+
+    showLoading();
+
+
+    try {
+
+        const csv =
+            await fetchSheet();
+
+
+        allData =
+            parseCSV(csv);
+
+
+        if (
+            !Array.isArray(allData) ||
+            allData.length === 0
+        ) {
+
+            throw new Error(
+                "No NWE records were found in the published sheet."
+            );
+
+        }
+
+
+        buildFilters();
+
+
+        /*
+         * First render.
+         */
+
+        applyFilters();
+
+
+        /*
+         * IMPORTANT:
+         *
+         * Hide loading area only AFTER the first
+         * table render has completed.
+         */
+
+        hideLoading();
+
+
+        const now =
+            new Date();
+
+
+        document.getElementById(
+            "lastUpdated"
+        ).textContent =
+            "Loaded " +
+            now.toLocaleTimeString(
+                "en-IN",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+
+    } catch (error) {
+
+        console.error(
+            "NWE dashboard error:",
+            error
+        );
+
+
+        showError(
+            error &&
+            error.message
+                ? error.message
+                : "Unable to load Google Sheet data."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FILTER BUILDERS
+   ========================================================= */
+
+function uniqueSorted(values) {
+
+    return [
+        ...new Set(
+            values
+                .map(
+                    value =>
+                        String(value || "").trim()
+                )
+                .filter(Boolean)
+        )
+    ].sort(
+        (a, b) =>
+            a.localeCompare(
+                b,
+                undefined,
+                {
+                    sensitivity: "base"
+                }
+            )
+    );
+
+}
+
+
+function populateSelect(
+    selectId,
+    values,
+    firstOption
+) {
+
+    const select =
+        document.getElementById(selectId);
+
+
+    select.innerHTML =
+        "";
+
+
+    const first =
+        document.createElement("option");
+
+    first.value = "";
+
+    first.textContent =
+        firstOption;
+
+    select.appendChild(first);
+
+
+    uniqueSorted(values)
+        .forEach(value => {
+
+            const option =
+                document.createElement("option");
+
+            option.value = value;
+
+            option.textContent = value;
+
+            select.appendChild(option);
+
+        });
+
+}
+
+
+function buildFilters() {
+
+    /*
+     * State
+     */
+
+    populateSelect(
+        "stateFilter",
+        allData.map(getState),
+        "All States / UTs"
+    );
+
+
+    /*
+     * Status
+     */
+
+    populateSelect(
+        "statusFilter",
+        allData.map(getStatus),
+        "All Statuses"
+    );
+
+
+    /*
+     * Gender
+     */
+
+    populateSelect(
+        "genderFilter",
+        allData.map(getGender),
+        "All Genders"
+    );
+
+
+    /*
+     * Months
+     */
+
+    buildMonthButtons();
+
+
+    /*
+     * Expertise
+     */
+
+    buildExpertiseButtons();
+
+}
+
+
+/* =========================================================
+   MONTH BUTTONS
+   ========================================================= */
+
+function buildMonthButtons() {
+
+    const container =
+        document.getElementById(
+            "monthFilter"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const allButton =
+        document.createElement("button");
+
+
+    allButton.type = "button";
+
+    allButton.className =
+        "month-btn active";
+
+    allButton.dataset.month = "";
+
+    allButton.textContent =
+        "All Months";
+
+
+    container.appendChild(
+        allButton
+    );
+
+
+    DEPLOYMENT_MONTHS.forEach(
+        month => {
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+
+            button.className =
+                "month-btn";
+
+            button.dataset.month =
+                month;
+
+            button.textContent =
+                month;
+
+
+            container.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   EXPERTISE BUTTONS
+   ========================================================= */
+
+function getExpertiseItems() {
+
+    const items = [];
+
+
+    allData.forEach(row => {
+
+        splitValues(
+            getExpertise(row)
+        ).forEach(
+            value => items.push(value)
+        );
 
     });
+
+
+    return uniqueSorted(items);
+
+}
+
+
+function buildExpertiseButtons() {
+
+    const container =
+        document.getElementById(
+            "expertiseList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const expertise =
+        getExpertiseItems();
+
+
+    if (
+        expertise.length === 0
+    ) {
+
+        container.innerHTML =
+            '<span class="expertise-more">No expertise domains found.</span>';
+
+        return;
+
+    }
+
+
+    const display =
+        expertise.slice(
+            0,
+            MAX_EXPERTISE_BUTTONS
+        );
+
+
+    display.forEach(
+        (item, index) => {
+
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.className =
+                "expertise-option";
+
+
+            const input =
+                document.createElement("input");
+
+            input.type =
+                "checkbox";
+
+            input.id =
+                "expertise-" + index;
+
+            input.value =
+                item;
+
+
+            const label =
+                document.createElement("label");
+
+            label.htmlFor =
+                input.id;
+
+            label.textContent =
+                item;
+
+
+            wrapper.appendChild(
+                input
+            );
+
+            wrapper.appendChild(
+                label
+            );
+
+
+            container.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+
+    if (
+        expertise.length >
+        MAX_EXPERTISE_BUTTONS
+    ) {
+
+        const more =
+            document.createElement("span");
+
+        more.className =
+            "expertise-more";
+
+
+        more.textContent =
+            "+" +
+            (
+                expertise.length -
+                MAX_EXPERTISE_BUTTONS
+            ) +
+            " more — use Search";
+
+
+        container.appendChild(
+            more
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   VALUE HELPERS
+   ========================================================= */
+
+function splitValues(value) {
+
+    if (!value) {
+        return [];
+    }
+
+
+    return String(value)
+        .split(/[,;|]/)
+        .map(
+            item =>
+                item.trim()
+        )
+        .filter(Boolean);
+
+}
+
+
+function normalise(value) {
+
+    return String(
+        value || ""
+    )
+        .trim()
+        .toLowerCase();
+
+}
+
+
+/* =========================================================
+   FILTERING
+   ========================================================= */
+
+function rowMatchesSearch(
+    row,
+    search
+) {
+
+    if (!search) {
+        return true;
+    }
+
+
+    const searchable = [
+
+        getName(row),
+
+        getNweId(row),
+
+        getState(row),
+
+        getGender(row),
+
+        getExpertise(row),
+
+        getStatus(row),
+
+        getDeployment(row),
+
+        getLastMonth(row),
+
+        getLastState(row)
+
+    ]
+        .join(" ")
+        .toLowerCase();
+
+
+    return searchable.includes(
+        search
+    );
+
+}
+
+
+function rowMatchesExpertise(
+    row
+) {
+
+    if (
+        selectedExpertise.size === 0
+    ) {
+
+        return true;
+
+    }
+
+
+    const rowExpertise =
+        splitValues(
+            getExpertise(row)
+        );
+
+
+    return [
+        ...selectedExpertise
+    ].some(
+        selected =>
+            rowExpertise.some(
+                item =>
+                    normalise(item) ===
+                    normalise(selected)
+            )
+    );
+
+}
+
+
+function rowMatchesMonth(
+    row
+) {
+
+    if (!selectedMonth) {
+        return true;
+    }
+
+
+    return normalise(
+        getDeployment(row)
+    ).includes(
+        normalise(selectedMonth)
+    );
+
+}
+
+
+function applyFilters() {
+
+    const search =
+        normalise(
+            document
+                .getElementById(
+                    "searchInput"
+                )
+                .value
+        );
+
+
+    const state =
+        document
+            .getElementById(
+                "stateFilter"
+            )
+            .value;
+
+
+    const status =
+        document
+            .getElementById(
+                "statusFilter"
+            )
+            .value;
+
+
+    const gender =
+        document
+            .getElementById(
+                "genderFilter"
+            )
+            .value;
+
+
+    filteredData =
+        allData.filter(
+            row => {
+
+                if (
+                    !rowMatchesSearch(
+                        row,
+                        search
+                    )
+                ) {
+                    return false;
+                }
+
+
+                if (
+                    state &&
+                    getState(row) !== state
+                ) {
+                    return false;
+                }
+
+
+                if (
+                    status &&
+                    getStatus(row) !== status
+                ) {
+                    return false;
+                }
+
+
+                if (
+                    gender &&
+                    getGender(row) !== gender
+                ) {
+                    return false;
+                }
+
+
+                if (
+                    !rowMatchesMonth(
+                        row
+                    )
+                ) {
+                    return false;
+                }
+
+
+                if (
+                    !rowMatchesExpertise(
+                        row
+                    )
+                ) {
+                    return false;
+                }
+
+
+                return true;
+
+            }
+        );
 
 
     updateMetrics();
 
-    renderTable();
 
-  }
+    /*
+     * Rendering is scheduled through requestAnimationFrame
+     * so the browser does not freeze during filtering.
+     */
 
+    requestAnimationFrame(
+        renderTable
+    );
 
-  /*
-   * ==========================================================
-   * UPDATE METRICS
-   * ==========================================================
-   */
-
-  function updateMetrics() {
-
-    document.getElementById("totalNwes")
-      .textContent = filteredData.length;
+}
 
 
-    const activeCount =
-      filteredData.filter(function(row) {
+/* =========================================================
+   METRICS
+   ========================================================= */
 
-        const status =
-          getStatus(row).toLowerCase();
+function updateMetrics() {
 
-        return (
-          status.includes("active") ||
-          status.includes("deployed")
+    document.getElementById(
+        "metricTotal"
+    ).textContent =
+        filteredData.length;
+
+
+    const active =
+        filteredData.filter(
+            row => {
+
+                const status =
+                    normalise(
+                        getStatus(row)
+                    );
+
+
+                return (
+                    status.includes("active") ||
+                    status.includes("deployed")
+                );
+
+            }
+        ).length;
+
+
+    document.getElementById(
+        "metricActive"
+    ).textContent =
+        active;
+
+
+    const visits =
+        filteredData.reduce(
+            (
+                total,
+                row
+            ) => {
+
+                const value =
+                    parseInt(
+                        String(
+                            getVisits(row)
+                        )
+                        .replace(
+                            /[^\d]/g,
+                            ""
+                        ),
+                        10
+                    );
+
+
+                return total +
+                    (
+                        Number.isFinite(value)
+                            ? value
+                            : 0
+                    );
+
+            },
+            0
         );
 
-      }).length;
 
-
-    document.getElementById("activeNwes")
-      .textContent = activeCount;
-
-
-    const totalVisits =
-      filteredData.reduce(function(total, row) {
-
-        const visits =
-          parseInt(
-            String(getVisits(row))
-              .replace(/[^\d]/g, ""),
-            10
-          );
-
-        return total + (
-          isNaN(visits)
-            ? 0
-            : visits
+    document.getElementById(
+        "metricVisits"
+    ).textContent =
+        visits.toLocaleString(
+            "en-IN"
         );
-
-      }, 0);
-
-
-    document.getElementById("totalVisits")
-      .textContent = totalVisits;
 
 
     const states =
-      new Set(
-        filteredData
-          .map(getState)
-          .map(function(value) {
-            return value.trim();
-          })
-          .filter(Boolean)
-      );
-
-
-    document.getElementById("statesRepresented")
-      .textContent = states.size;
-
-  }
-
-
-  /*
-   * ==========================================================
-   * RENDER TABLE
-   * ==========================================================
-   */
-
-  function renderTable() {
-
-    const tbody =
-      document.getElementById("nweTableBody");
-
-    tbody.innerHTML = "";
-
-
-    if (filteredData.length === 0) {
-
-      document
-        .getElementById("tableWrapper")
-        .classList.add("hidden");
-
-      document
-        .getElementById("noDataState")
-        .classList.remove("hidden");
-
-      return;
-
-    }
-
-
-    document
-      .getElementById("tableWrapper")
-      .classList.remove("hidden");
-
-
-    document
-      .getElementById("noDataState")
-      .classList.add("hidden");
-
-
-    filteredData.forEach(function(row, index) {
-
-      const tr =
-        document.createElement("tr");
-
-      tr.className =
-        "hover:bg-blue-50/40 transition";
-
-
-      const sl =
-        getValue(row, ["Sl.", "Sl", "Serial No."]) ||
-        (index + 1);
-
-
-      const name =
-        getName(row) || "—";
-
-
-      const nweId =
-        getNweId(row) || "—";
-
-
-      const state =
-        getState(row) || "—";
-
-
-      const expertise =
-        getExpertise(row);
-
-
-      const status =
-        getStatus(row) || "—";
-
-
-      const visits =
-        getVisits(row) || "0";
-
-
-      const lastMonth =
-        getLastMonth(row) || "—";
-
-
-      const lastState =
-        getLastState(row) || "—";
-
-
-      tr.innerHTML = `
-
-        <td class="px-4 py-3 text-gray-500">
-          ${escapeHTML(sl)}
-        </td>
-
-
-        <td class="px-4 py-3">
-
-          <div class="font-semibold text-gray-800">
-            ${escapeHTML(name)}
-          </div>
-
-          <div class="text-xs text-gray-400 mt-1">
-            ${escapeHTML(nweId)}
-          </div>
-
-        </td>
-
-
-        <td class="px-4 py-3 text-gray-700">
-          ${escapeHTML(state)}
-        </td>
-
-
-        <td class="px-4 py-3">
-          ${renderExpertise(expertise)}
-        </td>
-
-
-        <td class="px-4 py-3">
-          ${renderStatus(status)}
-        </td>
-
-
-        <td class="px-4 py-3 text-center font-semibold text-gray-700">
-          ${escapeHTML(visits)}
-        </td>
-
-
-        <td class="px-4 py-3 text-gray-700">
-          ${escapeHTML(lastMonth)}
-        </td>
-
-
-        <td class="px-4 py-3 text-gray-700">
-          ${escapeHTML(lastState)}
-        </td>
-
-
-        <td class="px-4 py-3 text-center">
-
-          <button
-            class="action-btn bg-blue-50 text-blue-600 hover:bg-blue-100"
-            title="View Profile"
-            onclick="openProfile(${index})"
-          >
-            <i class="fa-solid fa-eye"></i>
-          </button>
-
-        </td>
-
-      `;
-
-
-      tbody.appendChild(tr);
-
-    });
-
-  }
-
-
-  /*
-   * ==========================================================
-   * RENDER EXPERTISE
-   * ==========================================================
-   */
-
-  function renderExpertise(value) {
-
-    const items =
-      splitValues(value);
-
-
-    if (items.length === 0) {
-      return "—";
-    }
-
-
-    return items.map(function(item) {
-
-      return `
-        <span class="expertise-tag">
-          ${escapeHTML(item)}
-        </span>
-      `;
-
-    }).join("");
-
-  }
-
-
-  /*
-   * ==========================================================
-   * RENDER STATUS
-   * ==========================================================
-   */
-
-  function renderStatus(status) {
-
-    const lower =
-      status.toLowerCase();
+        new Set(
+            filteredData
+                .map(getState)
+                .map(
+                    state =>
+                        state.trim()
+                )
+                .filter(Boolean)
+        );
+
+
+    document.getElementById(
+        "metricStates"
+    ).textContent =
+        states.size;
+
+
+    document.getElementById(
+        "recordCount"
+    ).textContent =
+        filteredData.length +
+        (
+            filteredData.length === 1
+                ? " record"
+                : " records"
+        );
+
+}
+
+
+/* =========================================================
+   HTML ESCAPING
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   STATUS HTML
+   ========================================================= */
+
+function statusHTML(
+    status
+) {
+
+    const text =
+        status || "—";
+
+
+    const value =
+        normalise(status);
 
 
     let className =
-      "bg-gray-100 text-gray-700";
+        "status-other";
 
 
     if (
-      lower.includes("active") ||
-      lower.includes("deployed")
+        value.includes("active")
     ) {
 
-      className =
-        "bg-green-100 text-green-700";
+        className =
+            "status-active";
 
     }
     else if (
-      lower.includes("inactive") ||
-      lower.includes("not")
+        value.includes("deployed")
     ) {
 
-      className =
-        "bg-red-100 text-red-700";
+        className =
+            "status-deployed";
 
     }
     else if (
-      lower.includes("pending")
+        value.includes("extended")
     ) {
 
-      className =
-        "bg-yellow-100 text-yellow-700";
+        className =
+            "status-extended";
 
     }
 
 
     return `
-      <span class="badge ${className}">
-        ${escapeHTML(status)}
-      </span>
+        <span class="status ${className}">
+            ${escapeHTML(text)}
+        </span>
     `;
 
-  }
+}
 
 
-  /*
-   * ==========================================================
-   * PROFILE MODAL
-   * ==========================================================
-   */
+/* =========================================================
+   EXPERTISE HTML
+   ========================================================= */
 
-  function openProfile(index) {
+function expertiseHTML(
+    value
+) {
 
-    const row =
-      filteredData[index];
+    const items =
+        splitValues(value);
 
 
-    if (!row) {
-      return;
+    if (
+        items.length === 0
+    ) {
+
+        return "—";
+
     }
 
 
-    document.getElementById("modalName")
-      .textContent =
-      getName(row) || "National WASH Expert";
+    return `
+        <div class="expertise-tags">
+            ${
+                items
+                    .slice(0, 5)
+                    .map(
+                        item =>
+                            `
+                            <span class="tag">
+                                ${escapeHTML(item)}
+                            </span>
+                            `
+                    )
+                    .join("")
+            }
+        </div>
+    `;
+
+}
 
 
-    document.getElementById("modalId")
-      .textContent =
-      getNweId(row) || "";
+/* =========================================================
+   TABLE RENDER
+   ========================================================= */
+
+function renderTable() {
+
+    const tableArea =
+        document.getElementById(
+            "tableArea"
+        );
 
 
-    document.getElementById("modalState")
-      .textContent =
-      getState(row) || "—";
+    const emptyArea =
+        document.getElementById(
+            "emptyArea"
+        );
 
 
-    document.getElementById("modalGender")
-      .textContent =
-      getGender(row) || "—";
+    const tbody =
+        document.getElementById(
+            "tableBody"
+        );
 
 
-    document.getElementById("modalStatus")
-      .textContent =
-      getStatus(row) || "—";
+    /*
+     * No records.
+     */
+
+    if (
+        filteredData.length === 0
+    ) {
+
+        tableArea.classList.add(
+            "hidden"
+        );
+
+        emptyArea.classList.remove(
+            "hidden"
+        );
+
+        tbody.innerHTML =
+            "";
+
+        return;
+
+    }
 
 
-    document.getElementById("modalVisits")
-      .textContent =
-      getVisits(row) || "0";
+    emptyArea.classList.add(
+        "hidden"
+    );
 
 
-    document.getElementById("modalLastMonth")
-      .textContent =
-      getLastMonth(row) || "—";
+    tableArea.classList.remove(
+        "hidden"
+    );
 
 
-    document.getElementById("modalLastState")
-      .textContent =
-      getLastState(row) || "—";
+    /*
+     * Build table in memory first.
+     *
+     * This is faster than repeatedly touching
+     * the DOM for each row.
+     */
+
+    const html =
+        filteredData
+            .map(
+                (row, index) => {
+
+                    return `
+                        <tr>
+
+                            <td>
+                                ${escapeHTML(
+                                    getSl(
+                                        row,
+                                        index
+                                    )
+                                )}
+                            </td>
 
 
-    document.getElementById("modalExpertise")
-      .innerHTML =
-      renderExpertise(getExpertise(row));
+                            <td>
+
+                                <div class="nwe-name">
+                                    ${escapeHTML(
+                                        getName(row)
+                                        || "—"
+                                    )}
+                                </div>
+
+                                <div class="nwe-id">
+                                    ${escapeHTML(
+                                        getNweId(row)
+                                        || ""
+                                    )}
+                                </div>
+
+                            </td>
 
 
-    document.getElementById("modalDeployment")
-      .textContent =
-      getDeployment(row) || "—";
+                            <td>
+                                ${escapeHTML(
+                                    getState(row)
+                                    || "—"
+                                )}
+                            </td>
 
 
-    const modal =
-      document.getElementById("profileModal");
-
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-
-  }
+                            <td>
+                                ${expertiseHTML(
+                                    getExpertise(row)
+                                )}
+                            </td>
 
 
-  /*
-   * ==========================================================
-   * CLOSE MODAL
-   * ==========================================================
-   */
-
-  function closeModal() {
-
-    const modal =
-      document.getElementById("profileModal");
-
-    modal.classList.add("hidden");
-    modal.classList.remove("flex");
-
-  }
+                            <td>
+                                ${statusHTML(
+                                    getStatus(row)
+                                )}
+                            </td>
 
 
-  /*
-   * ==========================================================
-   * RESET FILTERS
-   * ==========================================================
-   */
+                            <td style="text-align:center;font-weight:700;">
+                                ${escapeHTML(
+                                    getVisits(row)
+                                    || "0"
+                                )}
+                            </td>
 
-  function resetFilters() {
 
-    document.getElementById("searchInput")
-      .value = "";
+                            <td>
+                                ${escapeHTML(
+                                    getLastMonth(row)
+                                    || "—"
+                                )}
+                            </td>
 
-    document.getElementById("stateFilter")
-      .value = "";
 
-    document.getElementById("statusFilter")
-      .value = "";
+                            <td>
+                                ${escapeHTML(
+                                    getLastState(row)
+                                    || "—"
+                                )}
+                            </td>
 
-    document.getElementById("genderFilter")
-      .value = "";
 
-    document.getElementById("deploymentFilter")
-      .value = "";
+                            <td style="text-align:right;">
 
-    document.getElementById("expertiseFilter")
-      .value = "";
+                                <button
+                                    type="button"
+                                    class="view-button"
+                                    title="View expert details"
+                                    data-index="${index}"
+                                >
+                                    👁
+                                </button>
+
+                            </td>
+
+                        </tr>
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    tbody.innerHTML =
+        html;
+
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+function openModal(
+    row
+) {
+
+    currentModalRow =
+        row;
+
+
+    document.getElementById(
+        "modalName"
+    ).textContent =
+        getName(row)
+        || "National WASH Expert";
+
+
+    document.getElementById(
+        "modalId"
+    ).textContent =
+        getNweId(row)
+        || "";
+
+
+    document.getElementById(
+        "modalState"
+    ).textContent =
+        getState(row)
+        || "—";
+
+
+    document.getElementById(
+        "modalGender"
+    ).textContent =
+        getGender(row)
+        || "—";
+
+
+    document.getElementById(
+        "modalStatus"
+    ).innerHTML =
+        statusHTML(
+            getStatus(row)
+        );
+
+
+    document.getElementById(
+        "modalVisits"
+    ).textContent =
+        getVisits(row)
+        || "0";
+
+
+    document.getElementById(
+        "modalLastMonth"
+    ).textContent =
+        getLastMonth(row)
+        || "—";
+
+
+    document.getElementById(
+        "modalLastState"
+    ).textContent =
+        getLastState(row)
+        || "—";
+
+
+    document.getElementById(
+        "modalExpertise"
+    ).innerHTML =
+        expertiseHTML(
+            getExpertise(row)
+        );
+
+
+    document.getElementById(
+        "modalDeployment"
+    ).textContent =
+        getDeployment(row)
+        || "—";
+
+
+    document.getElementById(
+        "modalBackdrop"
+    ).classList.remove(
+        "hidden"
+    );
+
+}
+
+
+function closeModal() {
+
+    document.getElementById(
+        "modalBackdrop"
+    ).classList.add(
+        "hidden"
+    );
+
+
+    currentModalRow =
+        null;
+
+}
+
+
+/* =========================================================
+   RESET FILTERS
+   ========================================================= */
+
+function resetFilters() {
+
+    document.getElementById(
+        "searchInput"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "stateFilter"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "statusFilter"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "genderFilter"
+    ).value =
+        "";
+
+
+    selectedMonth =
+        "";
+
+
+    selectedExpertise.clear();
+
+
+    /*
+     * Reset month buttons.
+     */
+
+    document
+        .querySelectorAll(
+            ".month-btn"
+        )
+        .forEach(
+            button => {
+
+                button.classList.toggle(
+                    "active",
+                    button.dataset.month === ""
+                );
+
+            }
+        );
+
+
+    /*
+     * Reset expertise checkboxes.
+     */
+
+    document
+        .querySelectorAll(
+            "#expertiseList input[type='checkbox']"
+        )
+        .forEach(
+            checkbox => {
+
+                checkbox.checked =
+                    false;
+
+            }
+        );
+
+
+    document.getElementById(
+        "clearExpertiseBtn"
+    ).classList.add(
+        "hidden"
+    );
+
 
     applyFilters();
 
-  }
+}
 
 
-  /*
-   * ==========================================================
-   * EXPORT FILTERED DATA
-   * ==========================================================
-   */
+/* =========================================================
+   EXPORT CSV
+   ========================================================= */
 
-  function exportCSV() {
+function csvEscape(
+    value
+) {
 
-    if (!filteredData.length) {
+    const text =
+        String(
+            value ?? ""
+        );
 
-      alert("There is no data to export.");
 
-      return;
+    if (
+        /[",\r\n]/.test(text)
+    ) {
+
+        return '"' +
+            text.replace(
+                /"/g,
+                '""'
+            ) +
+            '"';
 
     }
 
 
-    const csv =
-      Papa.unparse(filteredData);
+    return text;
+
+}
+
+
+function exportCSV() {
+
+    if (
+        filteredData.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const rows =
+        filteredData.map(
+            (row, index) =>
+                publicRecord(
+                    row,
+                    index
+                )
+        );
+
+
+    const headers =
+        Object.keys(
+            rows[0]
+        );
+
+
+    const csv = [
+
+        headers
+            .map(csvEscape)
+            .join(","),
+
+        ...rows.map(
+            row =>
+                headers
+                    .map(
+                        header =>
+                            csvEscape(
+                                row[header]
+                            )
+                    )
+                    .join(",")
+        )
+
+    ].join("\r\n");
 
 
     const blob =
-      new Blob(
-        [csv],
-        {
-          type: "text/csv;charset=utf-8;"
-        }
-      );
+        new Blob(
+            [csv],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
 
 
     const url =
-      URL.createObjectURL(blob);
+        URL.createObjectURL(
+            blob
+        );
 
 
     const link =
-      document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
 
-    link.href = url;
+    link.href =
+        url;
+
 
     link.download =
-      "SPM-NIWAS-NWE-Dashboard.csv";
+        "SPM-NIWAS-NWE-Roster.csv";
 
 
-    document.body.appendChild(link);
+    document.body.appendChild(
+        link
+    );
+
 
     link.click();
 
-    document.body.removeChild(link);
 
-    URL.revokeObjectURL(url);
-
-  }
+    link.remove();
 
 
-  /*
-   * ==========================================================
-   * HTML ESCAPE
-   * ==========================================================
-   */
+    URL.revokeObjectURL(
+        url
+    );
 
-  function escapeHTML(value) {
-
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
+}
 
 
-  /*
-   * ==========================================================
-   * UI STATES
-   * ==========================================================
-   */
+/* =========================================================
+   UI STATES
+   ========================================================= */
 
-  function showLoading() {
+function showLoading() {
 
-    document
-      .getElementById("loadingState")
-      .classList.remove("hidden");
-
-
-    document
-      .getElementById("errorState")
-      .classList.add("hidden");
-
-
-    document
-      .getElementById("tableWrapper")
-      .classList.add("hidden");
-
-
-    document
-      .getElementById("noDataState")
-      .classList.add("hidden");
-
-  }
-
-
-  function showError(message) {
-
-    document
-      .getElementById("loadingState")
-      .classList.add("hidden");
-
-
-    document
-      .getElementById("errorState")
-      .classList.remove("hidden");
-
-
-    document
-      .getElementById("tableWrapper")
-      .classList.add("hidden");
-
-
-    document
-      .getElementById("noDataState")
-      .classList.add("hidden");
-
-
-    document
-      .getElementById("errorMessage")
-      .textContent =
-      message ||
-      "The Google Sheet could not be fetched by the browser.";
-
-  }
-
-
-  /*
-   * ==========================================================
-   * EVENT LISTENERS
-   * ==========================================================
-   */
-
-  document
-    .getElementById("searchInput")
-    .addEventListener(
-      "input",
-      applyFilters
+    document.getElementById(
+        "loadingArea"
+    ).classList.remove(
+        "hidden"
     );
 
 
-  document
-    .getElementById("stateFilter")
-    .addEventListener(
-      "change",
-      applyFilters
+    document.getElementById(
+        "errorArea"
+    ).classList.add(
+        "hidden"
     );
 
 
-  document
-    .getElementById("statusFilter")
-    .addEventListener(
-      "change",
-      applyFilters
+    document.getElementById(
+        "emptyArea"
+    ).classList.add(
+        "hidden"
     );
 
 
-  document
-    .getElementById("genderFilter")
-    .addEventListener(
-      "change",
-      applyFilters
+    document.getElementById(
+        "tableArea"
+    ).classList.add(
+        "hidden"
+    );
+
+}
+
+
+function hideLoading() {
+
+    document.getElementById(
+        "loadingArea"
+    ).classList.add(
+        "hidden"
+    );
+
+}
+
+
+function showError(
+    message
+) {
+
+    document.getElementById(
+        "loadingArea"
+    ).classList.add(
+        "hidden"
     );
 
 
-  document
-    .getElementById("deploymentFilter")
-    .addEventListener(
-      "change",
-      applyFilters
+    document.getElementById(
+        "tableArea"
+    ).classList.add(
+        "hidden"
     );
 
 
-  document
-    .getElementById("expertiseFilter")
-    .addEventListener(
-      "change",
-      applyFilters
+    document.getElementById(
+        "emptyArea"
+    ).classList.add(
+        "hidden"
     );
 
 
-  /*
-   * Close modal when clicking outside it
-   */
+    document.getElementById(
+        "errorArea"
+    ).classList.remove(
+        "hidden"
+    );
 
-  document
-    .getElementById("profileModal")
-    .addEventListener(
-      "click",
-      function(event) {
+
+    document.getElementById(
+        "errorMessage"
+    ).textContent =
+        message;
+
+}
+
+
+/* =========================================================
+   EVENT LISTENERS
+   ========================================================= */
+
+
+/*
+ * Search
+ */
+
+document.getElementById(
+    "searchInput"
+).addEventListener(
+    "input",
+    applyFilters
+);
+
+
+/*
+ * Select filters
+ */
+
+document.getElementById(
+    "stateFilter"
+).addEventListener(
+    "change",
+    applyFilters
+);
+
+
+document.getElementById(
+    "statusFilter"
+).addEventListener(
+    "change",
+    applyFilters
+);
+
+
+document.getElementById(
+    "genderFilter"
+).addEventListener(
+    "change",
+    applyFilters
+);
+
+
+/*
+ * Month buttons
+ */
+
+document.getElementById(
+    "monthFilter"
+).addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(
+                ".month-btn"
+            );
+
+
+        if (!button) {
+            return;
+        }
+
+
+        selectedMonth =
+            button.dataset.month;
+
+
+        document
+            .querySelectorAll(
+                ".month-btn"
+            )
+            .forEach(
+                item => {
+
+                    item.classList.toggle(
+                        "active",
+                        item === button
+                    );
+
+                }
+            );
+
+
+        applyFilters();
+
+    }
+);
+
+
+/*
+ * Expertise checkboxes
+ */
+
+document.getElementById(
+    "expertiseList"
+).addEventListener(
+    "change",
+    event => {
 
         if (
-          event.target ===
-          document.getElementById("profileModal")
+            event.target.type !==
+            "checkbox"
+        ) {
+            return;
+        }
+
+
+        if (
+            event.target.checked
         ) {
 
-          closeModal();
+            selectedExpertise.add(
+                event.target.value
+            );
+
+        } else {
+
+            selectedExpertise.delete(
+                event.target.value
+            );
 
         }
 
-      }
-    );
+
+        document.getElementById(
+            "clearExpertiseBtn"
+        ).classList.toggle(
+            "hidden",
+            selectedExpertise.size === 0
+        );
 
 
-  /*
-   * Close modal with Escape key
-   */
-
-  document.addEventListener(
-    "keydown",
-    function(event) {
-
-      if (event.key === "Escape") {
-
-        closeModal();
-
-      }
+        applyFilters();
 
     }
-  );
+);
 
 
-  /*
-   * ==========================================================
-   * START APPLICATION
-   * ==========================================================
-   */
+/*
+ * Clear expertise
+ */
 
-  loadData();
+document.getElementById(
+    "clearExpertiseBtn"
+).addEventListener(
+    "click",
+    () => {
+
+        selectedExpertise.clear();
+
+
+        document
+            .querySelectorAll(
+                "#expertiseList input[type='checkbox']"
+            )
+            .forEach(
+                checkbox => {
+
+                    checkbox.checked =
+                        false;
+
+                }
+            );
+
+
+        document.getElementById(
+            "clearExpertiseBtn"
+        ).classList.add(
+            "hidden"
+        );
+
+
+        applyFilters();
+
+    }
+);
+
+
+/*
+ * Reset
+ */
+
+document.getElementById(
+    "resetBtn"
+).addEventListener(
+    "click",
+    resetFilters
+);
+
+
+/*
+ * Table view buttons
+ */
+
+document.getElementById(
+    "tableBody"
+).addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(
+                ".view-button"
+            );
+
+
+        if (!button) {
+            return;
+        }
+
+
+        const index =
+            Number(
+                button.dataset.index
+            );
+
+
+        if (
+            Number.isInteger(index) &&
+            filteredData[index]
+        ) {
+
+            openModal(
+                filteredData[index]
+            );
+
+        }
+
+    }
+);
+
+
+/*
+ * Export
+ */
+
+document.getElementById(
+    "exportBtn"
+).addEventListener(
+    "click",
+    exportCSV
+);
+
+
+/*
+ * Refresh
+ */
+
+document.getElementById(
+    "refreshBtn"
+).addEventListener(
+    "click",
+    () => {
+
+        /*
+         * Force a fresh request when the user
+         * explicitly clicks Refresh.
+         *
+         * Normal page loads still use browser caching.
+         */
+
+        loadFreshData();
+
+    }
+);
+
+
+/*
+ * Retry
+ */
+
+document.getElementById(
+    "retryBtn"
+).addEventListener(
+    "click",
+    loadData
+);
+
+
+/*
+ * Close modal
+ */
+
+document.getElementById(
+    "closeModal"
+).addEventListener(
+    "click",
+    closeModal
+);
+
+
+document.getElementById(
+    "modalBackdrop"
+).addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            document.getElementById(
+                "modalBackdrop"
+            )
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/*
+ * Escape key
+ */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   FRESH DATA LOAD
+   ========================================================= */
+
+async function loadFreshData() {
+
+    showLoading();
+
+
+    try {
+
+        /*
+         * cache: reload asks the browser to revalidate
+         * the published CSV rather than blindly creating
+         * a unique URL every time.
+         */
+
+        const response =
+            await fetch(
+                CSV_URL,
+                {
+                    method: "GET",
+                    mode: "cors",
+                    cache: "reload",
+                    redirect: "follow"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Google Sheet returned HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const text =
+            await response.text();
+
+
+        allData =
+            parseCSV(text);
+
+
+        if (
+            !allData.length
+        ) {
+
+            throw new Error(
+                "No NWE records were found."
+            );
+
+        }
+
+
+        buildFilters();
+
+
+        /*
+         * Preserve no filters after explicit refresh.
+         */
+
+        selectedMonth =
+            "";
+
+        selectedExpertise.clear();
+
+
+        applyFilters();
+
+
+        hideLoading();
+
+
+        document.getElementById(
+            "lastUpdated"
+        ).textContent =
+            "Refreshed " +
+            new Date()
+                .toLocaleTimeString(
+                    "en-IN",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showError(
+            error.message ||
+            "Unable to refresh data."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+loadData();
 
 </script>
 
